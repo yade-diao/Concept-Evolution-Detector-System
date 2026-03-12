@@ -58,13 +58,16 @@ parameter tuning, and result visualisation.
 
 ### Supported Kernel Functions
 
-| Code | Kernel         | Formula                             |
-|------|----------------|-------------------------------------|
-| 1    | Gaussian (RBF) | exp(-||x-y||^2 / 2*sigma^2)         |
-| 2    | Polynomial     | (x^T * y + 1)^sigma                 |
-| 3    | Linear         | x^T * y                             |
-| 4    | Exponential    | exp(-||x-y|| / 2*sigma^2)           |
-| 5    | Laplacian      | exp(-||x-y|| / sigma)               |
+| Code | Kernel         | Formula                                        | Note                          |
+|------|----------------|------------------------------------------------|-------------------------------|
+| 1    | Gaussian (RBF) | exp( -\|\|x-y\|\|^2 / (2 * sigma^2) )         | Squared distance, fast decay  |
+| 2    | Polynomial     | ( x^T * y + 1 )^sigma                          | Captures feature interactions |
+| 3    | Linear         | x^T * y                                        | No kernel trick               |
+| 4    | Exponential    | exp( -\|\|x-y\|\|   / (2 * sigma^2) )         | Distance (not squared)        |
+| 5    | Laplacian      | exp( -\|\|x-y\|\|   / sigma )                 | Slower decay than Gaussian    |
+
+Where `||x-y||` is the Euclidean distance between two samples, and `sigma` controls
+how quickly similarity decays with distance.
 
 ---
 
