@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  cedfs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: concept-evolution-detector:latest
+    container_name: cedfs-app
+    ports:
+      - "8080:8080"        # host:container
+    volumes:
+      # Mount a host directory so generated images persist between restarts
+      - ./output:/app/web/static/images
+    environment:
+      - FLASK_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
