@@ -13,7 +13,25 @@ Edge color convention
 """
 
 import numpy as np
-import matplotlib.pyplot as plt
+
+# The object API, not pyplot, and the raster canvas explicitly.
+#
+# Two reasons, both found by running this from a server rather than a script.
+# pyplot picks an interactive backend whenever a display is reachable — TkAgg on
+# a developer machine — and Tk may only be driven from the main thread: rendering
+# from the worker that runs the analysis does not raise, it dumps core and takes
+# the process with it. And pyplot keeps a process-wide figure registry plus a
+# shared text-parsing cache, so two analyses rendering at once corrupt each
+# other; that surfaced as a mathtext parse error on a label that is fine.
+#
+# Constructing Figure directly touches neither. A figure written to a file needs
+# no GUI toolkit and no global registry.
+import matplotlib
+
+matplotlib.use("Agg")   # before anything can resolve a default backend
+
+from matplotlib.backends.backend_agg import FigureCanvasAgg  # noqa: E402
+from matplotlib.figure import Figure  # noqa: E402
 
 
 def save_bipartite_graph(
@@ -35,7 +53,9 @@ def save_bipartite_graph(
     """
     S = np.asarray(S)
     M, N = S.shape
-    fig, ax = plt.subplots(figsize=(8, 6))
+    fig = Figure(figsize=(8, 6))
+    FigureCanvasAgg(fig)
+    ax = fig.subplots()
     span = max(M, N) - 1
 
     ax.set_xlim(-0.3, 1.3)
@@ -63,12 +83,18 @@ def save_bipartite_graph(
     ax.scatter([0] * M, ys_left,  s=50, color=(0.85, 0.33, 0.10), zorder=3)
     ax.scatter([1] * N, ys_right, s=50, color=(0.00, 0.45, 0.74), zorder=3)
 
+    # Plain text, not mathtext. "$C^{t-1}_1$" reads better on paper, but
+    # rendering it goes through matplotlib's mathtext parser, which keeps parser
+    # state in module globals and is not thread-safe in any released version
+    # — checked on 3.6.3 and on 3.11.1, both of which fail every render when
+    # eight run at once. A label on a node does not need a maths renderer, so the
+    # dependency is removed rather than serialised behind a lock.
     for i, y in enumerate(ys_left):
-        ax.text(-0.05, y, f"$C^{{t-1}}_{{{i+1}}}$", ha="right", va="center", fontsize=9)
+        ax.text(-0.05, y, f"C{i + 1} (t-1)", ha="right", va="center", fontsize=9)
     for j, y in enumerate(ys_right):
-        ax.text(1.05, y, f"$C^{{t}}_{{{j+1}}}$",   ha="left",  va="center", fontsize=9)
+        ax.text(1.05, y, f"C{j + 1} (t)", ha="left", va="center", fontsize=9)
 
     ax.set_title("Cluster Similarity Graph", fontsize=12)
     fig.tight_layout()
     fig.savefig(filepath, dpi=100, bbox_inches="tight")
-    plt.close(fig)
+    fig.clf()
