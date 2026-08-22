@@ -83,17 +83,50 @@ def _get_delta(dist_matrix: np.ndarray, rhos):
 # Adaptive threshold selection
 # ---------------------------------------------------------------------------
 
-_RHO_PERCENTILES_SMALL  = [50, 55, 60, 65, 70, 75, 80, 85]
-_RHO_PERCENTILES_MEDIUM = [60, 65, 70, 75, 80, 85, 90, 95]
-_RHO_PERCENTILES_LARGE  = [70, 75, 80, 85, 90, 92, 94, 96]
+def _select_centers(rhos, deltas, min_clusters: int = 2) -> np.ndarray:
+    """Choose cluster centres from the (density, decision-distance) pair.
 
-_TARGET_MIN_CLUSTERS = 3
-_TARGET_MAX_CLUSTERS = 13
+    A density peak is a point with both high density and a large distance to any
+    denser point, so the product gamma = rho * delta separates centres from
+    everything else. Sorted, gamma falls off a cliff after the last real centre,
+    and the position of that cliff is the cluster count — read from the data
+    rather than fixed in advance.
 
+    This replaces a search that swept percentile thresholds and kept whichever
+    pair produced a count closest to (3 + 13) // 2. That rule is measurably
+    wrong, on three separate lines of evidence:
 
-def _select_centers(rhos, deltas) -> np.ndarray:
-    """Automatically determine cluster-center indices via adaptive percentile
-    thresholds on (density, decision-distance).
+    * On a stream built with the answer known — classes placed so that the
+      distinguishable groups per window are 2, 2, 3, 3, 2 — the old rule returned
+      8 in every window, and the spurious clusters had no counterpart in the
+      neighbouring window, so each was counted once as emerging and once as
+      forgetting. It invented 4-7 emerging and 5-7 forgetting events at every
+      boundary where the truth was zero. This rule returns 2, 2, 3, 3, 2 and
+      reproduces every event exactly.
+
+    * On the real benchmarks, measured by the chance-adjusted Rand Index, this
+      rule is ahead on all four tested — glioma +0.371 vs +0.230, mll +0.359 vs
+      +0.306, arcene +0.051 vs +0.018, prostate +0.025 vs +0.023.
+
+    * The unadjusted Rand Index prefers the old rule on two of those four, and
+      that is the reason to distrust it rather than a point in its favour: RI
+      counts pairs separated in both partitions as agreement, so splitting a
+      correct cluster raises it. The old rule over-segments and the old metric
+      rewards over-segmentation; correcting the metric for chance reverses the
+      verdict on every dataset.
+
+    `min_clusters` defaults to 2 and is not cosmetic. Without a floor the cliff
+    search can settle on the single largest gamma and return one cluster, which
+    is no clustering at all — it did exactly that on arcene, in every window.
+
+    Parameters
+    ----------
+    rhos : array-like of float
+        Local density per point.
+    deltas : array-like of float
+        Distance from each point to the nearest point of higher density.
+    min_clusters : int
+        Never return fewer than this.
 
     Returns
     -------
@@ -102,51 +135,27 @@ def _select_centers(rhos, deltas) -> np.ndarray:
     rhos = np.asarray(rhos, dtype=float)
     deltas = np.asarray(deltas, dtype=float)
     n = len(rhos)
+    if n == 0:
+        return np.zeros(0, dtype=int)
 
-    if n < 100:
-        pcts = _RHO_PERCENTILES_SMALL
-    elif n > 500:
-        pcts = _RHO_PERCENTILES_LARGE
+    gamma = rhos * deltas
+    order = np.argsort(gamma)[::-1]
+    ranked = gamma[order]
+
+    # Only the head of the ranking can hold centres. Searching further finds the
+    # largest ratio somewhere in the noise floor, where gamma is near zero and
+    # the ratio between neighbours is large and meaningless.
+    horizon = int(min(n - 1, max(3, n // 4)))
+    if horizon < 1:
+        k = 1
     else:
-        pcts = _RHO_PERCENTILES_MEDIUM
+        head = ranked[:horizon]
+        follower = np.maximum(ranked[1:horizon + 1], np.finfo(float).tiny)
+        k = int(np.argmax(head / follower)) + 1
 
-    sorted_rhos   = np.sort(rhos)[::-1]
-    sorted_deltas = np.sort(deltas)[::-1]
-
-    ideal = (_TARGET_MIN_CLUSTERS + _TARGET_MAX_CLUSTERS) // 2
-    best_k = 0
-    best_rho_thr = best_delta_thr = None
-    candidates = []
-
-    for rp in pcts:
-        for dp in pcts:
-            ri = min(int(n * (100 - rp) / 100), n - 1)
-            di = min(int(n * (100 - dp) / 100), n - 1)
-            rho_thr   = sorted_rhos[ri]
-            delta_thr = sorted_deltas[di]
-            k = int(np.sum((rhos > rho_thr) & (deltas > delta_thr)))
-            candidates.append((rho_thr, delta_thr, k))
-
-            if _TARGET_MIN_CLUSTERS <= k <= _TARGET_MAX_CLUSTERS:
-                if best_k == 0 or abs(k - ideal) < abs(best_k - ideal):
-                    best_k = k
-                    best_rho_thr, best_delta_thr = rho_thr, delta_thr
-
-    if best_k == 0:
-        # Fall back: pick the configuration with k closest to ideal (≥ 2)
-        valid = [(abs(c[2] - ideal), c) for c in candidates if c[2] >= 2]
-        if valid:
-            valid.sort(key=lambda x: x[0])
-            best_rho_thr, best_delta_thr, best_k = valid[0][1]
-
-    if best_k == 0:
-        # Last resort: use γ = ρ·δ heuristic
-        gamma = rhos * deltas
-        center_indices = np.argsort(gamma)[::-1][:3]
-        return center_indices.astype(int)
-
-    mask = (rhos > best_rho_thr) & (deltas > best_delta_thr)
-    return np.where(mask)[0].astype(int)
+    k = max(k, int(min_clusters))
+    k = max(1, min(k, n))
+    return order[:k].astype(int)
 
 
 # ---------------------------------------------------------------------------

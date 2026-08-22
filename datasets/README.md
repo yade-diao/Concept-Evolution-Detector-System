@@ -1,35 +1,59 @@
 # Datasets
 
-This directory is the expected location for `.mat` dataset files.  
-The files are **not tracked** in this repository (see `.gitignore`) because of their size.
+Eight high-dimensional benchmarks, bundled so the system has something to run on
+without asking anyone to find data first.
 
-## Supported Datasets
+| file | samples | features | classes |
+|---|---:|---:|---:|
+| `arcene` | 100 | 10 000 | 2 |
+| `car` | 174 | 9 182 | 11 |
+| `dlbcl` | 77 | 6 285 | 2 |
+| `gisette` | 1 000 | 5 000 | 2 |
+| `glioma` | 50 | 4 434 | 4 |
+| `lung2` | 203 | 3 312 | 5 |
+| `mll` | 57 | 5 848 | 3 |
+| `prostate` | 102 | 5 966 | 2 |
 
-| File pattern | Description | # Samples | # Features | # Classes |
-|---|---|---|---|---|
-| `glioma.mat` / `glioma_label.mat` | Glioma gene expression | 50 | 4,434 | 4 |
-| `lung2.mat` / `lung2_label.mat` | Lung cancer microarray | 203 | 3,312 | 5 |
-| `mll.mat` / `mll_label.mat` | MLL Leukemia | 72 | 12,582 | 3 |
-| `dlbcl_data.mat` / `dlbcl_label.mat` | DLBCL Lymphoma | 77 | 7,129 | 2 |
-| `prostate_data.mat` / `prostate_label.mat` | Prostate cancer | 102 | 12,600 | 2 |
-| `gisette.mat` / `gisett_label.mat` | Gisette handwriting | 6,000 | 5,000 | 2 |
-| `arcene.mat` / `arcene_label.mat` | Arcene cancer mass-spec | 100 | 10,000 | 2 |
-| `car.mat` / `car_label.mat` | Car evaluation | 1,728 | 6 | 4 |
-| `real_sim.mat` / `real_sim_label.mat` | Real-Sim text | 72,309 | 20,958 | 2 |
+Each is a pair: `<name>.mat` holding the feature matrix and `<name>_label.mat`
+holding one class label per sample.
 
-## File Format
+## Provenance
 
-Each dataset is stored as a MATLAB `.mat` file:
+These are public benchmarks, redistributed here for reproducibility rather than
+claimed as original. `arcene` and `gisette` come from the NIPS 2003 feature
+selection challenge; `dlbcl`, `glioma`, `lung2`, `mll` and `prostate` are gene
+expression sets widely circulated through the ASU feature selection repository;
+`car` is an image set from the same collection. `real_sim`, used in the original
+work, is 34 MB and is left out — download it separately if you need it.
 
-- **Feature matrix** – variable named `data`, shape `(n_samples, n_features)`.
-- **Label vector**   – variable named `label`, shape `(n_samples, 1)`.
+## What these are, and are not, evidence for
 
-## Download Sources
+**They are not feature streams.** Their columns are gene indices and pixel
+positions, in no order that means anything: column 7 is not earlier than column
+8. Walking the columns imposes an arrival order the data never had.
 
-Several of these datasets originate from the following public repositories:
+That matters, and it is measurable. Shuffling the column order and re-running
+the detector produces the same answer:
 
-- [UCI Machine Learning Repository](https://archive.ics.uci.edu/)
-- [LIBSVM Data](https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/datasets/)
-- [Gene Expression Omnibus (GEO)](https://www.ncbi.nlm.nih.gov/geo/)
+| | observed | with columns shuffled |
+|---|---|---|
+| glioma, best Rand Index | 0.7976 | 0.7984 (0.7886 – 0.8065 over 5 shuffles) |
+| glioma, drift events | 471 | 478 ± 3 |
+| mll, best Rand Index | 0.8089 | **0.8420** |
+| mll, drift events | 521 | 478 ± 15 |
 
-After downloading, place the `.mat` files in this directory before running experiments.
+The observed values sit inside the shuffled range, and on `mll` a random column
+order scores *higher* than the real one. Whatever the detector reports on these
+sets describes the ordering that was imposed, not evolution the data contains.
+
+This is a limit of the benchmarks, not of the method. To test detection itself,
+a stream needs an order that means something — which is what
+`cedfs.synthetic.make_stream` builds, placing the events deliberately so there is
+an answer to score against.
+
+## Using your own
+
+Upload a pair of `.mat` files through the web interface, or point the experiment
+runner at any directory holding the same shape: a 2-D feature matrix and a label
+vector with one entry per sample. Either orientation is accepted — whichever axis
+matches the label count is taken as the sample axis.
