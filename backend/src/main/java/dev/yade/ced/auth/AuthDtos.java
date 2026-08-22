@@ -1,0 +1,39 @@
+package dev.yade.ced.auth;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public final class AuthDtos {
+
+    private AuthDtos() {
+    }
+
+    /**
+     * A minimum length and no composition rule.
+     *
+     * Length is the only requirement that reliably buys entropy; "one digit and
+     * one symbol" mostly buys Password1! and a user who writes it down. NIST
+     * dropped composition rules for the same reason.
+     */
+    public record Register(
+            @NotBlank @Email @Size(max = 320) String email,
+            @NotBlank @Size(min = 12, max = 200) String password) {
+    }
+
+    public record Login(
+            @NotBlank @Size(max = 320) String email,
+            @NotBlank @Size(max = 200) String password) {
+    }
+
+    /**
+     * `expiresInSeconds` so a client can refresh before a request fails rather
+     * than by discovering a 401. The token's own exp claim says the same thing,
+     * but reading it means parsing a token the client is not supposed to inspect.
+     */
+    public record Token(String accessToken, String tokenType, long expiresInSeconds) {
+        public static Token bearer(String value, long seconds) {
+            return new Token(value, "Bearer", seconds);
+        }
+    }
+}
