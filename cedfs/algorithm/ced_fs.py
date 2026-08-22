@@ -101,7 +101,16 @@ def CED_FS(
     os.makedirs(image_dir, exist_ok=True)
 
     label = X[:, d]
-    n_windows = round((X.shape[1] - 1) / winsize)
+    # Windows segment the stream, so they are counted over samples (rows). This
+    # once read X.shape[1] — the feature count — and sliced columns below, which
+    # made a "window" a subset of the features shared by every sample rather than
+    # a stretch of the stream. On a 100-feature set with winsize=50 that gave two
+    # windows and plausible-looking output, so the substitution was invisible; on
+    # a stream whose feature count is below the window size it gave zero windows
+    # and an empty result.
+    n_samples = X.shape[0]
+    n_windows = max(1, n_samples // winsize)
+    remainder = n_samples % winsize
 
     ri_values: list[float] = []
     cluster_nums: list[int] = []
@@ -118,13 +127,18 @@ def CED_FS(
 
     for i in range(1, n_windows + 1):
         start = (i - 1) * winsize
-        # For the last window, include any remaining columns
-        if i == n_windows and (d % winsize) >= (winsize / 2):
-            end = X.shape[1] - 1
+        # A trailing part-window is folded into the last one when it is at least
+        # half a window, and dropped when it is not: too few samples cluster into
+        # noise, and the events read off that clustering are noise too.
+        if i == n_windows and remainder >= winsize / 2:
+            end = n_samples
         else:
             end = i * winsize
 
-        window = X[:, start:end]
+        # Features only. The label column is X[:, d], and a column-sliced window
+        # whose range reached it handed the labels to the clustering as a feature.
+        window = X[start:end, :d]
+        window_label = label[start:end]
 
         current_cluster, _, current_k = k_r_dpc(
             window,
@@ -172,8 +186,10 @@ def CED_FS(
                 n_emerging, n_drift, n_forget, n_stable,
             )
 
-        # Evaluate against ground-truth labels
-        ri = rand_index(current_cluster, label)
+        # Against this window's labels. Comparing the window's clustering with
+        # every label in the stream compared two vectors that were only the same
+        # length because the window was a column slice.
+        ri = rand_index(current_cluster, window_label)
         ri_values.append(ri)
 
         past_cluster = current_cluster

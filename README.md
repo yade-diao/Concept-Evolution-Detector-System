@@ -1,4 +1,4 @@
-﻿# Concept Evolution Detector (CED-FS)
+# Concept Evolution Detector (CED-FS)
 
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -68,6 +68,77 @@ parameter tuning, and result visualisation.
 
 Where `||x-y||` is the Euclidean distance between two samples, and `sigma` controls
 how quickly similarity decays with distance.
+
+---
+
+## Running it
+
+```bash
+pip install -r requirements.txt
+python -m experiments.synthetic_drift          # the run reported below
+python -m pytest tests/ -q                     # metrics vs scikit-learn
+```
+
+The `.mat` datasets the algorithm was developed against are not in the
+repository, so the reported run uses a stream this repository builds: five
+windows in which concepts are placed, moved and removed on purpose, so the
+answer is known by construction rather than by inspection.
+
+    window 1   A  B          two concepts
+    window 2   A  B          unchanged        -> stable
+    window 3   A  B  C       C appears        -> emerging
+    window 4   A  B' C       B moves partway  -> drift
+    window 5   A     C       B is gone        -> forgetting
+
+## Results
+
+`python -m experiments.synthetic_drift` — 300 samples, 8 features, winsize 60,
+seed 7, Gaussian kernel, sigma 6.0, p 0.15:
+
+| window | concepts placed | clusters found |
+|--------|-----------------|----------------|
+| 1 | 2 | 2 |
+| 2 | 2 | 2 |
+| 3 | 3 | 3 |
+| 4 | 3 | 3 |
+| 5 | 2 | 2 |
+
+**Cluster count recovered in 5/5 windows. Rand Index 1.0000** against the placed
+labels.
+
+Events, per window boundary:
+
+| boundary | by construction | detected |
+|----------|-----------------|----------|
+| 1 → 2 | stable | stable × 2 |
+| 2 → 3 | emerging | **emerging × 1**, drift × 2 |
+| 3 → 4 | drift | stable × 3 |
+| 4 → 5 | forgetting | **forgetting × 1**, drift × 2 |
+
+Three of the four boundaries are recovered. The fourth is a limitation of the
+method rather than a tuning problem, and is worth stating plainly.
+
+### Known limitation: drift and stability are told apart by sample position
+
+Emerging and forgetting are read off the *shape* of the similarity matrix — a
+column with no match above the threshold is a new concept, a row with none is a
+lost one — and that works.
+
+Telling **drift** from **stable** needs the similarity value itself, and the
+Dice coefficient here is computed over sample *indices*:
+
+    S[i, j] = 2 |C_i^{t-1} ∩ C_j^t| / (|C_i^{t-1}| + |C_j^t|)
+
+Windows are disjoint (stride equals window size), so no sample is ever in two of
+them, and index i in one window and index i in the next refer to different
+points. Two windows whose clusters occupy the same positions therefore score 1.0
+however far the concept has moved in feature space — which is what happens at
+boundary 3 → 4 above, where cluster B's centre moves from 4.0 to 6.0 and the
+boundary is still reported as stable.
+
+Measuring similarity between windows by cluster content — centroid distance, or
+distribution overlap — rather than by index would resolve it. That is a change
+to the method, not a fix to the code, so it is recorded here rather than made.
 
 ---
 

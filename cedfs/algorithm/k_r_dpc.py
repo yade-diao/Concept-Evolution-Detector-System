@@ -83,17 +83,44 @@ def _get_delta(dist_matrix: np.ndarray, rhos):
 # Adaptive threshold selection
 # ---------------------------------------------------------------------------
 
-_RHO_PERCENTILES_SMALL  = [50, 55, 60, 65, 70, 75, 80, 85]
-_RHO_PERCENTILES_MEDIUM = [60, 65, 70, 75, 80, 85, 90, 95]
-_RHO_PERCENTILES_LARGE  = [70, 75, 80, 85, 90, 92, 94, 96]
 
-_TARGET_MIN_CLUSTERS = 3
-_TARGET_MAX_CLUSTERS = 13
+def _select_centers(rhos, deltas, min_clusters=1, max_clusters=None) -> np.ndarray:
+    """Determine cluster-center indices from the (density, decision-distance) pair.
 
+    Density-peak clustering calls a point a centre when it has both high density
+    and a large distance to any denser point, so the product gamma = rho * delta
+    separates centres from everything else. Sorted, gamma falls off a cliff after
+    the last real centre; the position of that cliff is the cluster count, and it
+    comes from the data.
 
-def _select_centers(rhos, deltas) -> np.ndarray:
-    """Automatically determine cluster-center indices via adaptive percentile
-    thresholds on (density, decision-distance).
+    This replaced a search that steered the count toward a constant. The previous
+    rule swept percentile thresholds and kept whichever pair produced a k closest
+    to (3 + 13) // 2, so a window holding two well-separated blobs was
+    reported as eight clusters, and one holding twenty was also reported as
+    eight. On a synthetic stream of two Gaussian blobs per window, at identical
+    parameters:
+
+        window   old k / Rand Index      gap rule k / Rand Index
+        0        5 / 0.842               2 / 1.000
+        1        8 / 0.697               2 / 1.000
+        2        7 / 0.695               2 / 1.000
+        3        8 / 0.682               2 / 1.000
+        4        8 / 0.650               2 / 1.000
+        5        8 / 0.678               2 / 1.000
+
+    Bounds remain available as a clamp for a caller who knows the range to
+    expect, but they no longer decide the answer.
+
+    Parameters
+    ----------
+    rhos : array-like of float
+        Local density per point.
+    deltas : array-like of float
+        Distance from each point to the nearest point of higher density.
+    min_clusters : int
+        Never return fewer than this. 1 by default, which is no constraint.
+    max_clusters : int or None
+        Never return more than this. None by default, which is no constraint.
 
     Returns
     -------
@@ -102,51 +129,33 @@ def _select_centers(rhos, deltas) -> np.ndarray:
     rhos = np.asarray(rhos, dtype=float)
     deltas = np.asarray(deltas, dtype=float)
     n = len(rhos)
+    if n == 0:
+        return np.zeros(0, dtype=int)
 
-    if n < 100:
-        pcts = _RHO_PERCENTILES_SMALL
-    elif n > 500:
-        pcts = _RHO_PERCENTILES_LARGE
+    gamma = rhos * deltas
+    order = np.argsort(gamma)[::-1]
+    ranked = gamma[order]
+
+    # Only the head of the ranking can hold centres, and the cliff is looked for
+    # there. Searching the whole tail would find the largest drop somewhere in
+    # the noise floor, where gamma is near zero and ratios are meaningless.
+    horizon = int(min(n - 1, max(3, n // 4)))
+    upper = n if max_clusters is None else min(n, max_clusters)
+    horizon = int(min(horizon, max(1, upper)))
+
+    if horizon < 1:
+        k = 1
     else:
-        pcts = _RHO_PERCENTILES_MEDIUM
+        head = ranked[:horizon]
+        tail = np.maximum(ranked[1:horizon + 1], np.finfo(float).tiny)
+        k = int(np.argmax(head / tail)) + 1
 
-    sorted_rhos   = np.sort(rhos)[::-1]
-    sorted_deltas = np.sort(deltas)[::-1]
+    k = max(k, int(min_clusters))
+    if max_clusters is not None:
+        k = min(k, int(max_clusters))
+    k = max(1, min(k, n))
 
-    ideal = (_TARGET_MIN_CLUSTERS + _TARGET_MAX_CLUSTERS) // 2
-    best_k = 0
-    best_rho_thr = best_delta_thr = None
-    candidates = []
-
-    for rp in pcts:
-        for dp in pcts:
-            ri = min(int(n * (100 - rp) / 100), n - 1)
-            di = min(int(n * (100 - dp) / 100), n - 1)
-            rho_thr   = sorted_rhos[ri]
-            delta_thr = sorted_deltas[di]
-            k = int(np.sum((rhos > rho_thr) & (deltas > delta_thr)))
-            candidates.append((rho_thr, delta_thr, k))
-
-            if _TARGET_MIN_CLUSTERS <= k <= _TARGET_MAX_CLUSTERS:
-                if best_k == 0 or abs(k - ideal) < abs(best_k - ideal):
-                    best_k = k
-                    best_rho_thr, best_delta_thr = rho_thr, delta_thr
-
-    if best_k == 0:
-        # Fall back: pick the configuration with k closest to ideal (≥ 2)
-        valid = [(abs(c[2] - ideal), c) for c in candidates if c[2] >= 2]
-        if valid:
-            valid.sort(key=lambda x: x[0])
-            best_rho_thr, best_delta_thr, best_k = valid[0][1]
-
-    if best_k == 0:
-        # Last resort: use γ = ρ·δ heuristic
-        gamma = rhos * deltas
-        center_indices = np.argsort(gamma)[::-1][:3]
-        return center_indices.astype(int)
-
-    mask = (rhos > best_rho_thr) & (deltas > best_delta_thr)
-    return np.where(mask)[0].astype(int)
+    return order[:k].astype(int)
 
 
 # ---------------------------------------------------------------------------
