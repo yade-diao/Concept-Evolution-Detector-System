@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "arcene",
+    "name": "arcene",
+    "dataFile": "arcene.mat",
+    "labelFile": "arcene_label.mat",
+    "samples": 100,
+    "features": 10000,
+    "classes": 2,
+    "sizeBytes": 955269
+  },
+  {
+    "slug": "car",
+    "name": "car",
+    "dataFile": "car.mat",
+    "labelFile": "car_label.mat",
+    "samples": 174,
+    "features": 9182,
+    "classes": 11,
+    "sizeBytes": 6917334
+  },
+  {
+    "slug": "dlbcl",
+    "name": "dlbcl",
+    "dataFile": "dlbcl_data.mat",
+    "labelFile": "dlbcl_label.mat",
+    "samples": 77,
+    "features": 6285,
+    "classes": 2,
+    "sizeBytes": 2259924
+  },
+  {
+    "slug": "gisette",
+    "name": "gisette",
+    "dataFile": "gisette.mat",
+    "labelFile": "gisette_label.mat",
+    "samples": 1000,
+    "features": 5000,
+    "classes": 2,
+    "sizeBytes": 1590090
+  },
+  {
+    "slug": "glioma",
+    "name": "glioma",
+    "dataFile": "glioma.mat",
+    "labelFile": "glioma_label.mat",
+    "samples": 50,
+    "features": 4434,
+    "classes": 4,
+    "sizeBytes": 1462219
+  },
+  {
+    "slug": "lung2",
+    "name": "lung2",
+    "dataFile": "lung2.mat",
+    "labelFile": "lung2_label.mat",
+    "samples": 203,
+    "features": 3312,
+    "classes": 5,
+    "sizeBytes": 4762807
+  },
+  {
+    "slug": "mll",
+    "name": "mll",
+    "dataFile": "mll.mat",
+    "labelFile": "mll_label.mat",
+    "samples": 57,
+    "features": 5848,
+    "classes": 3,
+    "sizeBytes": 1853944
+  },
+  {
+    "slug": "prostate",
+    "name": "prostate",
+    "dataFile": "prostate_data.mat",
+    "labelFile": "prostate_label.mat",
+    "samples": 102,
+    "features": 5966,
+    "classes": 2,
+    "sizeBytes": 1525119
+  }
+]

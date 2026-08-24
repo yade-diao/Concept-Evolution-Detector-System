@@ -43,10 +43,15 @@ web/static/images/*.jpg
 !web/static/images/.gitkeep
 
 # ──────────────────────────────────────────────────
-# Dataset files (too large for GitHub)
+# Dataset files
 # ──────────────────────────────────────────────────
+# The eight benchmarks in datasets/bundled are tracked: 23 MB, and having them
+# in the repository is what lets CI run the port against the reference on real
+# data, and what lets the deployed page fetch them from its own origin. Loose
+# .mat files elsewhere are working copies - real_sim alone is 34 MB.
 datasets/*.mat
 *.mat
+!datasets/bundled/*.mat
 
 # ──────────────────────────────────────────────────
 # Misc
