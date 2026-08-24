@@ -56,3 +56,9 @@ datasets/*.mat
 
 # Maven build output
 backend/target/
+
+# ──────────────────────────────────────────────────
+# Node
+# ──────────────────────────────────────────────────
+node_modules/
+frontend/dist/
