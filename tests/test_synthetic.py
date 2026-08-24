@@ -149,3 +149,72 @@ def test_the_detector_recovers_a_stream_whose_answer_is_known():
     for name in ("stable", "emerging", "drift", "forgetting"):
         assert events[name] == expected[name], name
     assert best_ri > 0.95
+
+
+def test_emerging_and_forgetting_need_an_uneven_stream():
+    """The two categories the canonical stream cannot reach.
+
+    With every class the same size, a group splitting off always overlaps its
+    parent above tau, so it reads as drift and never as a new concept. Make one
+    class small and the same split falls below tau. This pins that the generator
+    reports it, and `test_the_detector_recovers_the_uneven_stream` pins that the
+    detector agrees.
+    """
+    from cedfs.synthetic import UNEVEN_PLACEMENTS, UNEVEN_SIZES
+
+    s = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES,
+                    features_per_window=60, seed=7)
+    assert s.expected_cluster_counts() == [2, 3, 2]
+    assert s.expected_counts() == {
+        "stable":     [1, 1],
+        "emerging":   [1, 0],
+        "drift":      [1, 1],
+        "forgetting": [0, 1],
+    }
+
+
+def test_the_same_placement_changes_category_with_the_class_sizes():
+    """One concept separating from another, classified two different ways purely
+    by how many samples each side holds. This is the method's rule, not a bug in
+    the generator, and it is why event counts on real data are hard to read."""
+    placements = [{1: 0.0, 2: 0.0}, {1: 0.0, 2: 4.0}]
+
+    even = make_stream(placements, samples_per_class=30).boundaries[0]
+    assert (even.emerging, even.drift) == (0, 1)      # 2*30/(30+60) = 0.67, above tau
+
+    uneven = make_stream(placements, samples_per_class={1: 60, 2: 6}).boundaries[0]
+    assert (uneven.emerging, uneven.drift) == (1, 1)  # 2*6/(6+66) = 0.17, below tau
+
+
+def test_the_threshold_the_events_are_derived_under_is_the_caller_s():
+    """Ground truth is only comparable with a detector run at the same tau, so
+    the generator takes it rather than assuming the default."""
+    placements = [{1: 0.0, 2: 0.0}, {1: 0.0, 2: 4.0}]
+    lenient = make_stream(placements, samples_per_class={1: 60, 2: 6}, threshold=0.1)
+    assert lenient.boundaries[0].emerging == 0        # 0.17 now counts as a match
+
+
+def test_a_class_with_no_sample_count_is_an_error():
+    with pytest.raises(ValueError, match="No sample count"):
+        make_stream([{1: 0.0, 2: 4.0}, {1: 0.0, 2: 8.0}], samples_per_class={1: 30})
+
+
+def test_the_detector_recovers_the_uneven_stream():
+    """End to end on the stream that reaches all four categories."""
+    import tempfile
+
+    from cedfs import CED_FS
+    from cedfs.synthetic import UNEVEN_PLACEMENTS, UNEVEN_SIZES
+
+    stream = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES,
+                         features_per_window=60, seed=7)
+    X = np.hstack([stream.features, stream.labels.reshape(-1, 1)])
+
+    with tempfile.TemporaryDirectory() as figures:
+        best_ri, events, cluster_counts, _ = CED_FS(
+            X, d=stream.features.shape[1], winsize=stream.features_per_window,
+            image_dir=figures)
+
+    assert cluster_counts == stream.expected_cluster_counts()
+    assert {name: events[name] for name in stream.expected_counts()} == stream.expected_counts()
+    assert best_ri > 0.95
