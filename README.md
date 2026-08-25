@@ -180,10 +180,12 @@ exists anywhere — which is also how the browser gets its datasets.
 
 ## Provenance
 
-The method is CED-FS, from Guo Yufeng's 2023 master's thesis at Anhui
-University. This repository is the system built on it for an undergraduate
-thesis, *Design and implementation of a concept drift detection system for
-feature streams* (Anhui University, 2025), starting from the original MATLAB.
+The method is CED-FS, from Guo Yufeng's 2023 dissertation at Anhui University:
+郭玉峰《面向特征流的概念演化检测方法研究》, 合肥: 安徽大学, 2023.
+
+This repository is the system built on it for an undergraduate thesis,
+《面向流特征的概念漂移检测系统设计与实现》 (Anhui University, 2025), starting
+from the original MATLAB.
 
 ## License
 
