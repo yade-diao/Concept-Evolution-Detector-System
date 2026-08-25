@@ -178,15 +178,6 @@ exists anywhere — which is also how the browser gets its datasets.
 [deploy/README.md](deploy/README.md) has the runbook; CI builds the image and
 `.github/workflows/deploy.yml` puts it there.
 
-## Provenance
+## Copyright
 
-The method is CED-FS, from Guo Yufeng's 2023 dissertation at Anhui University:
-郭玉峰《面向特征流的概念演化检测方法研究》, 合肥: 安徽大学, 2023.
-
-This repository is the system built on it for an undergraduate thesis,
-《面向流特征的概念漂移检测系统设计与实现》 (Anhui University, 2025), starting
-from the original MATLAB.
-
-## License
-
-[MIT](LICENSE)
+Copyright © 2026 Zhou Peng. Released under the [MIT License](LICENSE).

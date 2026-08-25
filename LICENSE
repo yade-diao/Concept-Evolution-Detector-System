@@ -3,8 +3,8 @@
 Copyright (c) 2026 Zhou Peng
 
 The CED-FS algorithm was originally designed and proposed by Zhou Peng.
-The Python implementation and Flask + Vue 3 web application in this
-repository were developed by yade-diao.
+The implementation in this repository - the Python reference, its TypeScript
+port, the browser application and the API - was developed by yade-diao.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
