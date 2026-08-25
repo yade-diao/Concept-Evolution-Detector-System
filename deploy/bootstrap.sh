@@ -100,7 +100,15 @@ fi
 
 # --- Start -----------------------------------------------------------------
 say "Starting"
-docker compose --env-file .env up -d
+# usermod above does not affect the session it ran in: the group membership
+# arrives with the next login, and until then this shell cannot reach the
+# docker socket. Rather than tell the reader to log out and run one more
+# command, ask docker whether it is reachable and fall back to sudo if not.
+if docker info >/dev/null 2>&1; then
+  docker compose --env-file .env up -d
+else
+  sudo docker compose --env-file .env up -d
+fi
 
 cat <<EOF
 
