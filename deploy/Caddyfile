@@ -1,0 +1,45 @@
+# TLS, the static site, and the API - on one origin.
+#
+# Caddy obtains and renews the certificate itself, which is why the domain has
+# to resolve to this server before the stack is started: the ACME challenge is
+# answered on port 80 by this same process.
+
+{$CED_DOMAIN} {
+	encode zstd gzip
+
+	# The API. Everything under /api/v1 is the Java service, and /actuator/health
+	# is exposed so an uptime check has something to call that does not need a
+	# token.
+	handle /api/* {
+		reverse_proxy api:8080
+	}
+
+	handle /actuator/health {
+		reverse_proxy api:8080
+	}
+
+	# The datasets, served from the same origin as the page that fetches them.
+	# They are content-addressed by name and never change, so a browser that has
+	# one should not ask again for a year.
+	handle /datasets/* {
+		root * /srv/site
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	# The single-page application. Any path that is not a file it built is still
+	# the application - the router resolves it - so unknown paths get index.html
+	# rather than a 404.
+	handle {
+		root * /srv/site
+		try_files {path} /index.html
+		file_server
+	}
+
+	log {
+		output file /data/access.log {
+			roll_size 10MB
+			roll_keep 5
+		}
+	}
+}

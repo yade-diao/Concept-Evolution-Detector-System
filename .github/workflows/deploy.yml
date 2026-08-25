@@ -1,0 +1,116 @@
+# Put the image CI just built on the server.
+#
+# Chained off `backend` rather than off a push, so nothing reaches the server
+# that did not first pass the integration tests and get published to GHCR. The
+# server pulls; this workflow only tells it to, and it never holds the database
+# password or the signing secret - those live in /opt/ced/.env on the host.
+#
+# Skips itself, loudly but without failing, when the deployment secrets are not
+# configured: a fork, or this repository before a server exists, should not have
+# a permanently red workflow.
+#
+# Secrets:
+#   DEPLOY_HOST     the server's hostname or IP
+#   DEPLOY_USER     the user to ssh as, in the docker group
+#   DEPLOY_SSH_KEY  that user's private key, the whole PEM including headers
+name: deploy
+
+on:
+  workflow_run:
+    workflows: [backend]
+    types: [completed]
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Image tag to deploy (a commit SHA pins it; latest follows main)'
+        required: false
+        default: latest
+
+jobs:
+  deploy:
+    # A failed test run must not deploy. workflow_run fires either way, so the
+    # conclusion is checked rather than assumed.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check whether a server is configured
+        id: configured
+        env:
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          if [ -z "$HOST" ]; then
+            echo "No DEPLOY_HOST secret; skipping. See deploy/README.md." >> "$GITHUB_STEP_SUMMARY"
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Authorise
+        if: steps.configured.outputs.ready == 'true'
+        env:
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          HOST: ${{ secrets.DEPLOY_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # Pinning the host key rather than accepting whatever answers: this
+          # step hands a key to whatever is on the other end.
+          ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
+
+      # Only the two files that describe the stack. The server's .env is not
+      # touched, and neither is ./site - the frontend is deployed separately.
+      - name: Send the compose file and the proxy configuration
+        if: steps.configured.outputs.ready == 'true'
+        run: |
+          rsync -az -e "ssh -i ~/.ssh/id_deploy" \
+            deploy/compose.yml deploy/Caddyfile \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/ced/"
+
+      # The remote script arrives on stdin, quoted, so nothing in it is expanded
+      # by this runner's shell before it gets there.
+      - name: Pull and restart
+        if: steps.configured.outputs.ready == 'true'
+        env:
+          TAG: ${{ github.event.inputs.tag || 'latest' }}
+        run: |
+          ssh -i ~/.ssh/id_deploy \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            "CED_IMAGE_TAG='${TAG}' bash -s" <<'REMOTE'
+          set -euo pipefail
+          cd /opt/ced
+          export CED_IMAGE_TAG
+          docker compose --env-file .env pull api
+          docker compose --env-file .env up -d
+
+          # Wait for the API to report healthy rather than for the container to
+          # exist: Flyway migrates before the port opens, and a deploy that
+          # returned while the schema was mid-migration has told you nothing.
+          # The container's own HEALTHCHECK is what is read, so this asks the
+          # application, not the proxy in front of it.
+          for _ in $(seq 1 30); do
+            id=$(docker compose ps -q api)
+            status=$(docker inspect --format '{{.State.Health.Status}}' "$id" 2>/dev/null || echo starting)
+            if [ "$status" = healthy ]; then
+              echo "API healthy"
+              exit 0
+            fi
+            sleep 5
+          done
+
+          echo "API did not become healthy in 150s" >&2
+          docker compose logs --tail 50 api >&2
+          exit 1
+          REMOTE
+
+      - name: Clean up images the server no longer runs
+        if: steps.configured.outputs.ready == 'true'
+        run: |
+          ssh -i ~/.ssh/id_deploy \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" \
+            "docker image prune -af --filter 'until=168h'"

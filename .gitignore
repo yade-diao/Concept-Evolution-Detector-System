@@ -67,3 +67,5 @@ backend/target/
 # ──────────────────────────────────────────────────
 node_modules/
 frontend/dist/
+deploy/.env
+deploy/site/

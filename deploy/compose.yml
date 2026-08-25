@@ -1,0 +1,78 @@
+# What runs on the server.
+#
+# Three containers: the API, its database, and a reverse proxy that terminates
+# TLS and serves the static site. The site and the API share one origin, which
+# is the whole point of putting the proxy in front of both - a browser fetching
+# a 6 MB dataset and calling the API from the same host needs no CORS
+# configuration, no preflight, and no proxy endpoint on the Java side.
+#
+# Nothing here is built on the server. `docker compose pull` fetches an image CI
+# built from a commit whose tests passed; the server never compiles anything.
+#
+#   docker compose --env-file .env up -d
+#
+# See README.md in this directory for what goes in .env.
+
+name: ced
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${CED_DB_NAME:-ced}
+      POSTGRES_USER: ${CED_DB_USER:-ced}
+      POSTGRES_PASSWORD: ${CED_DB_PASSWORD:?set CED_DB_PASSWORD in .env}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    # No published port. The API reaches it over the compose network; anything
+    # else reaching it means the firewall failed.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${CED_DB_USER:-ced} -d ${CED_DB_NAME:-ced}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  api:
+    image: ghcr.io/${CED_IMAGE_OWNER:-yade-diao}/ced-api:${CED_IMAGE_TAG:-latest}
+    restart: unless-stopped
+    environment:
+      CED_DB_URL: jdbc:postgresql://db:5432/${CED_DB_NAME:-ced}
+      CED_DB_USER: ${CED_DB_USER:-ced}
+      CED_DB_PASSWORD: ${CED_DB_PASSWORD:?set CED_DB_PASSWORD in .env}
+      # No default anywhere in the application: a signing secret that falls back
+      # to a value in a repository is one every deployment shares.
+      CED_JWT_SECRET: ${CED_JWT_SECRET:?set CED_JWT_SECRET in .env}
+    depends_on:
+      db:
+        # Flyway runs at startup and fails against a database that is still
+        # booting, so the API waits for a real connection rather than a
+        # container that exists.
+        condition: service_healthy
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      CED_DOMAIN: ${CED_DOMAIN:?set CED_DOMAIN in .env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # The built frontend, rsynced here by the deploy workflow. Empty until the
+      # UI exists; Caddy still serves the API through this proxy either way.
+      - ./site:/srv/site:ro
+      # Certificates and Caddy's account key. Losing this volume means asking
+      # Let's Encrypt for a new certificate on every restart, which is rate
+      # limited.
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - api
+
+volumes:
+  db-data:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,61 @@
+# Hold the browser port to the Python reference, on the real benchmarks.
+#
+# The algorithm exists twice - in `cedfs/`, which the paper's numbers come from,
+# and in `frontend/src/cedfs`, which is what runs when someone uses the tool.
+# Two implementations of one method drift, and the way they drift is silent:
+# both return a plausible number of clusters and nobody is told which one is
+# right. These tests read the eight benchmarks out of `datasets/bundled` - the
+# same files the reference read - and compare what came out.
+#
+# That is why the datasets are in the repository. Without them this job has
+# nothing to run on.
+name: frontend
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'frontend/**'
+      - 'datasets/bundled/**'
+      - '.github/workflows/frontend.yml'
+  pull_request:
+    paths:
+      - 'frontend/**'
+      - 'datasets/bundled/**'
+      - '.github/workflows/frontend.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      # Type errors are build failures, and `npm run build` needs an entry point
+      # the UI has not grown yet. Until it does, the type check stands alone.
+      - name: Type check
+        run: npx tsc -b
+
+      - name: Port agrees with the Python reference
+        run: npm test
+
+      # gisette is 1 000 samples, and the port's eigendecomposition is a Jacobi
+      # sweep over an n x n matrix: about a minute per window against nine
+      # seconds in NumPy. Skipped by default, run here on main where the wait
+      # costs nobody their turnaround.
+      - name: Including the slow benchmark
+        if: github.event_name == 'push'
+        run: npm run test:slow
