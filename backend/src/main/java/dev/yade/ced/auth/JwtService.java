@@ -43,10 +43,21 @@ public class JwtService {
     }
 
     public String issue(UUID userId, Instant now) {
+        return issue(userId, now, lifetime);
+    }
+
+    /**
+     * A token with a life of its own.
+     *
+     * A guest account exists for days and has no password to sign back in with,
+     * so its token has to last as long as the account does. Handing it the
+     * two-hour default would lock the visitor out of runs that are still there.
+     */
+    public String issue(UUID userId, Instant now, Duration ttl) {
         return Jwts.builder()
                 .subject(userId.toString())
                 .issuedAt(Date.from(now))
-                .expiration(Date.from(now.plus(lifetime)))
+                .expiration(Date.from(now.plus(ttl)))
                 .signWith(key)
                 .compact();
     }

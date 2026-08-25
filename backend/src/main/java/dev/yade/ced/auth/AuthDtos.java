@@ -27,6 +27,19 @@ public final class AuthDtos {
     }
 
     /**
+     * Turning the guest you already are into an account you keep.
+     *
+     * The same fields as Register, and a separate type on purpose: the two
+     * differ in what happens to the runs that already exist, and a shared
+     * record would hide that a claim carries a token whose runs are about to
+     * change hands.
+     */
+    public record Claim(
+            @NotBlank @Email @Size(max = 320) String email,
+            @NotBlank @Size(min = 12, max = 200) String password) {
+    }
+
+    /**
      * `expiresInSeconds` so a client can refresh before a request fails rather
      * than by discovering a 401. The token's own exp claim says the same thing,
      * but reading it means parsing a token the client is not supposed to inspect.

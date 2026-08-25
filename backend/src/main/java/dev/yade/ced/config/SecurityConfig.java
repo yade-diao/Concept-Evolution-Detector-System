@@ -44,7 +44,12 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Claiming turns the guest you already are into an
+                        // account, so it needs the guest's token - it is the one
+                        // endpoint under /auth that is not open.
+                        .requestMatchers("/api/v1/auth/claim").authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 // Answer an unauthenticated request in the same shape as every

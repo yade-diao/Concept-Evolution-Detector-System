@@ -1,6 +1,8 @@
 package dev.yade.ced.runs;
 
 import dev.yade.ced.auth.User;
+import dev.yade.ced.auth.Role;
+import org.springframework.beans.factory.annotation.Value;
 import dev.yade.ced.common.GlobalExceptionHandler.NotFound;
 import java.time.Instant;
 import java.util.List;
@@ -25,12 +27,31 @@ public class RunService {
 
     private final RunRepository runs;
 
-    public RunService(RunRepository runs) {
+    private final int runsPerUser;
+    private final int runsPerGuest;
+
+    public RunService(RunRepository runs,
+                      @Value("${ced.limits.runs-per-user:200}") int runsPerUser,
+                      @Value("${ced.limits.runs-per-guest:20}") int runsPerGuest) {
         this.runs = runs;
+        this.runsPerUser = runsPerUser;
+        this.runsPerGuest = runsPerGuest;
     }
 
     @Transactional
     public Run create(User owner, RunDtos.CreateRun request) {
+        // A cap per account, not per request: the runs themselves are small,
+        // but nothing else stops one signed-in client from creating them in a
+        // loop until the disk is full. Guests get a smaller share, because a
+        // guest is an account anyone can have for the asking.
+        long held = runs.countByOwner(owner);
+        int limit = owner.getRole() == Role.GUEST ? runsPerGuest : runsPerUser;
+        if (held >= limit) {
+            throw new QuotaExceeded(
+                    ("You are keeping %d runs, which is the limit for this kind of account. "
+                     + "Delete some and try again.").formatted(held));
+        }
+
         var p = request.parameters();
         int windows = Run.windowCount(request.features(), p.windowSize());
         if (windows < MINIMUM_WINDOWS) {
@@ -105,6 +126,13 @@ public class RunService {
     public void delete(User owner, UUID id) {
         if (runs.deleteByIdAndOwner(id, owner) == 0) {
             throw new NotFound("No run with id " + id + ".");
+        }
+    }
+
+    /** The account holds as many runs as it is allowed to. */
+    public static class QuotaExceeded extends RuntimeException {
+        public QuotaExceeded(String message) {
+            super(message);
         }
     }
 }

@@ -20,6 +20,9 @@ public interface RunRepository extends JpaRepository<Run, UUID> {
      */
     Optional<Run> findByIdAndOwner(UUID id, User owner);
 
+    /** How many runs an account holds, for the quota and the admin listing. */
+    long countByOwner(User owner);
+
     Page<Run> findByOwnerOrderByCreatedAtDesc(User owner, Pageable pageable);
 
     long deleteByIdAndOwner(UUID id, User owner);

@@ -1,6 +1,7 @@
 package dev.yade.ced.common;
 
 import dev.yade.ced.auth.AuthService;
+import dev.yade.ced.runs.RunService;
 import dev.yade.ced.runs.IllegalRunTransition;
 import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,16 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthService.InvalidCredentials.class)
     public ResponseEntity<ApiError> onBadCredentials(AuthService.InvalidCredentials e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiError.of(e.getMessage()));
+    }
+
+    /**
+     * Both of these are "the state you are in does not allow that", which is a
+     * conflict rather than a bad request: the same call would have worked
+     * before the account was claimed, or after a run was deleted.
+     */
+    @ExceptionHandler({AuthService.NotAGuest.class, RunService.QuotaExceeded.class})
+    public ResponseEntity<ApiError> onConflictingState(RuntimeException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(e.getMessage()));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

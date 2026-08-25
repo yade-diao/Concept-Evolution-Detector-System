@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -44,9 +45,16 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                     // outlives the account it names, and a deleted user whose
                     // token has not expired must not still be able to act.
                     .flatMap(users::findById)
+                    // An expired guest is nobody, even while its token is still
+                    // signed and unexpired: the purge runs hourly and an account
+                    // that is over should stop working when it is over.
+                    .filter(user -> !user.isExpired(Instant.now()))
                     .ifPresent(user -> {
+                        // Authorities come from the row, not the token, so a
+                        // revoked administrator loses the power on the next
+                        // request rather than when the token expires.
                         var auth = new UsernamePasswordAuthenticationToken(
-                                user, null, List.of());
+                                user, null, user.authorities());
                         auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                         SecurityContextHolder.getContext().setAuthentication(auth);
                     });

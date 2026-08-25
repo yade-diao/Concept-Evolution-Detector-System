@@ -3,6 +3,7 @@ package dev.yade.ced.auth;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +27,23 @@ public class AuthController {
     @PostMapping("/login")
     public AuthDtos.Token login(@Valid @RequestBody AuthDtos.Login request) {
         return auth.login(request);
+    }
+
+    /**
+     * A session with no account behind it.
+     *
+     * Nothing is asked for, so nothing is verified; the visitor gets somewhere
+     * to keep runs and a week to decide whether they want it to be permanent.
+     */
+    @PostMapping("/guest")
+    public ResponseEntity<AuthDtos.Token> guest() {
+        return ResponseEntity.status(HttpStatus.CREATED).body(auth.guest());
+    }
+
+    /** Keep what this guest already ran, under an account that stays. */
+    @PostMapping("/claim")
+    public AuthDtos.Token claim(@AuthenticationPrincipal User me,
+                                @Valid @RequestBody AuthDtos.Claim request) {
+        return auth.claim(me, request);
     }
 }

@@ -508,6 +508,78 @@
  },
  "benchmarks": [
   {
+   "slug": "appliances",
+   "featureLimit": 200,
+   "windowSize": 50,
+   "slow": false,
+   "expectedWindows": 4,
+   "expectedClusterCounts": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "expectedEvents": {
+    "emerging": [
+     1,
+     1,
+     0
+    ],
+    "drift": [
+     1,
+     1,
+     2
+    ],
+    "forgetting": [
+     1,
+     1,
+     0
+    ],
+    "stable": [
+     0,
+     0,
+     0
+    ]
+   },
+   "expectedBestRandIndex": 0.4136893636
+  },
+  {
+   "slug": "eog",
+   "featureLimit": 200,
+   "windowSize": 50,
+   "slow": false,
+   "expectedWindows": 4,
+   "expectedClusterCounts": [
+    2,
+    2,
+    2,
+    2
+   ],
+   "expectedEvents": {
+    "emerging": [
+     1,
+     1,
+     1
+    ],
+    "drift": [
+     1,
+     1,
+     1
+    ],
+    "forgetting": [
+     1,
+     1,
+     1
+    ],
+    "stable": [
+     0,
+     0,
+     0
+    ]
+   },
+   "expectedBestRandIndex": 0.3149324314
+  },
+  {
    "slug": "arcene",
    "featureLimit": 200,
    "windowSize": 50,

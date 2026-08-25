@@ -103,6 +103,13 @@ export const api = {
   login: (email: string, password: string) =>
     request<Token>('/auth/login', { method: 'POST', body: { email, password } }),
 
+  /** A session with no account behind it, for this tab. */
+  guest: () => request<Token>('/auth/guest', { method: 'POST' }),
+
+  /** Keep a guest's runs under an account that stays. */
+  claim: (token: string, email: string, password: string) =>
+    request<Token>('/auth/claim', { token, method: 'POST', body: { email, password } }),
+
   createRun: (token: string, run: {
     datasetName: string
     samples: number
