@@ -42,16 +42,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Names only, never values: a skipped deployment should say which secret
+      # it could not find, or the reader is left with a green run that did
+      # nothing and no way to tell why.
       - name: Check whether a server is configured
         id: configured
         env:
           HOST: ${{ secrets.DEPLOY_HOST }}
+          USERNAME: ${{ secrets.DEPLOY_USER }}
+          KEY: ${{ secrets.DEPLOY_SSH_KEY }}
         run: |
-          if [ -z "$HOST" ]; then
-            echo "No DEPLOY_HOST secret; skipping. See deploy/README.md." >> "$GITHUB_STEP_SUMMARY"
-            echo "ready=false" >> "$GITHUB_OUTPUT"
-          else
+          missing=""
+          [ -n "$HOST" ] || missing="$missing DEPLOY_HOST"
+          [ -n "$USERNAME" ] || missing="$missing DEPLOY_USER"
+          [ -n "$KEY" ] || missing="$missing DEPLOY_SSH_KEY"
+
+          if [ -z "$missing" ]; then
             echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "All three deployment secrets are present; deploying to the server." \
+              >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "### Deployment skipped"
+              echo
+              echo "These repository secrets are empty or absent:**$missing**"
+              echo
+              echo "They must be **repository** secrets - Settings -> Secrets and"
+              echo "variables -> Actions -> *Secrets* tab. Values under *Variables*,"
+              echo "or under an environment, are not visible here. See deploy/README.md."
+            } >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - uses: actions/setup-node@v4
