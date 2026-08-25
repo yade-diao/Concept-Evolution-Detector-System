@@ -26,6 +26,23 @@ expression sets widely circulated through the ASU feature selection repository;
 `car` is an image set from the same collection. `real_sim`, used in the original
 work, is 34 MB and is left out — download it separately if you need it.
 
+## Why they are committed rather than downloaded
+
+Because for three of them there is nowhere to download from. `car`, `glioma`,
+`lung2` and `prostate` are available at exactly these shapes from the
+scikit-feature repository, and `arcene` at exactly this shape from OpenML — all
+with permissive CORS headers, so a browser could fetch them. But `dlbcl` here is
+77 x 6 285 and `mll` is 57 x 5 848, and no public source carries either at that
+shape: OpenML's versions of the same studies are 77 x 5 469 and 72 x 12 582,
+differently gene-filtered, and for MLL the full set rather than the training
+split. `gisette` at exactly this shape exists only at UCI and LIBSVM, neither of
+which sends an `Access-Control-Allow-Origin` header at all.
+
+So the files are here, 23 MB of them, and the deployment serves them from the
+same origin as the page. Note the two provenance caveats when citing: this
+`arcene` is the NIPS 2003 challenge's *training* split and this `gisette` is its
+*validation* split, not the full challenge sets.
+
 ## What these are, and are not, evidence for
 
 **They are not feature streams.** Their columns are gene indices and pixel
