@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 
 import { App } from './App'
+import { SessionProvider } from './api/SessionContext'
 import './index.css'
 
 const root = document.getElementById('root')
@@ -14,7 +15,9 @@ createRoot(root).render(
         proxy that falls back to index.html, so history routing needs no
         basename and no hash. */}
     <BrowserRouter>
-      <App />
+      <SessionProvider>
+        <App />
+      </SessionProvider>
     </BrowserRouter>
   </StrictMode>,
 )

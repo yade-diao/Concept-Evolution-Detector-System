@@ -151,6 +151,49 @@ nav a {
 nav a:hover { color: var(--ink); border-color: var(--rule); }
 nav a.active { color: var(--accent-ink); background: var(--accent); }
 
+/* ── Account ──────────────────────────────────────────────────────────── */
+
+.header-side { display: grid; gap: 0.6rem; justify-items: end; }
+
+.account {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 400 11px/1.6 var(--mono);
+  color: var(--muted);
+}
+.account button { padding: 0.25rem 0.7rem; font-size: 12px; }
+.account .who {
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+.account.signin {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(9rem, 1fr));
+  gap: 0.4rem;
+  padding: 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  max-width: 24rem;
+}
+.account.signin input {
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: inherit;
+  font: 400 12px/1.4 var(--mono);
+}
+.account.signin input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.account.signin .error,
+.account.signin .muted { grid-column: 1 / -1; margin: 0; }
+.account.signin .muted { line-height: 1.5; }
+
 /* ── The window strip: the signature, and the progress bar ────────────── */
 
 .strip {

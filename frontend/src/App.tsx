@@ -9,6 +9,8 @@
 
 import { NavLink, Route, Routes } from 'react-router-dom'
 
+import { AccountBar } from './components/AccountBar'
+import { HistoryView } from './views/HistoryView'
 import { MethodView } from './views/MethodView'
 import { RunView } from './views/RunView'
 
@@ -25,15 +27,20 @@ export function App() {
             they do — clustered in this browser, not on a server.
           </p>
         </div>
-        <nav>
-          <NavLink to="/" end>Run</NavLink>
-          <NavLink to="/method">Method</NavLink>
-        </nav>
+        <div className="header-side">
+          <nav>
+            <NavLink to="/" end>Run</NavLink>
+            <NavLink to="/history">Saved runs</NavLink>
+            <NavLink to="/method">Method</NavLink>
+          </nav>
+          <AccountBar />
+        </div>
       </header>
 
       <main>
         <Routes>
           <Route path="/" element={<RunView />} />
+          <Route path="/history" element={<HistoryView />} />
           <Route path="/method" element={<MethodView />} />
           <Route path="*" element={<RunView />} />
         </Routes>

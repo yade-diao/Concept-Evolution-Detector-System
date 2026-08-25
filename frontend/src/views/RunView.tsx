@@ -7,7 +7,7 @@
  * work is an eigendecomposition per window and the machine doing it is yours.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { DatasetPicker } from '../components/DatasetPicker'
 import { WindowStrip } from '../components/WindowStrip'
@@ -17,6 +17,8 @@ import type { CedFsParameters } from '../cedfs/cedFs'
 import { fetchDataset, type FetchProgress } from '../datasets/catalog'
 import type { Dataset, DatasetInfo } from '../datasets/load'
 import { useRun } from '../hooks/useRun'
+import { useRunRecord } from '../hooks/useRunRecord'
+import { useCurrentSession } from '../api/SessionContext'
 import { windowCount } from '../cedfs/cedFs'
 
 export function RunView() {
@@ -26,6 +28,8 @@ export function RunView() {
   const [loadError, setLoadError] = useState<string | null>(null)
   const [parameters, setParameters] = useState<CedFsParameters>(DEFAULTS)
   const { state, start, cancel } = useRun()
+  const { session } = useCurrentSession()
+  const record = useRunRecord(session?.token ?? null)
 
   const busy = state.status === 'running' || loading !== null
 
@@ -42,6 +46,22 @@ export function RunView() {
       setLoading(null)
     }
   }
+
+  // The server is told that a run started, roughly how far it has got, and how
+  // it ended - never the data, which stays in this browser. None of it can
+  // interrupt the run: a failure to save is reported next to the result.
+  useEffect(() => {
+    if (state.status === 'running') record.progress(state.progress.done)
+    else if (state.status === 'done') {
+      void record.finish({
+        bestRandIndex: state.result.bestRandIndex,
+        clusterCounts: state.result.clusterCounts,
+        events: state.result.events,
+      })
+    } else if (state.status === 'error') {
+      void record.finish({ error: state.message })
+    }
+  }, [state, record])
 
   // Known before the run starts: the window count comes from the feature count,
   // because the stream runs along the feature axis.
@@ -98,7 +118,11 @@ export function RunView() {
             type="button"
             className="primary"
             disabled={!dataset || busy}
-            onClick={() => dataset && start(dataset, parameters)}
+            onClick={() => {
+              if (!dataset) return
+              void record.start(dataset, parameters)
+              start(dataset, parameters)
+            }}
           >
             {state.status === 'running' ? 'Running…' : 'Run the detector'}
           </button>
@@ -108,6 +132,10 @@ export function RunView() {
         </div>
 
         {state.status === 'error' && <p className="error">The run failed: {state.message}</p>}
+        {record.problem && <p className="muted">{record.problem}</p>}
+        {record.run && state.status === 'done' && (
+          <p className="muted">Saved to your runs.</p>
+        )}
         {state.status === 'done' && (
           <Results
             result={state.result}
