@@ -4,9 +4,9 @@ The persistence side of the Concept Evolution Detector: accounts, and the runs
 that belong to them.
 
 It does not compute anything. The analysis runs in the browser, on the analyst's
-own machine, so the data never reaches this service — it is told the *shape* of a
-stream (how many samples, how many features), the parameters, and then the
-progress and the outcome. That is the whole reason there is no upload endpoint.
+own machine; this service holds the accounts, the datasets, and the record of
+what was run — the shape of the stream, the parameters, the progress and the
+outcome.
 
 ## What it is for
 
@@ -65,6 +65,15 @@ applying the older one makes the bar jump backwards.
 **The window count is derived from the stream length, not taken from the
 client.** A caller reporting its own total could show a bar reaching 100% having
 analysed a third of the stream.
+
+**And it is derived from the feature count, not the sample count.** A feature
+stream holds its samples fixed and gains columns over time, so a window is a
+block of columns. Deriving from samples — which this service did until the two
+halves were wired together and disagreed — refuses every benchmark in the
+repository, since they hold tens of samples against thousands of features. The
+rule matches the Python side exactly, halves-to-even included, because a result
+computed under a different count is rejected for reporting the wrong number of
+cluster counts.
 
 **Parameters live on the run, not on the server.** The previous design kept one
 mutable set for the whole process, so two people tuning at once tuned each

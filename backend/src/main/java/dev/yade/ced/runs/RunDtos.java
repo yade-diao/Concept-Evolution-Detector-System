@@ -41,10 +41,13 @@ public final class RunDtos {
     /**
      * Starting a run.
      *
-     * The stream itself never arrives: the client computes in the browser, so
-     * the server is told the shape of the data and never sees it. That is worth
-     * stating because it is why there is no upload endpoint — the data does not
-     * leave the machine that produced it.
+     * The stream itself does not arrive here: the client computes in the
+     * browser, so a run carries the shape of the data rather than the data. A
+     * dataset is uploaded once, through the dataset endpoints, and a run refers
+     * to it — the matrix does not travel with every run.
+     *
+     * `samples` and `features` are both recorded, but only `features` decides
+     * how many windows there are: the stream runs along the feature axis.
      */
     public record CreateRun(
             @NotBlank @Size(max = 200) String datasetName,

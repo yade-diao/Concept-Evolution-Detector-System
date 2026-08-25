@@ -75,16 +75,23 @@ abstract class ApiTestBase {
         return as(token, HttpMethod.POST, path, body, type);
     }
 
-    /** A valid create-run body, with any field overridable per test. */
+    /**
+     * A valid create-run body, with any field overridable per test.
+     *
+     * The shape is the canonical synthetic stream in {@code cedfs.synthetic}: 90
+     * samples carried through 300 feature columns. Ninety samples and three
+     * hundred features rather than the reverse, because the stream runs along
+     * the feature axis — the numbers are this way round on purpose.
+     */
     protected static Map<String, Object> createRunBody(Object... overrides) {
         var body = new java.util.HashMap<String, Object>(Map.of(
                 "datasetName", "synthetic",
-                "samples", 300,
-                "features", 8,
+                "samples", 90,
+                "features", 300,
                 "parameters", new java.util.HashMap<String, Object>(Map.of(
                         "kernelType", 1,
                         "sigma", 6.0,
-                        "neighbourFraction", 0.15,
+                        "neighbourFraction", 0.05,
                         "similarityThreshold", 0.5,
                         "windowSize", 60))));
         for (int i = 0; i < overrides.length; i += 2) {
@@ -95,7 +102,7 @@ abstract class ApiTestBase {
 
     protected static Map<String, Object> parametersWith(String field, Object value) {
         var params = new java.util.HashMap<String, Object>(Map.of(
-                "kernelType", 1, "sigma", 6.0, "neighbourFraction", 0.15,
+                "kernelType", 1, "sigma", 6.0, "neighbourFraction", 0.05,
                 "similarityThreshold", 0.5, "windowSize", 60));
         params.put(field, value);
         return params;

@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * The compute happens in the browser: the client creates a run, reports progress
  * as it works through the windows, and submits the outcome. Nothing here touches
- * the data being analysed — it never leaves the machine that loaded it.
+ * the data being analysed while it is being analysed.
  */
 @RestController
 @RequestMapping("/api/v1/runs")

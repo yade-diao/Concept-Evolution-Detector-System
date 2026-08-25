@@ -14,7 +14,7 @@ def min_max_normalize(data: np.ndarray) -> np.ndarray:
     Parameters
     ----------
     data : np.ndarray, shape (n, d)
-        Input data matrix; modified **in-place** and also returned.
+        Input data matrix. Left untouched; the scaled copy is returned.
 
     Returns
     -------

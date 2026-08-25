@@ -135,10 +135,40 @@ public class Run {
     public static Run start(User owner, String datasetName, int samples, int features,
                             short kernelType, double sigma, double neighbourFraction,
                             double similarityThreshold, int windowSize, Instant now) {
-        int windowsTotal = Math.max(1, samples / windowSize);
+        int windowsTotal = windowCount(features, windowSize);
         return new Run(UUID.randomUUID(), owner, datasetName, samples, features,
                 kernelType, sigma, neighbourFraction, similarityThreshold,
                 windowSize, windowsTotal, now);
+    }
+
+    /**
+     * How many windows a stream of `features` columns yields.
+     *
+     * Along the <em>feature</em> axis, which is the premise of the method and the
+     * least obvious thing about it: in a feature stream the sample space is
+     * fixed and the columns arrive over time, so a window is a block of columns
+     * and every window covers every sample. Deriving this from the sample count
+     * instead — which an earlier version of this class did — refuses every real
+     * benchmark here, since they hold tens of samples and thousands of features.
+     *
+     * <p>The rule matches {@code cedfs.algorithm.ced_fs} exactly, down to the
+     * tie: Python's {@code round} breaks halves to even, and the two must agree
+     * or a correct result is rejected for reporting the wrong number of cluster
+     * counts. Expressed longhand rather than as {@code Math.round}, which breaks
+     * halves upwards.
+     */
+    static int windowCount(int features, int windowSize) {
+        int whole = features / windowSize;
+        int remainder = features % windowSize;
+        int windows;
+        if (remainder * 2 > windowSize) {
+            windows = whole + 1;
+        } else if (remainder * 2 < windowSize) {
+            windows = whole;
+        } else {
+            windows = (whole % 2 == 0) ? whole : whole + 1;
+        }
+        return Math.max(1, windows);
     }
 
     // ── transitions ─────────────────────────────────────────────────────────

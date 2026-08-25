@@ -9,7 +9,7 @@ import org.springframework.http.HttpMethod;
 
 class RunApiTest extends ApiTestBase {
 
-    /** 300 samples over a window of 60 is five windows, so four boundaries. */
+    /** 300 features over a window of 60 is five windows, so four boundaries. */
     private static final int WINDOWS = 5;
     private static final int BOUNDARIES = WINDOWS - 1;
 
@@ -232,10 +232,24 @@ class RunApiTest extends ApiTestBase {
 
     @Test
     void a_window_leaving_fewer_than_two_windows_is_refused() {
+        // 300 features over a window of 250 is one window, and one window has no
+        // boundary for evolution to be measured across.
         var response = post("/api/v1/runs",
-                createRunBody("parameters", parametersWith("windowSize", 200)), String.class);
+                createRunBody("parameters", parametersWith("windowSize", 250)), String.class);
         assertThat(response.getStatusCode().value()).isEqualTo(400);
         assertThat(response.getBody()).contains("at least 2");
+    }
+
+    @Test
+    void the_window_count_comes_from_the_features_not_the_samples() {
+        // The regression this pins: deriving from samples refuses every bundled
+        // benchmark, which hold tens of samples against thousands of features.
+        // glioma is 50 x 4434, and a window of 50 gives 89 windows, not one.
+        var body = createRunBody("samples", 50, "features", 4434,
+                "parameters", parametersWith("windowSize", 50));
+        var run = post("/api/v1/runs", body, Map.class);
+        assertThat(run.getStatusCode().value()).isEqualTo(201);
+        assertThat(run.getBody().get("windowsTotal")).isEqualTo(89);
     }
 
     @Test

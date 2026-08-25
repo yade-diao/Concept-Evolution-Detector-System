@@ -32,13 +32,13 @@ public class RunService {
     @Transactional
     public Run create(User owner, RunDtos.CreateRun request) {
         var p = request.parameters();
-        int windows = request.samples() / p.windowSize();
+        int windows = Run.windowCount(request.features(), p.windowSize());
         if (windows < MINIMUM_WINDOWS) {
             throw new IllegalArgumentException(
-                    ("A window of %d leaves %d window(s) in a stream of %d samples. Concept evolution "
+                    ("A window of %d leaves %d window(s) in a stream of %d features. Concept evolution "
                      + "is measured between consecutive windows, so at least %d are needed — use a "
                      + "smaller window.")
-                            .formatted(p.windowSize(), windows, request.samples(), MINIMUM_WINDOWS));
+                            .formatted(p.windowSize(), windows, request.features(), MINIMUM_WINDOWS));
         }
         return runs.save(Run.start(owner, request.datasetName(), request.samples(), request.features(),
                 p.kernelType(), p.sigma(), p.neighbourFraction(), p.similarityThreshold(),
