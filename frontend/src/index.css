@@ -1,0 +1,223 @@
+/*
+ * One stylesheet. The application is two pages of forms and three charts, and a
+ * design system for that is more machinery than the thing it dresses.
+ *
+ * Colours are custom properties defined once and redefined for a dark scheme,
+ * so the SVG charts - which read them directly - follow the page rather than
+ * carrying their own palette.
+ */
+
+:root {
+  --bg: #fbfbfa;
+  --panel: #ffffff;
+  --ink: #1a1a18;
+  --muted: #6b6b64;
+  --rule: #dcdcd6;
+  --accent: #3b6ea5;
+  --accent-ink: #ffffff;
+  --danger: #a33a2c;
+
+  --event-stable: #6b8f71;
+  --event-drift: #3b6ea5;
+  --event-emerging: #c08a2e;
+  --event-forgetting: #a06a8f;
+
+  --radius: 8px;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #16161a;
+    --panel: #1e1e23;
+    --ink: #e9e9e4;
+    --muted: #9a9a92;
+    --rule: #33333b;
+    --accent: #7aa7d9;
+    --accent-ink: #10131a;
+    --danger: #e08b7c;
+
+    --event-stable: #8fbd97;
+    --event-drift: #7aa7d9;
+    --event-emerging: #d7ad63;
+    --event-forgetting: #c496b4;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.6 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+.shell {
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+h1 { font-size: 1.5rem; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 1.05rem; margin: 0 0 0.75rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
+.subtitle { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.9rem; max-width: 34rem; }
+
+nav { display: flex; gap: 0.5rem; }
+nav a {
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius);
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+nav a:hover { color: var(--ink); background: var(--panel); }
+nav a.active { color: var(--accent-ink); background: var(--accent); }
+
+main > section { margin: 2rem 0; }
+
+/* Datasets ---------------------------------------------------------------- */
+
+.datasets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: 0.6rem;
+}
+
+.dataset {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.8rem 0.9rem;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.dataset:hover:not(:disabled) { border-color: var(--accent); }
+.dataset:disabled { opacity: 0.55; cursor: default; }
+.dataset.selected { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.dataset .name { font-weight: 600; }
+.dataset .shape { font-size: 0.82rem; color: var(--muted); }
+.dataset .meta { display: flex; justify-content: space-between; font-size: 0.78rem; }
+
+.weight.light { color: var(--event-stable); }
+.weight.medium { color: var(--event-emerging); }
+.weight.heavy { color: var(--danger); }
+
+/* Parameters -------------------------------------------------------------- */
+
+.parameters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+  gap: 1.1rem;
+  padding: 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.parameters label { display: flex; flex-direction: column; gap: 0.35rem; }
+.parameters .label { font-size: 0.85rem; font-weight: 600; display: flex; justify-content: space-between; }
+.parameters output { font-variant-numeric: tabular-nums; color: var(--accent); }
+.parameters .hint { font-size: 0.78rem; color: var(--muted); }
+.parameters input[type="range"] { width: 100%; accent-color: var(--accent); }
+.parameters select {
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid var(--rule);
+  background: var(--bg);
+  color: inherit;
+  font: inherit;
+}
+
+/* Running ----------------------------------------------------------------- */
+
+.actions { display: flex; gap: 0.6rem; align-items: center; }
+
+button {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: transparent; font-weight: 600; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+.progress {
+  position: relative;
+  margin-top: 1rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.progress .bar {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent);
+  opacity: 0.16;
+  transition: width 0.2s ease-out;
+}
+.progress span { position: relative; }
+
+/* Results ----------------------------------------------------------------- */
+
+.results { margin-top: 1.5rem; }
+
+.headline { display: flex; flex-wrap: wrap; gap: 2rem; margin: 0 0 1.25rem; }
+.headline dt { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); }
+.headline dd { margin: 0.15rem 0 0; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+
+.charts { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 1rem; }
+
+.chart {
+  margin: 0;
+  padding: 0.9rem;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+}
+.chart figcaption { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.6rem; }
+.chart svg { width: 100%; height: auto; overflow: visible; }
+.chart .axis { margin: 0.5rem 0 0; font-size: 0.75rem; color: var(--muted); }
+
+.legend { list-style: none; display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0.6rem 0 0; padding: 0; font-size: 0.75rem; color: var(--muted); }
+.legend li { display: flex; align-items: center; gap: 0.3rem; }
+.swatch { width: 0.65rem; height: 0.65rem; border-radius: 2px; display: inline-block; }
+
+.caveat { margin-top: 1.25rem; font-size: 0.82rem; color: var(--muted); border-left: 2px solid var(--rule); padding-left: 0.8rem; }
+
+/* Prose ------------------------------------------------------------------- */
+
+.prose { max-width: 42rem; }
+.prose h2 { text-transform: none; font-size: 1.1rem; color: var(--ink); margin-top: 2rem; }
+.prose li { margin-bottom: 0.5rem; }
+
+.muted { color: var(--muted); font-size: 0.85rem; }
+.error { color: var(--danger); font-size: 0.9rem; }
+
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: 0.8rem; }
+footer a { color: var(--muted); }

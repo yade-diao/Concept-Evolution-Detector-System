@@ -30,11 +30,15 @@ import { answers, columns, dataset } from './reference'
 /**
  * gisette is 1 000 samples and the port's eigendecomposition is a Jacobi sweep
  * over an n x n matrix: about a minute a window, against nine seconds in NumPy.
- * Its answers are recorded either way, so `CED_SLOW_BENCHMARKS=1 npm test`
- * checks them; the default run skips it rather than spend two minutes proving
- * what the other seven already showed.
+ * Its answers are recorded either way, so `npm run test:slow` checks them; the
+ * default run skips it rather than spend minutes proving what the other seven
+ * already showed.
+ *
+ * The gate is Vite's mode rather than an environment variable because that is
+ * one flag that behaves the same in every shell - including from WSL, where a
+ * variable exported in bash never reaches a Windows `node.exe`.
  */
-const runSlow = process.env.CED_SLOW_BENCHMARKS === '1'
+const runSlow = import.meta.env.MODE === 'slow'
 
 describe('CED-FS on the bundled benchmarks', () => {
   for (const kase of answers.benchmarks) {

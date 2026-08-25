@@ -1,9 +1,13 @@
 # Put the image CI just built on the server.
 #
-# Chained off `backend` rather than off a push, so nothing reaches the server
-# that did not first pass the integration tests and get published to GHCR. The
-# server pulls; this workflow only tells it to, and it never holds the database
-# password or the signing secret - those live in /opt/ced/.env on the host.
+# Chained off the test workflows rather than off a push, so nothing reaches the
+# server that did not first pass its tests. The API arrives as an image the
+# server pulls from GHCR; the frontend is built here and rsynced up, because it
+# is static files and an image for those would be a container that serves what
+# Caddy already serves.
+#
+# This workflow never holds the database password or the signing secret - those
+# live in /opt/ced/.env on the host and are not read from here.
 #
 # Skips itself, loudly but without failing, when the deployment secrets are not
 # configured: a fork, or this repository before a server exists, should not have
@@ -17,7 +21,7 @@ name: deploy
 
 on:
   workflow_run:
-    workflows: [backend]
+    workflows: [backend, frontend]
     types: [completed]
     branches: [main, master]
   workflow_dispatch:
@@ -50,6 +54,23 @@ jobs:
             echo "ready=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - uses: actions/setup-node@v4
+        if: steps.configured.outputs.ready == 'true'
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      # The build copies datasets/bundled into dist, so the page and the files
+      # it fetches end up on one origin - which is what makes CORS a
+      # non-question for this deployment.
+      - name: Build the site
+        if: steps.configured.outputs.ready == 'true'
+        working-directory: frontend
+        run: |
+          npm ci
+          npm run build
+
       - name: Authorise
         if: steps.configured.outputs.ready == 'true'
         env:
@@ -63,14 +84,23 @@ jobs:
           # step hands a key to whatever is on the other end.
           ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      # Only the two files that describe the stack. The server's .env is not
-      # touched, and neither is ./site - the frontend is deployed separately.
+      # Only the two files that describe the stack. The server's .env is never
+      # touched: it holds the only secrets the deployment has.
       - name: Send the compose file and the proxy configuration
         if: steps.configured.outputs.ready == 'true'
         run: |
           rsync -az -e "ssh -i ~/.ssh/id_deploy" \
             deploy/compose.yml deploy/Caddyfile \
             "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/ced/"
+
+      # --delete so a file that left the build leaves the server. site/ holds
+      # nothing but build output, which is what makes deleting safe here.
+      - name: Send the site
+        if: steps.configured.outputs.ready == 'true'
+        run: |
+          rsync -az --delete -e "ssh -i ~/.ssh/id_deploy" \
+            frontend/dist/ \
+            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/ced/site/"
 
       # The remote script arrives on stdin, quoted, so nothing in it is expanded
       # by this runner's shell before it gets there.

@@ -44,10 +44,11 @@ jobs:
       - name: Install
         run: npm ci
 
-      # Type errors are build failures, and `npm run build` needs an entry point
-      # the UI has not grown yet. Until it does, the type check stands alone.
-      - name: Type check
-        run: npx tsc -b
+      # The build is a check in its own right: it type-checks, and it copies the
+      # benchmarks into dist, so a build that succeeds is a site that has the
+      # data it fetches.
+      - name: Build
+        run: npm run build
 
       - name: Port agrees with the Python reference
         run: npm test
