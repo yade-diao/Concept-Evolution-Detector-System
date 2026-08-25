@@ -40,7 +40,7 @@ export interface RunDone {
   bestRandIndex: number
   events: CedFsResult['events']
   /** The decision graph of the last window, for the page to draw. */
-  lastDecisionGraph: { rho: number[]; delta: number[] } | null
+  lastDecisionGraph: { rho: number[]; delta: number[]; centres: number[] } | null
 }
 
 export interface RunFailed {
@@ -81,7 +81,11 @@ self.onmessage = (event: MessageEvent<RunRequest>) => {
       bestRandIndex: result.bestRandIndex,
       events: result.events,
       lastDecisionGraph: finished
-        ? { rho: Array.from(finished.rho), delta: Array.from(finished.delta) }
+        ? {
+            rho: Array.from(finished.rho),
+            delta: Array.from(finished.delta),
+            centres: finished.centres,
+          }
         : null,
     }
     self.postMessage(done)

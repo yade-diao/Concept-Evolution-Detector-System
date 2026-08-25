@@ -30,6 +30,8 @@ export interface WindowResult {
   clusterCount: number
   randIndex: number
   cluster: Int32Array
+  /** Indices of the points chosen as centres, for the decision graph. */
+  centres: number[]
   rho: Float64Array
   delta: Float64Array
   /** The Dice matrix against the previous window; null for the first. */
@@ -142,7 +144,7 @@ export function cedFs(
       block.set(features.subarray(source, source + width), row * width)
     }
 
-    const { cluster, clusterCount, rho, delta } = krDpc(block, samples, width, parameters)
+    const { cluster, clusterCount, centres, rho, delta } = krDpc(block, samples, width, parameters)
     clusterCounts.push(clusterCount)
 
     let similarity: number[][] | null = null
@@ -159,7 +161,7 @@ export function cedFs(
     bestRandIndex = Math.max(bestRandIndex, ri)
 
     const result: WindowResult = {
-      index: i, clusterCount, randIndex: ri, cluster, rho, delta,
+      index: i, clusterCount, randIndex: ri, cluster, centres, rho, delta,
       similarity, events: boundaryEvents,
     }
     windows.push(result)

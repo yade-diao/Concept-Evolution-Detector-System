@@ -17,10 +17,12 @@ export function App() {
     <div className="shell">
       <header>
         <div>
+          <p className="eyebrow">CED-FS · feature stream</p>
           <h1>Concept Evolution Detector</h1>
           <p className="subtitle">
-            CED-FS over a feature stream — clustered in this browser, not on a
-            server.
+            The stream runs along the feature axis: the samples stay, the
+            features arrive. This watches concepts appear, move and disappear as
+            they do — clustered in this browser, not on a server.
           </p>
         </div>
         <nav>

@@ -10,12 +10,14 @@
 import { useState } from 'react'
 
 import { DatasetPicker } from '../components/DatasetPicker'
+import { WindowStrip } from '../components/WindowStrip'
 import { DEFAULTS, ParameterForm } from '../components/ParameterForm'
 import { Results } from '../components/Results'
 import type { CedFsParameters } from '../cedfs/cedFs'
 import { fetchDataset, type FetchProgress } from '../datasets/catalog'
 import type { Dataset, DatasetInfo } from '../datasets/load'
 import { useRun } from '../hooks/useRun'
+import { windowCount } from '../cedfs/cedFs'
 
 export function RunView() {
   const [info, setInfo] = useState<DatasetInfo | null>(null)
@@ -41,10 +43,27 @@ export function RunView() {
     }
   }
 
+  // Known before the run starts: the window count comes from the feature count,
+  // because the stream runs along the feature axis.
+  const features = dataset?.featureCount ?? info?.features ?? 0
+  const windows = features ? windowCount(features, parameters.windowSize) : 0
+  const counts = state.status === 'running' ? state.progress.clusterCounts
+    : state.status === 'done' ? state.result.clusterCounts
+    : []
+
   return (
     <>
+      <WindowStrip
+        total={windows}
+        counts={counts}
+        running={state.status === 'running'}
+        note={info
+          ? `${info.name} · ${parameters.windowSize} columns per window`
+          : 'pick a benchmark to see the shape of the run'}
+      />
+
       <section>
-        <h2>1 · A benchmark</h2>
+        <h2><span className="step">01</span> A benchmark</h2>
         <DatasetPicker selected={info} onSelect={select} disabled={busy} />
         {loading && (
           <p className="muted">
@@ -63,7 +82,7 @@ export function RunView() {
       </section>
 
       <section>
-        <h2>2 · Parameters</h2>
+        <h2><span className="step">02</span> Parameters</h2>
         <ParameterForm
           value={parameters}
           onChange={setParameters}
@@ -73,7 +92,7 @@ export function RunView() {
       </section>
 
       <section>
-        <h2>3 · Run</h2>
+        <h2><span className="step">03</span> Run</h2>
         <div className="actions">
           <button
             type="button"
@@ -88,28 +107,14 @@ export function RunView() {
           )}
         </div>
 
-        {state.status === 'running' && (
-          <div className="progress">
-            <div
-              className="bar"
-              style={{
-                width: state.progress.total
-                  ? `${(state.progress.done / state.progress.total) * 100}%`
-                  : '0%',
-              }}
-            />
-            <span>
-              window {state.progress.done}
-              {state.progress.total ? ` of ${state.progress.total}` : ''}
-              {state.progress.clusterCounts.length > 0 &&
-                ` · ${state.progress.clusterCounts.at(-1)} clusters`}
-            </span>
-          </div>
-        )}
-
         {state.status === 'error' && <p className="error">The run failed: {state.message}</p>}
         {state.status === 'done' && (
-          <Results result={state.result} elapsedMs={state.elapsedMs} />
+          <Results
+            result={state.result}
+            elapsedMs={state.elapsedMs}
+            randIndices={state.progress.randIndices}
+            classes={info?.classes}
+          />
         )}
       </section>
     </>
