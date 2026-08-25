@@ -21,6 +21,21 @@ Any host will do; two that cost a student nothing:
 
 ## Once, on the server
 
+There is a script for this. On a fresh machine, with the domain already
+pointing at it:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/yade-diao/Concept-Evolution-Detector-System/main/deploy/bootstrap.sh | bash -s -- ced.example.com
+```
+
+It installs Docker, fetches `compose.yml` and `Caddyfile`, generates the two
+secrets into `/opt/ced/.env`, checks that the domain really resolves here - a
+certificate request that fails is rate limited - and starts the stack. Running
+it twice is safe: it never regenerates `.env`, which would invalidate every
+issued token and orphan the database.
+
+The same thing by hand:
+
 ```sh
 # Docker, from Docker's own repository rather than the distribution's.
 curl -fsSL https://get.docker.com | sh
