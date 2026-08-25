@@ -35,14 +35,6 @@ Thumbs.db
 *.ipynb_checkpoints/
 
 # ──────────────────────────────────────────────────
-# Generated artefacts
-# ──────────────────────────────────────────────────
-web/static/images/*.png
-web/static/images/*.jpg
-# But keep the directory placeholder
-!web/static/images/.gitkeep
-
-# ──────────────────────────────────────────────────
 # Dataset files
 # ──────────────────────────────────────────────────
 # The eight benchmarks in datasets/bundled are tracked: 23 MB, and having them

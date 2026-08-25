@@ -17,14 +17,12 @@ setup(
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     python_requires=">=3.9",
-    packages=find_packages(exclude=["web", "tests*"]),
+    packages=find_packages(exclude=["tests*"]),
     install_requires=[
         "numpy>=1.24",
         "scipy>=1.10",
         "scikit-learn>=1.3",
         "matplotlib>=3.7",
-        "flask>=3.0",
-        "flask-cors>=4.0",
     ],
     extras_require={
         "dev": ["pytest", "black", "ruff"],

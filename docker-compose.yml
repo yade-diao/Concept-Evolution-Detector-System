@@ -1,23 +1,35 @@
-version: "3.9"
+# The database, for working on the API locally.
+#
+# Only the database. The API runs from your IDE or `./mvnw spring-boot:run` so a
+# restart is a second rather than an image build, and the frontend runs from
+# `npm run dev`, which proxies /api to it. What the server runs is deploy/,
+# which is a different file for a different job.
+#
+#   docker compose up -d
+#   cd backend && CED_JWT_SECRET=$(openssl rand -base64 48) ./mvnw spring-boot:run
+#
+# The credentials here are the defaults the application falls back to in
+# development. They are deliberately boring, and they are not what the
+# deployment uses - deploy/.env holds those and is never committed.
+
+name: ced-dev
 
 services:
-  cedfs:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: concept-evolution-detector:latest
-    container_name: cedfs-app
-    ports:
-      - "8080:8080"        # host:container
-    volumes:
-      # Mount a host directory so generated images persist between restarts
-      - ./output:/app/web/static/images
+  db:
+    image: postgres:16-alpine
     environment:
-      - FLASK_ENV=production
-    restart: unless-stopped
+      POSTGRES_DB: ced
+      POSTGRES_USER: ced
+      POSTGRES_PASSWORD: ced
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/')"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
+      test: ["CMD-SHELL", "pg_isready -U ced -d ced"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db-data:
