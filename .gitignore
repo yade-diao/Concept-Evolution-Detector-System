@@ -67,5 +67,7 @@ backend/target/
 # ──────────────────────────────────────────────────
 node_modules/
 frontend/dist/
+# tsc -b's incremental state, rewritten on every type check.
+*.tsbuildinfo
 deploy/.env
 deploy/site/
