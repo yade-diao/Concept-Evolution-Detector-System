@@ -19,6 +19,7 @@ services:
   db:
     image: postgres:16-alpine
     restart: unless-stopped
+    mem_limit: ${CED_DB_MEMORY:-256m}
     environment:
       POSTGRES_DB: ${CED_DB_NAME:-ced}
       POSTGRES_USER: ${CED_DB_USER:-ced}
@@ -37,6 +38,12 @@ services:
   api:
     image: ghcr.io/${CED_IMAGE_OWNER:-yade-diao}/ced-api:${CED_IMAGE_TAG:-latest}
     restart: unless-stopped
+    # The free tiers worth having are all 1 GiB - Azure's student VMs, and most
+    # of what a small droplet gives you - and three unbounded containers on
+    # 1 GiB is how the OOM killer picks one at random. The JVM sizes its heap
+    # from what it is allowed rather than from the machine, which is what
+    # MaxRAMPercentage in the image reads.
+    mem_limit: ${CED_API_MEMORY:-640m}
     environment:
       CED_DB_URL: jdbc:postgresql://db:5432/${CED_DB_NAME:-ced}
       CED_DB_USER: ${CED_DB_USER:-ced}
@@ -54,6 +61,7 @@ services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
+    mem_limit: ${CED_PROXY_MEMORY:-96m}
     ports:
       - "80:80"
       - "443:443"

@@ -24,6 +24,25 @@ fi
 
 say() { printf '\n\033[1m%s\033[0m\n' "$*"; }
 
+# --- Swap ------------------------------------------------------------------
+# 1 GiB is what the free tiers give you, and the containers are capped to fit
+# it. Swap is the margin for the minute where they all want their peak at once
+# - Flyway migrating while Postgres is warming up - so the kernel pages
+# something out instead of killing the JVM.
+if [ -f /swapfile ] || swapon --show | grep -q .; then
+  say "Swap is already configured"
+else
+  say "Adding 2 GiB of swap"
+  sudo fallocate -l 2G /swapfile || sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile >/dev/null
+  sudo swapon /swapfile
+  grep -q '^/swapfile' /etc/fstab || echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab >/dev/null
+  # Prefer reclaiming to swapping while there is still memory to reclaim.
+  sudo sysctl -q vm.swappiness=10
+  grep -q '^vm.swappiness' /etc/sysctl.conf || echo 'vm.swappiness=10' | sudo tee -a /etc/sysctl.conf >/dev/null
+fi
+
 # --- Docker ----------------------------------------------------------------
 if command -v docker >/dev/null 2>&1; then
   say "Docker is already installed"
