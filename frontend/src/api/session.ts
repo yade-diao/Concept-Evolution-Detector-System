@@ -29,6 +29,8 @@ export interface Session {
   email: string | null
   token: string
   kind: 'account' | 'guest'
+  /** From the server, not the token: revoking a role takes effect at once. */
+  role: 'USER' | 'ADMIN' | 'GUEST'
   /** Epoch milliseconds. */
   expiresAt: number
 }
@@ -94,6 +96,7 @@ export function useSession() {
       const next: Session = {
         email,
         kind: 'account',
+        role: await roleOf(token.accessToken),
         token: token.accessToken,
         expiresAt: Date.now() + token.expiresInSeconds * 1000,
       }
@@ -125,6 +128,7 @@ export function useSession() {
       const next: Session = {
         email: null,
         kind: 'guest',
+        role: 'GUEST',
         token: token.accessToken,
         expiresAt: Date.now() + token.expiresInSeconds * 1000,
       }
@@ -156,6 +160,7 @@ export function useSession() {
       const next: Session = {
         email,
         kind: 'account',
+        role: await roleOf(token.accessToken),
         token: token.accessToken,
         expiresAt: Date.now() + token.expiresInSeconds * 1000,
       }
@@ -179,6 +184,21 @@ export function useSession() {
   }, [])
 
   return { session, busy, error, authenticate, continueAsGuest, claim, signOut }
+}
+
+/**
+ * The role behind a token.
+ *
+ * Asked rather than assumed, and falling back to the ordinary one: a page that
+ * hides the administration link because a request failed is a smaller problem
+ * than a page that refuses to sign anyone in because of it.
+ */
+async function roleOf(token: string): Promise<Session['role']> {
+  try {
+    return (await api.me(token)).role
+  } catch {
+    return 'USER'
+  }
 }
 
 /**

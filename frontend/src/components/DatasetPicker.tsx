@@ -71,10 +71,17 @@ export function DatasetPicker({
                 {info.features.toLocaleString()} features · {info.classes} classes
               </span>
               <span className="meta">
-                <span className={cost.className}>{cost.label}</span>
+                {/* The distinction the whole method rests on, said on the card
+                    rather than buried in a description nobody opens. */}
+                <span className={info.ordered ? 'ordered' : 'unordered'}>
+                  {info.ordered ? 'columns are time' : 'columns unordered'}
+                </span>
                 <span className="muted">
                   {cached[info.slug] ? 'cached' : megabytes(info.sizeBytes)}
                 </span>
+              </span>
+              <span className="meta">
+                <span className={cost.className}>{cost.label}</span>
               </span>
             </button>
           </li>

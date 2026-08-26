@@ -24,6 +24,8 @@
 import { useState } from 'react'
 
 import { EVENT_NAMES, type EventName } from '../cedfs/cedFs'
+import type { DatasetInfo } from '../datasets/load'
+import { chartReadings, overallReading } from '../findings'
 import type { RunDone } from '../worker/cedfs.worker'
 import { Legend, LineChart, Scatter, StackedColumns } from './charts'
 
@@ -35,9 +37,11 @@ const EVENT_COLOUR: Record<EventName, string> = {
   forgetting: 'var(--viz-series-4)',
 }
 
-function Figure({ title, note, children }: {
+function Figure({ title, note, reading, children }: {
   title: string
   note?: string
+  /** What this chart is saying about this run, in one sentence. */
+  reading?: string
   children: React.ReactNode
 }) {
   return (
@@ -47,6 +51,7 @@ function Figure({ title, note, children }: {
         {note && <span>{note}</span>}
       </figcaption>
       {children}
+      {reading && <p className="reading">{reading}</p>}
     </figure>
   )
 }
@@ -83,15 +88,27 @@ function Table({ result, randIndices }: { result: RunDone; randIndices: number[]
 }
 
 export function Results({
-  result, elapsedMs, randIndices, classes,
+  result, elapsedMs, randIndices, info, windowSize,
 }: {
   result: RunDone
   elapsedMs: number
   randIndices: number[]
-  /** The benchmark's true class count, drawn behind the cluster counts. */
-  classes?: number
+  /** What was run on, for the reading; null for a file with no description. */
+  info: DatasetInfo | null
+  windowSize: number
 }) {
   const [showTable, setShowTable] = useState(false)
+
+  const classes = info?.classes
+  const facts = {
+    windowSize,
+    clusterCounts: result.clusterCounts,
+    randIndices,
+    events: result.events,
+    bestRandIndex: result.bestRandIndex,
+  }
+  const said = overallReading(info, facts)
+  const reading = chartReadings(info, facts)
 
   const counts = result.clusterCounts
   const boundaries = result.events.drift.length
@@ -126,9 +143,17 @@ export function Results({
         </dl>
       </div>
 
+      {said.length > 0 && (
+        <section className="reading-block">
+          <h3>What this run found</h3>
+          {said.map((sentence, i) => <p key={i}>{sentence}</p>)}
+        </section>
+      )}
+
       <div className="charts">
         <Figure title="Clusters per window"
-                note={classes ? `the benchmark has ${classes} classes` : undefined}>
+                note={classes ? `${classes} classes in the data` : undefined}
+                reading={reading.clusters}>
           <LineChart
             values={counts}
             yLabel="clusters"
@@ -136,7 +161,8 @@ export function Results({
           />
         </Figure>
 
-        <Figure title="Rand Index per window" note="1.0 is the labelling exactly">
+        <Figure title="Rand Index per window" note="1.0 is the labelling exactly"
+                reading={reading.randIndex}>
           <LineChart
             values={randIndices}
             yLabel="index"
@@ -146,7 +172,8 @@ export function Results({
         </Figure>
 
         <Figure title="Events per boundary"
-                note={boundaries === 0 ? 'one window, so no boundary' : undefined}>
+                note={boundaries === 0 ? 'one window, so no boundary' : undefined}
+                reading={boundaries > 0 ? reading.events : undefined}>
           {boundaries > 0 && (
             <>
               <StackedColumns
@@ -168,7 +195,8 @@ export function Results({
 
         {result.lastDecisionGraph && (
           <Figure title="Decision graph, last window"
-                  note="centres are high in both">
+                  note="centres are high in both"
+                  reading={reading.decision}>
             <Scatter
               x={Array.from(result.lastDecisionGraph.rho)}
               y={Array.from(result.lastDecisionGraph.delta)}

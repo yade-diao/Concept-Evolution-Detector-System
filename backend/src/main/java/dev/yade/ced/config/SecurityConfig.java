@@ -47,9 +47,14 @@ public class SecurityConfig {
                         // Claiming turns the guest you already are into an
                         // account, so it needs the guest's token - it is the one
                         // endpoint under /auth that is not open.
-                        .requestMatchers("/api/v1/auth/claim").authenticated()
+                        .requestMatchers("/api/v1/auth/claim", "/api/v1/auth/me").authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                        // A guest gets the examples and its own runs. Storage
+                        // belongs to accounts: 25 MB for anyone who asks, with
+                        // no address to ask about it, is not an offer this can
+                        // make.
+                        .requestMatchers("/api/v1/datasets/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated())
                 // Answer an unauthenticated request in the same shape as every

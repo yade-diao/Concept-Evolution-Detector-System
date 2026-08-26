@@ -1,6 +1,7 @@
 package dev.yade.ced.common;
 
 import dev.yade.ced.auth.AuthService;
+import dev.yade.ced.datasets.DatasetService;
 import dev.yade.ced.runs.RunService;
 import dev.yade.ced.runs.IllegalRunTransition;
 import java.util.stream.Collectors;
@@ -58,7 +59,8 @@ public class GlobalExceptionHandler {
      * conflict rather than a bad request: the same call would have worked
      * before the account was claimed, or after a run was deleted.
      */
-    @ExceptionHandler({AuthService.NotAGuest.class, RunService.QuotaExceeded.class})
+    @ExceptionHandler({AuthService.NotAGuest.class, RunService.QuotaExceeded.class,
+                       DatasetService.QuotaExceeded.class, DatasetService.NameTaken.class})
     public ResponseEntity<ApiError> onConflictingState(RuntimeException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(e.getMessage()));
     }

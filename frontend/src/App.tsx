@@ -1,20 +1,52 @@
 /**
- * The shell: a title, two pages, and a note about where the computation runs.
+ * The shell, and who is allowed where.
  *
- * Two pages and no more. The tool does one thing - run the detector on a
- * benchmark and show what it found - and the second page is there because the
- * premise of the method is unusual enough that a user who does not read it will
- * misread the result.
+ * Four places, and the role decides which of them exist for you:
+ *
+ * - **The experiment space** is open to everyone, a guest included, because the
+ *   computation is local and there is nothing there to protect. What a guest
+ *   cannot do is bring their own data.
+ * - **The personal space** - your datasets and your runs - needs an account.
+ *   Not as a gate for its own sake: it is storage, and storage has to belong to
+ *   somebody.
+ * - **Accounts** is for an administrator.
+ * - **The method** is prose and needs nobody.
+ *
+ * Someone who reaches a place that is not theirs is sent to the sign-in page
+ * with the reason, rather than to a blank refusal. Being told what to do next is
+ * the difference between a locked door and a wall.
  */
 
-import { NavLink, Route, Routes } from 'react-router-dom'
+import type { ReactNode } from 'react'
+import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
+import { useCurrentSession } from './api/SessionContext'
 import { AccountBar } from './components/AccountBar'
-import { HistoryView } from './views/HistoryView'
+import { AdminView } from './views/AdminView'
 import { MethodView } from './views/MethodView'
 import { RunView } from './views/RunView'
+import { SignInView } from './views/SignInView'
+import { SpaceView } from './views/SpaceView'
+
+function Require({ role, because, children }: {
+  role: 'account' | 'admin'
+  because: string
+  children: ReactNode
+}) {
+  const { session } = useCurrentSession()
+  const location = useLocation()
+
+  const allowed = role === 'admin'
+    ? session?.role === 'ADMIN'
+    : session?.kind === 'account'
+
+  if (allowed) return <>{children}</>
+  return <Navigate to="/signin" replace state={{ from: location.pathname, because }} />
+}
 
 export function App() {
+  const { session } = useCurrentSession()
+
   return (
     <div className="shell">
       <header>
@@ -29,8 +61,9 @@ export function App() {
         </div>
         <div className="header-side">
           <nav>
-            <NavLink to="/" end>Run</NavLink>
-            <NavLink to="/history">Saved runs</NavLink>
+            <NavLink to="/" end>Experiment</NavLink>
+            {session?.kind === 'account' && <NavLink to="/space">My space</NavLink>}
+            {session?.role === 'ADMIN' && <NavLink to="/admin">Accounts</NavLink>}
             <NavLink to="/method">Method</NavLink>
           </nav>
           <AccountBar />
@@ -40,9 +73,26 @@ export function App() {
       <main>
         <Routes>
           <Route path="/" element={<RunView />} />
-          <Route path="/history" element={<HistoryView />} />
+          <Route path="/signin" element={<SignInView />} />
+          <Route
+            path="/space"
+            element={(
+              <Require role="account"
+                       because="Your own datasets and your run history need an account.">
+                <SpaceView />
+              </Require>
+            )}
+          />
+          <Route
+            path="/admin"
+            element={(
+              <Require role="admin" because="That page is for administrators.">
+                <AdminView />
+              </Require>
+            )}
+          />
           <Route path="/method" element={<MethodView />} />
-          <Route path="*" element={<RunView />} />
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
 

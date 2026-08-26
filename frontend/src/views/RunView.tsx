@@ -8,6 +8,7 @@
  */
 
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { DatasetPicker } from '../components/DatasetPicker'
 import { WindowStrip } from '../components/WindowStrip'
@@ -18,6 +19,8 @@ import { fetchDataset, type FetchProgress } from '../datasets/catalog'
 import type { Dataset, DatasetInfo } from '../datasets/load'
 import { useRun } from '../hooks/useRun'
 import { useRunRecord } from '../hooks/useRunRecord'
+import { datasetNote, windowSpan } from '../findings'
+import { listLocal, toDataset, toInfo, type LocalDataset } from '../datasets/mine'
 import { useCurrentSession } from '../api/SessionContext'
 import { windowCount } from '../cedfs/cedFs'
 
@@ -27,6 +30,7 @@ export function RunView() {
   const [loading, setLoading] = useState<FetchProgress | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [parameters, setParameters] = useState<CedFsParameters>(DEFAULTS)
+  const [mine, setMine] = useState<LocalDataset[]>([])
   const { state, start, cancel } = useRun()
   const { session } = useCurrentSession()
   const record = useRunRecord(session?.token ?? null)
@@ -67,6 +71,18 @@ export function RunView() {
   // because the stream runs along the feature axis.
   const features = dataset?.featureCount ?? info?.features ?? 0
   const windows = features ? windowCount(features, parameters.windowSize) : 0
+  // The datasets in this browser, which a guest has none of - they cannot add
+  // one - and an account may have several.
+  useEffect(() => { void listLocal().then(setMine) }, [session])
+
+  function selectLocal(local: LocalDataset) {
+    setLoadError(null)
+    setLoading(null)
+    setInfo(toInfo(local))
+    setDataset(toDataset(local))
+  }
+
+  const note = datasetNote(info)
   const counts = state.status === 'running' ? state.progress.clusterCounts
     : state.status === 'done' ? state.result.clusterCounts
     : []
@@ -78,7 +94,7 @@ export function RunView() {
         counts={counts}
         running={state.status === 'running'}
         note={info
-          ? `${info.name} · ${parameters.windowSize} columns per window`
+          ? `${info.name} · one window is ${windowSpan(info, parameters.windowSize)}`
           : 'pick a benchmark to see the shape of the run'}
       />
 
@@ -93,11 +109,59 @@ export function RunView() {
           </p>
         )}
         {loadError && <p className="error">{loadError}</p>}
-        {dataset && !loading && (
-          <p className="muted">
-            {dataset.samples.toLocaleString()} samples ×{' '}
-            {dataset.featureCount.toLocaleString()} features, scaled into [0, 1].
+
+        {session?.kind === 'account' ? (
+          <div className="mine">
+            <h3 className="sub">Your datasets</h3>
+            {mine.length === 0 ? (
+              <p className="muted">
+                None in this browser yet. <Link to="/space">Add a file</Link> — it is
+                read here and never uploaded unless you ask.
+              </p>
+            ) : (
+              <ul className="datasets">
+                {mine.map((local) => (
+                  <li key={local.id}>
+                    <button type="button" disabled={busy}
+                            className={info?.slug === `mine:${local.id}` ? 'dataset selected' : 'dataset'}
+                            onClick={() => selectLocal(local)}>
+                      <span className="name">{local.name}</span>
+                      <span className="shape">
+                        {local.samples.toLocaleString()} samples ×{' '}
+                        {local.featureCount.toLocaleString()} features · {local.classes} classes
+                      </span>
+                      <span className="meta">
+                        <span className="muted">yours</span>
+                        <span className="muted">{local.remoteId ? 'uploaded' : 'this browser'}</span>
+                      </span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        ) : (
+          // A guest is told what the wall is and where the door is, rather than
+          // being shown a control that does nothing.
+          <p className="locked">
+            Running your own data needs an account. Everything else here — the
+            detector, the charts, the readings — works exactly the same as a
+            guest. <Link to="/signin">Create one</Link> and your files stay in
+            your browser until you choose to upload them.
           </p>
+        )}
+        {note && (
+          <div className="dataset-note">
+            <p>{note.what}</p>
+            <p className="why">{note.why}</p>
+            {dataset && !loading && (
+              <p className="muted">
+                {dataset.samples.toLocaleString()} samples ×{' '}
+                {dataset.featureCount.toLocaleString()} features, scaled into [0, 1]
+                {info?.source ? ` · ${info.source}` : ''}
+              </p>
+            )}
+          </div>
         )}
       </section>
 
@@ -141,7 +205,8 @@ export function RunView() {
             result={state.result}
             elapsedMs={state.elapsedMs}
             randIndices={state.progress.randIndices}
-            classes={info?.classes}
+            info={info}
+            windowSize={parameters.windowSize}
           />
         )}
       </section>

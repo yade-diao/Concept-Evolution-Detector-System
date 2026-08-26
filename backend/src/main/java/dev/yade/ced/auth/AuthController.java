@@ -40,6 +40,12 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.CREATED).body(auth.guest());
     }
 
+    /** Who this token names, and what it may do. */
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public AuthDtos.Me me(@AuthenticationPrincipal User me) {
+        return new AuthDtos.Me(me.getId(), me.displayName(), me.getRole(), me.getExpiresAt());
+    }
+
     /** Keep what this guest already ran, under an account that stays. */
     @PostMapping("/claim")
     public AuthDtos.Token claim(@AuthenticationPrincipal User me,

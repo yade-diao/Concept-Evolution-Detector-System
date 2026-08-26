@@ -50,6 +50,44 @@ export interface RunView extends RunSummary {
   error?: string
 }
 
+/** A dataset the account keeps on the server. */
+export interface StoredDataset {
+  id: string
+  name: string
+  samples: number
+  features: number
+  classes: number
+  sizeBytes: number
+  createdAt: string
+}
+
+export interface DatasetContent extends Omit<StoredDataset, 'sizeBytes' | 'createdAt'> {
+  features64: string
+  labels64: string
+}
+
+export interface StorageUsage {
+  usedBytes: number
+  quotaBytes: number
+  datasets: number
+}
+
+export interface Me {
+  id: string
+  name: string
+  role: 'USER' | 'ADMIN' | 'GUEST'
+  expiresAt?: string
+}
+
+export interface AccountRow {
+  id: string
+  name: string
+  role: 'USER' | 'ADMIN' | 'GUEST'
+  runs: number
+  createdAt: string
+  expiresAt?: string
+}
+
 export class ApiError extends Error {
   constructor(readonly status: number, message: string) {
     super(message)
@@ -106,6 +144,9 @@ export const api = {
   /** A session with no account behind it, for this tab. */
   guest: () => request<Token>('/auth/guest', { method: 'POST' }),
 
+  /** Who this token names, and what it may do. */
+  me: (token: string) => request<Me>('/auth/me', { token }),
+
   /** Keep a guest's runs under an account that stays. */
   claim: (token: string, email: string, password: string) =>
     request<Token>('/auth/claim', { token, method: 'POST', body: { email, password } }),
@@ -136,4 +177,32 @@ export const api = {
 
   deleteRun: (token: string, id: string) =>
     request<void>(`/runs/${id}`, { token, method: 'DELETE' }),
+
+  // ── Datasets an account keeps ────────────────────────────────────────────
+
+  listDatasets: (token: string) => request<StoredDataset[]>('/datasets', { token }),
+
+  storageUsage: (token: string) => request<StorageUsage>('/datasets/usage', { token }),
+
+  uploadDataset: (token: string, body: {
+    name: string
+    samples: number
+    features: number
+    classes: number
+    features64: string
+    labels64: string
+  }) => request<StoredDataset>('/datasets', { token, method: 'POST', body }),
+
+  getDataset: (token: string, id: string) =>
+    request<DatasetContent>(`/datasets/${id}`, { token }),
+
+  deleteDataset: (token: string, id: string) =>
+    request<void>(`/datasets/${id}`, { token, method: 'DELETE' }),
+
+  // ── Administration ───────────────────────────────────────────────────────
+
+  listAccounts: (token: string) => request<AccountRow[]>('/admin/users', { token }),
+
+  deleteAccount: (token: string, id: string) =>
+    request<void>(`/admin/users/${id}`, { token, method: 'DELETE' }),
 }

@@ -40,6 +40,17 @@ public final class AuthDtos {
     }
 
     /**
+     * Who the token names.
+     *
+     * The role is not in the token, so a client that wants to know whether to
+     * show an administration link has to ask - which is the same reason it is
+     * not in the token: the answer comes from the row, and revoking it takes
+     * effect immediately.
+     */
+    public record Me(java.util.UUID id, String name, Role role, java.time.Instant expiresAt) {
+    }
+
+    /**
      * `expiresInSeconds` so a client can refresh before a request fails rather
      * than by discovering a 401. The token's own exp claim says the same thing,
      * but reading it means parsing a token the client is not supposed to inspect.

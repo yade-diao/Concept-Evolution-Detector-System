@@ -25,6 +25,25 @@ export interface DatasetInfo {
   /** Where the browser downloads it from, when it is not already cached. */
   sourceUrl?: string
   sizeBytes?: number
+
+  /**
+   * Whether column t was measured before column t+1.
+   *
+   * The one fact that decides whether a result means what it appears to. In an
+   * ordered stream a window is a moment and a change between windows is concept
+   * evolution; in an unordered matrix the same numbers describe an arrival
+   * order the data never had.
+   */
+  ordered?: boolean
+  /** What one column is measured in - 'ms', 'min' - when there is an order. */
+  unit?: string
+  /** How many of that unit one column covers. */
+  perColumn?: number
+  /** What a row and a column are, in the subject's own terms. */
+  what?: string
+  /** Why this dataset is worth running, or what to distrust about it. */
+  why?: string
+  source?: string
 }
 
 export interface Dataset {
