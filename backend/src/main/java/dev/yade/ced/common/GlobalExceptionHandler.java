@@ -49,6 +49,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ApiError.of(e.getMessage()));
     }
 
+    @ExceptionHandler(AuthService.InvalidCode.class)
+    public ResponseEntity<ApiError> onInvalidCode(AuthService.InvalidCode e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiError.of(e.getMessage()));
+    }
+
     @ExceptionHandler(AuthService.InvalidCredentials.class)
     public ResponseEntity<ApiError> onBadCredentials(AuthService.InvalidCredentials e) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ApiError.of(e.getMessage()));

@@ -22,6 +22,7 @@ import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { useCurrentSession } from './api/SessionContext'
 import { AccountBar } from './components/AccountBar'
+import { Feedback } from './components/Feedback'
 import { AdminView } from './views/AdminView'
 import { MethodView } from './views/MethodView'
 import { RunView } from './views/RunView'
@@ -100,6 +101,7 @@ export function App() {
         <a href="https://github.com/yade-diao/Concept-Evolution-Detector-System">
           Source, and the tests that hold this port to the Python reference
         </a>
+        <Feedback />
       </footer>
     </div>
   )

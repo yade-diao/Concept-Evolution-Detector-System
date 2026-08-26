@@ -50,16 +50,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
-		<!--
-			Mail submission, for verification codes. The starter rather than
-			jakarta.mail alone: it brings the Angus implementation and the
-			session plumbing. The deployment relays through port 587, because
-			Azure blocks outbound 25 on every virtual machine.
-		-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webmvc</artifactId>

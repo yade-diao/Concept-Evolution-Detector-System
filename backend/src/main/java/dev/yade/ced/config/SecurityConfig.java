@@ -49,6 +49,11 @@ public class SecurityConfig {
                         // endpoint under /auth that is not open.
                         .requestMatchers("/api/v1/auth/claim", "/api/v1/auth/me").authenticated()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        // Anyone may report something. Requiring an account
+                        // first is how you stop hearing about what is broken -
+                        // and the reader of these is an administrator either way.
+                        .requestMatchers(org.springframework.http.HttpMethod.POST,
+                                "/api/v1/feedback").permitAll()
                         .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         // A guest gets the examples and its own runs. Storage
                         // belongs to accounts: 25 MB for anyone who asks, with

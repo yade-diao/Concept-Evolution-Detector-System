@@ -52,13 +52,47 @@ abstract class ApiTestBase {
         token = registerFresh().accessToken();
     }
 
-    /** A user nobody else in the suite shares, so tests cannot see each other's runs. */
+    /**
+     * A user nobody else in the suite shares, so tests cannot see each other's
+     * runs.
+     *
+     * Registration answers with a token when no mail relay is configured, which
+     * is the case for the suite, and with a code in flight when one is. This
+     * asserts the former: a test that silently got the latter would fail later
+     * and further away.
+     */
     protected Token registerFresh() {
         String email = "u-" + UUID.randomUUID() + "@example.com";
-        ResponseEntity<Token> response = http.postForEntity("/api/v1/auth/register",
-                Map.of("email", email, "password", "correct-horse-battery"), Token.class);
+        ResponseEntity<Map> response = http.postForEntity("/api/v1/auth/register",
+                Map.of("email", email, "password", "correct-horse-battery"), Map.class);
+
+        // 202 means a code is in flight, which only happens where a relay is
+        // configured. A test class that arranges one says how to read it.
+        if (response.getStatusCode().value() == 202) {
+            return completeWithCode(email);
+        }
         assertThat(response.getStatusCode().value()).isEqualTo(201);
-        return response.getBody();
+        return tokenIn(response.getBody());
+    }
+
+    /**
+     * Finish a registration that answered with a code.
+     *
+     * Unsupported by default: in a context with no relay this branch is
+     * unreachable, and a base class that guessed at the code would be guessing.
+     */
+    protected Token completeWithCode(String email) {
+        throw new UnsupportedOperationException(
+                "Registration asked for a code, but this test has no way to read one. "
+                        + "Override completeWithCode.");
+    }
+
+    @SuppressWarnings("unchecked")
+    protected static Token tokenIn(Map<String, Object> registration) {
+        Map<String, Object> token = (Map<String, Object>) registration.get("token");
+        assertThat(token).as("registration answered with a token").isNotNull();
+        return new Token((String) token.get("accessToken"), (String) token.get("tokenType"),
+                ((Number) token.get("expiresInSeconds")).longValue());
     }
 
     protected <T> ResponseEntity<T> as(String bearer, HttpMethod method, String path,
@@ -139,8 +173,11 @@ abstract class ApiTestBase {
         // "already registered, sign in" it actually is.
         ResponseEntity<Map> registered =
                 http.postForEntity("/api/v1/auth/register", credentials, Map.class);
+        if (registered.getStatusCode().value() == 202) {
+            return completeWithCode("admin@example.com").accessToken();
+        }
         if (registered.getStatusCode().value() == 201) {
-            return (String) registered.getBody().get("accessToken");
+            return tokenIn(registered.getBody()).accessToken();
         }
         return http.postForEntity("/api/v1/auth/login", credentials, Token.class)
                 .getBody().accessToken();

@@ -3,6 +3,9 @@ package dev.yade.ced.admin;
 import dev.yade.ced.auth.User;
 import dev.yade.ced.auth.UserRepository;
 import dev.yade.ced.common.GlobalExceptionHandler.NotFound;
+import dev.yade.ced.mail.MailLog;
+import dev.yade.ced.mail.MailLogRepository;
+import dev.yade.ced.mail.MailSender;
 import dev.yade.ced.runs.RunRepository;
 import java.util.List;
 import java.util.UUID;
@@ -33,10 +36,45 @@ public class AdminController {
 
     private final UserRepository users;
     private final RunRepository runs;
+    private final MailLogRepository mailLog;
+    private final MailSender mail;
 
-    public AdminController(UserRepository users, RunRepository runs) {
+    public AdminController(UserRepository users, RunRepository runs,
+                           MailLogRepository mailLog, MailSender mail) {
         this.users = users;
         this.runs = runs;
+        this.mailLog = mailLog;
+        this.mail = mail;
+    }
+
+    /**
+     * What the server tried to send, and whether it went.
+     *
+     * The only place that can answer "why did my code not arrive": whether it
+     * was generated, which address it went to, and what the relay said. The body
+     * is not stored, so this is not a way to read anybody's code.
+     */
+    @GetMapping("/mail")
+    public MailOverview mail(@RequestParam(defaultValue = "50") int size) {
+        List<MailRow> rows = mailLog
+                .findAllByOrderByCreatedAtDesc(PageRequest.of(0, Math.clamp(size, 1, 500)))
+                .stream().map(MailRow::of).toList();
+        return new MailOverview(mail.canDeliver(), rows);
+    }
+
+    /**
+     * `relayConfigured` so the page can say why nothing is being delivered,
+     * rather than showing an empty list and letting the reader guess.
+     */
+    public record MailOverview(boolean relayConfigured, List<MailRow> sent) {
+    }
+
+    public record MailRow(java.util.UUID id, String recipient, String subject,
+                          boolean delivered, String detail, java.time.Instant createdAt) {
+        static MailRow of(MailLog entry) {
+            return new MailRow(entry.getId(), entry.getRecipient(), entry.getSubject(),
+                    entry.isDelivered(), entry.getDetail(), entry.getCreatedAt());
+        }
     }
 
     @GetMapping("/users")

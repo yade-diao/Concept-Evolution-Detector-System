@@ -1,7 +1,10 @@
 package dev.yade.ced.auth;
 
+import dev.yade.ced.mail.MailSender;
+import java.security.SecureRandom;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,35 +14,132 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthService {
 
+    private static final SecureRandom RANDOM = new SecureRandom();
+
     private final UserRepository users;
+    private final PendingRegistrationRepository pending;
     private final PasswordEncoder encoder;
     private final JwtService jwt;
+    private final MailSender mail;
     private final Duration guestLifetime;
+    private final Duration codeLifetime;
     private final String adminEmail;
 
-    public AuthService(UserRepository users, PasswordEncoder encoder, JwtService jwt,
-                       @Value("${ced.guest.lifetime:P7D}") Duration guestLifetime,
+    public AuthService(UserRepository users, PendingRegistrationRepository pending,
+                       PasswordEncoder encoder, JwtService jwt, MailSender mail,
+                       @Value("${ced.guest.lifetime:P1D}") Duration guestLifetime,
+                       @Value("${ced.mail.code-lifetime:PT15M}") Duration codeLifetime,
                        @Value("${ced.admin-email:}") String adminEmail) {
         this.users = users;
+        this.pending = pending;
         this.encoder = encoder;
         this.jwt = jwt;
+        this.mail = mail;
         this.guestLifetime = guestLifetime;
+        this.codeLifetime = codeLifetime;
         this.adminEmail = adminEmail;
     }
 
+    /**
+     * Whether an address has to be confirmed before it becomes an account.
+     *
+     * Tied to whether a relay is configured, because the alternative is worse in
+     * both directions: demanding a code from a deployment that cannot send one
+     * makes registration impossible, and skipping the code when it could have
+     * been sent gives away the only thing verification buys.
+     */
+    public boolean verificationRequired() {
+        return mail.canDeliver();
+    }
+
+    /**
+     * Start a registration.
+     *
+     * With a relay configured this creates nothing an attacker can use: a
+     * pending row and a six-digit code sent to the address. Without one, the
+     * account is created immediately and a token returned, because a deployment
+     * that cannot send mail must not have a sign-up that cannot be completed.
+     */
     @Transactional
-    public AuthDtos.Token register(AuthDtos.Register request) {
+    public AuthDtos.Registration register(AuthDtos.Register request) {
         if (users.existsByEmailIgnoreCase(request.email())) {
             throw new EmailAlreadyRegistered();
         }
+
         Instant now = Instant.now();
-        User user = users.save(User.registered(
-                UUID.randomUUID(),
-                request.email(),
-                encoder.encode(request.password()),
-                isConfiguredAdmin(request.email()) ? Role.ADMIN : Role.USER,
-                now));
-        return AuthDtos.Token.bearer(jwt.issue(user.getId(), now), jwt.lifetimeSeconds());
+        if (!verificationRequired()) {
+            User user = createAccount(request.email(), encoder.encode(request.password()), now);
+            return AuthDtos.Registration.signedIn(
+                    AuthDtos.Token.bearer(jwt.issue(user.getId(), now), jwt.lifetimeSeconds()));
+        }
+
+        String code = newCode();
+        PendingRegistration row = pending.findByEmailIgnoreCase(request.email()).orElse(null);
+        if (row == null) {
+            row = PendingRegistration.of(request.email(), encoder.encode(request.password()),
+                    code, now, codeLifetime);
+        } else {
+            // Asking again replaces the code rather than adding one: two live
+            // codes for one address is two chances to guess.
+            row.reissue(code, now, codeLifetime);
+        }
+        pending.save(row);
+
+        mail.send(request.email(), "Your code for the Concept Evolution Detector",
+                ("Your verification code is %s.\n\nIt is good for %d minutes. If you did not ask "
+                 + "for it, nothing has been created and you can ignore this.")
+                        .formatted(code, codeLifetime.toMinutes()));
+
+        return AuthDtos.Registration.awaitingCode(request.email(), codeLifetime.toSeconds());
+    }
+
+    /**
+     * Finish a registration with the code that was sent.
+     *
+     * A wrong code counts against a small budget and the same answer is given
+     * for wrong, expired and never-existed - the caller has the same thing to do
+     * about all three, and distinguishing them says whether an address has a
+     * registration in flight.
+     *
+     * Returns empty rather than throwing, and that is not a style choice: an
+     * exception thrown from inside the transaction rolls back the attempt it was
+     * counting, so the budget silently became infinite. The caller turns the
+     * empty into the 401.
+     */
+    @Transactional
+    public Optional<AuthDtos.Token> verify(AuthDtos.Verify request) {
+        Instant now = Instant.now();
+        var found = pending.findByEmailIgnoreCase(request.email());
+        if (found.isEmpty()) return Optional.empty();
+
+        PendingRegistration row = found.get();
+        if (row.isExpired(now) || row.isExhausted()) {
+            pending.delete(row);
+            return Optional.empty();
+        }
+        if (!row.matches(request.code())) {
+            row.recordAttempt();
+            pending.save(row);
+            return Optional.empty();
+        }
+
+        pending.delete(row);
+        if (users.existsByEmailIgnoreCase(row.getEmail())) {
+            throw new EmailAlreadyRegistered();
+        }
+        User user = createAccount(row.getEmail(), row.getPasswordHash(), now);
+        return Optional.of(AuthDtos.Token.bearer(jwt.issue(user.getId(), now),
+                jwt.lifetimeSeconds()));
+    }
+
+    private User createAccount(String email, String passwordHash, Instant now) {
+        return users.save(User.registered(UUID.randomUUID(), email, passwordHash,
+                isConfiguredAdmin(email) ? Role.ADMIN : Role.USER, now));
+    }
+
+    /** Six digits, from a source that is not predictable from the last one. */
+    private static String newCode() {
+        return String.format("%06d", RANDOM.nextInt(1_000_000));
     }
 
     /**
@@ -141,6 +241,12 @@ public class AuthService {
     public static class InvalidCredentials extends RuntimeException {
         public InvalidCredentials() {
             super("Email or password is incorrect.");
+        }
+    }
+
+    public static class InvalidCode extends RuntimeException {
+        public InvalidCode() {
+            super("That code is wrong or has expired. Ask for another one.");
         }
     }
 

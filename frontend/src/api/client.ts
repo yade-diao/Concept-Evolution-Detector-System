@@ -72,6 +72,42 @@ export interface StorageUsage {
   datasets: number
 }
 
+/**
+ * What a registration answered.
+ *
+ * One of the two halves is filled: a token when the account exists, or the
+ * address a code was just sent to. Which one depends on whether the deployment
+ * has a mail relay - a server that cannot send mail must not have a sign-up
+ * nobody can finish.
+ */
+export interface Registration {
+  token?: Token
+  awaitingCodeFor?: string
+  codeExpiresInSeconds?: number
+}
+
+export interface MailOverview {
+  relayConfigured: boolean
+  sent: Array<{
+    id: string
+    recipient: string
+    subject: string
+    delivered: boolean
+    detail?: string
+    createdAt: string
+  }>
+}
+
+export interface FeedbackMessage {
+  id: string
+  from?: string
+  replyTo?: string
+  subject: string
+  body: string
+  readAt?: string
+  createdAt: string
+}
+
 export interface Me {
   id: string
   name: string
@@ -136,7 +172,11 @@ async function request<T>(
 
 export const api = {
   register: (email: string, password: string) =>
-    request<Token>('/auth/register', { method: 'POST', body: { email, password } }),
+    request<Registration>('/auth/register', { method: 'POST', body: { email, password } }),
+
+  /** Finish a registration with the code that was mailed. */
+  verify: (email: string, code: string) =>
+    request<Token>('/auth/verify', { method: 'POST', body: { email, code } }),
 
   login: (email: string, password: string) =>
     request<Token>('/auth/login', { method: 'POST', body: { email, password } }),
@@ -202,6 +242,23 @@ export const api = {
   // ── Administration ───────────────────────────────────────────────────────
 
   listAccounts: (token: string) => request<AccountRow[]>('/admin/users', { token }),
+
+  sendFeedback: (token: string | null, body: {
+    replyTo?: string
+    subject: string
+    body: string
+  }) => request<void>('/feedback', { token, method: 'POST', body }),
+
+  listMessages: (token: string) =>
+    request<FeedbackMessage[]>('/admin/messages', { token }),
+
+  markMessageRead: (token: string, id: string) =>
+    request<FeedbackMessage>(`/admin/messages/${id}/read`, { token, method: 'PATCH' }),
+
+  deleteMessage: (token: string, id: string) =>
+    request<void>(`/admin/messages/${id}`, { token, method: 'DELETE' }),
+
+  mailOverview: (token: string) => request<MailOverview>('/admin/mail', { token }),
 
   deleteAccount: (token: string, id: string) =>
     request<void>(`/admin/users/${id}`, { token, method: 'DELETE' }),

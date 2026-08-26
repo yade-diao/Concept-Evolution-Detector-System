@@ -83,7 +83,7 @@ class AccessApiTest extends ApiTestBase {
     void claiming_with_an_address_that_is_taken_is_refused() {
         String email = "taken-" + UUID.randomUUID() + "@example.com";
         http.postForEntity("/api/v1/auth/register",
-                Map.of("email", email, "password", "correct-horse-battery"), Token.class);
+                Map.of("email", email, "password", "correct-horse-battery"), Map.class);
 
         ResponseEntity<Map> refused = as(guestToken(), HttpMethod.POST, "/api/v1/auth/claim",
                 Map.of("email", email, "password", "correct-horse-battery"), Map.class);

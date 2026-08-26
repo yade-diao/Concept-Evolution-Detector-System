@@ -16,6 +16,7 @@
  */
 
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import { useCurrentSession } from '../api/SessionContext'
 
@@ -31,7 +32,7 @@ export function AccountBar() {
   async function submit(action: 'login' | 'register' | 'claim') {
     const done = action === 'claim'
       ? await claim(email.trim(), password)
-      : await authenticate(action, email.trim(), password)
+      : await authenticate(action, email.trim(), password) === 'signed-in'
     if (done) {
       setForm('none')
       setPassword('')
@@ -69,9 +70,9 @@ export function AccountBar() {
             <button type="submit" className="primary" disabled={busy}>
               {busy ? 'Signing in…' : 'Sign in'}
             </button>
-            <button type="button" disabled={busy} onClick={() => void submit('register')}>
-              Create account
-            </button>
+            {/* Creating an account can need a mailed code, which needs room to
+                type it in - so that path goes to the page built for it. */}
+            <Link className="button-link" to="/signin">Create account</Link>
           </>
         )}
 

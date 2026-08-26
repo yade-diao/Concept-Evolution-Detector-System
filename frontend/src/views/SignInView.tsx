@@ -14,20 +14,62 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useCurrentSession } from '../api/SessionContext'
 
 export function SignInView() {
-  const { session, busy, error, authenticate, continueAsGuest } = useCurrentSession()
+  const { session, busy, error, authenticate, confirm, continueAsGuest } = useCurrentSession()
   const navigate = useNavigate()
   const location = useLocation() as { state?: { from?: string; because?: string } }
   const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  // Set once the server says it mailed a code instead of creating an account.
+  const [awaitingCode, setAwaitingCode] = useState(false)
+  const [code, setCode] = useState('')
 
   if (session) return <Navigate to={location.state?.from ?? '/'} replace />
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
-    if (await authenticate(mode, email.trim(), password)) {
+    const outcome = await authenticate(mode, email.trim(), password)
+    if (outcome === 'signed-in') navigate(location.state?.from ?? '/', { replace: true })
+    if (outcome === 'awaiting-code') setAwaitingCode(true)
+  }
+
+  async function submitCode(event: React.FormEvent) {
+    event.preventDefault()
+    if (await confirm(email.trim(), code.trim())) {
       navigate(location.state?.from ?? '/', { replace: true })
     }
+  }
+
+  if (awaitingCode) {
+    return (
+      <div className="signin-page">
+        <div className="signin-card">
+          <h2>Check your email</h2>
+          <p>
+            A six-digit code is on its way to <strong>{email}</strong>. It is
+            good for fifteen minutes, and nothing has been created yet — the
+            account exists once the code is in.
+          </p>
+          <form onSubmit={submitCode}>
+            <label>
+              <span>Code</span>
+              <input value={code} required inputMode="numeric" pattern="[0-9]{6}"
+                     maxLength={6} autoComplete="one-time-code"
+                     onChange={(e) => setCode(e.target.value)} />
+            </label>
+            {error && <p className="error">{error}</p>}
+            <button type="submit" className="primary" disabled={busy}>
+              {busy ? 'Checking…' : 'Create my account'}
+            </button>
+          </form>
+          <p className="what-you-get">
+            Nothing arrived? Five wrong codes end the attempt, so start again
+            rather than guessing — <button type="button" className="ghost"
+            onClick={() => { setAwaitingCode(false); setCode('') }}>go back</button>.
+          </p>
+        </div>
+      </div>
+    )
   }
 
   return (

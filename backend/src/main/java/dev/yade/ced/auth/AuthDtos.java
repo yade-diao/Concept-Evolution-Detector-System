@@ -21,6 +21,29 @@ public final class AuthDtos {
             @NotBlank @Size(min = 12, max = 200) String password) {
     }
 
+    public record Verify(
+            @NotBlank @Email @Size(max = 320) String email,
+            @NotBlank @Size(min = 6, max = 6) String code) {
+    }
+
+    /**
+     * What a registration returns, which depends on whether a code was sent.
+     *
+     * One shape with one of two halves filled, rather than two endpoints or two
+     * status codes a client has to branch on twice: the client asks "do I have a
+     * token or do I need a code", which is exactly what this says.
+     */
+    public record Registration(Token token, String awaitingCodeFor, Long codeExpiresInSeconds) {
+
+        public static Registration signedIn(Token token) {
+            return new Registration(token, null, null);
+        }
+
+        public static Registration awaitingCode(String email, long seconds) {
+            return new Registration(null, email, seconds);
+        }
+    }
+
     public record Login(
             @NotBlank @Size(max = 320) String email,
             @NotBlank @Size(max = 200) String password) {

@@ -25,9 +25,11 @@ public class GuestPurge {
     private static final Logger log = LoggerFactory.getLogger(GuestPurge.class);
 
     private final UserRepository users;
+    private final PendingRegistrationRepository pending;
 
-    public GuestPurge(UserRepository users) {
+    public GuestPurge(UserRepository users, PendingRegistrationRepository pending) {
         this.users = users;
+        this.pending = pending;
     }
 
     /**
@@ -37,9 +39,16 @@ public class GuestPurge {
     @Scheduled(initialDelay = 5 * 60 * 1000, fixedDelay = 60 * 60 * 1000)
     @Transactional
     public void purge() {
-        int deleted = users.deleteExpired(Instant.now());
-        if (deleted > 0) {
-            log.info("Deleted {} expired guest account(s) and the runs they owned.", deleted);
+        Instant now = Instant.now();
+        int guests = users.deleteExpired(now);
+        if (guests > 0) {
+            log.info("Deleted {} expired guest account(s) and the runs they owned.", guests);
+        }
+        // Codes nobody used. Nothing refers to them once they expire, and a
+        // table of dead codes for real addresses is worth not keeping.
+        int codes = pending.deleteExpired(now);
+        if (codes > 0) {
+            log.info("Deleted {} expired verification code(s).", codes);
         }
     }
 }

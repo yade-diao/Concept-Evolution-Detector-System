@@ -84,15 +84,55 @@ export function useSession() {
     return () => clearTimeout(timer)
   }, [session])
 
+  /**
+   * Sign in, or start a registration.
+   *
+   * Returns 'awaiting-code' when the server sent one instead of an account:
+   * the caller then collects six digits and calls confirm().
+   */
   const authenticate = useCallback(async (
     kind: 'login' | 'register', email: string, password: string,
-  ) => {
+  ): Promise<'signed-in' | 'awaiting-code' | 'failed'> => {
     setBusy(true)
     setError(null)
     try {
-      const token = await (kind === 'login'
-        ? api.login(email, password)
-        : api.register(email, password))
+      let token
+      if (kind === 'login') {
+        token = await api.login(email, password)
+      } else {
+        const registration = await api.register(email, password)
+        if (!registration.token) {
+          setBusy(false)
+          return 'awaiting-code'
+        }
+        token = registration.token
+      }
+      const next: Session = {
+        email,
+        kind: 'account',
+        role: await roleOf(token.accessToken),
+        token: token.accessToken,
+        expiresAt: Date.now() + token.expiresInSeconds * 1000,
+      }
+      setSession(next)
+      write(next)
+      return 'signed-in'
+    } catch (cause) {
+      setError(cause instanceof ApiError
+        ? describe(kind, cause)
+        : 'something went wrong signing in')
+      return 'failed'
+    } finally {
+      setBusy(false)
+    }
+  }, [])
+
+  /** Finish a registration with the six digits that were mailed. */
+  const confirm = useCallback(async (email: string, code: string) => {
+    setBusy(true)
+    setError(null)
+    try {
+      const token = await api.verify(email, code)
       const next: Session = {
         email,
         kind: 'account',
@@ -105,8 +145,8 @@ export function useSession() {
       return true
     } catch (cause) {
       setError(cause instanceof ApiError
-        ? describe(kind, cause)
-        : 'something went wrong signing in')
+        ? cause.message
+        : 'that code could not be checked')
       return false
     } finally {
       setBusy(false)
@@ -183,7 +223,7 @@ export function useSession() {
     setError(null)
   }, [])
 
-  return { session, busy, error, authenticate, continueAsGuest, claim, signOut }
+  return { session, busy, error, authenticate, confirm, continueAsGuest, claim, signOut }
 }
 
 /**

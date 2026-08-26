@@ -20,8 +20,22 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthDtos.Token> register(@Valid @RequestBody AuthDtos.Register request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(auth.register(request));
+    public ResponseEntity<AuthDtos.Registration> register(
+            @Valid @RequestBody AuthDtos.Register request) {
+        AuthDtos.Registration result = auth.register(request);
+        // 201 when there is an account, 202 when there is a code in flight: the
+        // status says whether anything was created, which is the difference.
+        return ResponseEntity
+                .status(result.token() != null ? HttpStatus.CREATED : HttpStatus.ACCEPTED)
+                .body(result);
+    }
+
+    /** Finish a registration with the code that was mailed. */
+    @PostMapping("/verify")
+    public ResponseEntity<AuthDtos.Token> verify(@Valid @RequestBody AuthDtos.Verify request) {
+        return auth.verify(request)
+                .map(token -> ResponseEntity.status(HttpStatus.CREATED).body(token))
+                .orElseThrow(AuthService.InvalidCode::new);
     }
 
     @PostMapping("/login")
