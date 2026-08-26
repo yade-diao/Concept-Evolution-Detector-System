@@ -63,3 +63,6 @@ frontend/dist/
 *.tsbuildinfo
 deploy/.env
 deploy/site/
+
+# A stale copy left behind when a Windows process held the file open.
+backend/pom.locked
