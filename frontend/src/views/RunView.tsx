@@ -99,7 +99,10 @@ export function RunView() {
       />
 
       <section>
-        <h2><span className="step">01</span> A benchmark</h2>
+        <div className="section-head">
+          <span className="step">01</span>
+          <h2>A benchmark</h2>
+        </div>
         <DatasetPicker selected={info} onSelect={select} disabled={busy} />
         {loading && (
           <p className="muted">
@@ -115,7 +118,7 @@ export function RunView() {
             <h3 className="sub">Your datasets</h3>
             {mine.length === 0 ? (
               <p className="muted">
-                None in this browser yet. <Link to="/space">Add a file</Link> — it is
+                None in this browser yet. <Link to="/datasets">Add a file</Link> — it is
                 read here and never uploaded unless you ask.
               </p>
             ) : (
@@ -131,8 +134,10 @@ export function RunView() {
                         {local.featureCount.toLocaleString()} features · {local.classes} classes
                       </span>
                       <span className="meta">
-                        <span className="muted">yours</span>
-                        <span className="muted">{local.remoteId ? 'uploaded' : 'this browser'}</span>
+                        <span className="tag accent">yours</span>
+                        <span className="size">
+                          {local.remoteId ? 'uploaded' : 'this browser'}
+                        </span>
                       </span>
                     </button>
                   </li>
@@ -166,7 +171,10 @@ export function RunView() {
       </section>
 
       <section>
-        <h2><span className="step">02</span> Parameters</h2>
+        <div className="section-head">
+          <span className="step">02</span>
+          <h2>Parameters</h2>
+        </div>
         <ParameterForm
           value={parameters}
           onChange={setParameters}
@@ -176,7 +184,10 @@ export function RunView() {
       </section>
 
       <section>
-        <h2><span className="step">03</span> Run</h2>
+        <div className="section-head">
+          <span className="step">03</span>
+          <h2>Run</h2>
+        </div>
         <div className="actions">
           <button
             type="button"

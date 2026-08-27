@@ -16,10 +16,16 @@ function megabytes(bytes: number | undefined): string {
   return bytes ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : '—'
 }
 
-/** Roughly what a run of this benchmark will cost, from its sample count. */
+/**
+ * Roughly what a run of this benchmark will cost, from its sample count.
+ *
+ * Shortened to fit one line beside the size, because the cost and the download
+ * are the two things being weighed against each other and reading them on one
+ * line is the comparison.
+ */
 function weight(samples: number): { label: string; className: string } {
-  if (samples >= 500) return { label: 'minutes per window', className: 'weight heavy' }
-  if (samples >= 150) return { label: 'about a second per window', className: 'weight medium' }
+  if (samples >= 500) return { label: 'minutes / window', className: 'weight heavy' }
+  if (samples >= 150) return { label: '~1s / window', className: 'weight medium' }
   return { label: 'fast', className: 'weight light' }
 }
 
@@ -67,21 +73,18 @@ export function DatasetPicker({
             >
               <span className="name">{info.name}</span>
               <span className="shape">
-                {info.samples.toLocaleString()} samples ×{' '}
-                {info.features.toLocaleString()} features · {info.classes} classes
+                {info.samples.toLocaleString()} × {info.features.toLocaleString()}
+                {' · '}{info.classes} classes
               </span>
               <span className="meta">
-                {/* The distinction the whole method rests on, said on the card
-                    rather than buried in a description nobody opens. */}
-                <span className={info.ordered ? 'ordered' : 'unordered'}>
-                  {info.ordered ? 'columns are time' : 'columns unordered'}
-                </span>
-                <span className="muted">
+                {/* The distinction the whole method rests on - but only worth
+                    saying when it holds. Unordered is the ordinary case here,
+                    and a label on eight of ten cards is one nobody reads. */}
+                {info.ordered && <span className="ordered">time-ordered</span>}
+                <span className={cost.className}>{cost.label}</span>
+                <span className="size">
                   {cached[info.slug] ? 'cached' : megabytes(info.sizeBytes)}
                 </span>
-              </span>
-              <span className="meta">
-                <span className={cost.className}>{cost.label}</span>
               </span>
             </button>
           </li>
