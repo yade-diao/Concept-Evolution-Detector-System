@@ -100,6 +100,8 @@ export interface MailOverview {
 
 export interface FeedbackMessage {
   id: string
+  /** What a visitor wrote, or what the server is reporting. */
+  kind: 'FEEDBACK' | 'NOTICE'
   from?: string
   replyTo?: string
   subject: string
@@ -251,6 +253,12 @@ export const api = {
 
   listMessages: (token: string) =>
     request<FeedbackMessage[]>('/admin/messages', { token }),
+
+  unreadMessages: (token: string) =>
+    request<{ count: number }>('/admin/messages/unread', { token }),
+
+  markAllMessagesRead: (token: string) =>
+    request<{ count: number }>('/admin/messages/read', { token, method: 'PATCH' }),
 
   markMessageRead: (token: string, id: string) =>
     request<FeedbackMessage>(`/admin/messages/${id}/read`, { token, method: 'PATCH' }),

@@ -3,6 +3,8 @@ package dev.yade.ced.feedback;
 import dev.yade.ced.auth.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -22,6 +24,11 @@ import java.util.UUID;
  *
  * The sender is optional. Most feedback comes from someone who is not signed in,
  * and demanding an account first is how you stop hearing about the bug.
+ *
+ * The same table also carries what the server has to say - a new account, a
+ * guest who kept their work - because that is the other thing that would have
+ * been an email and there is nowhere else for it to arrive. A {@link
+ * MessageKind} keeps the two apart.
  */
 @Entity
 @Table(name = "messages")
@@ -44,6 +51,10 @@ public class Message {
     @Column(nullable = false)
     private String body;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MessageKind kind;
+
     @Column(name = "read_at")
     private Instant readAt;
 
@@ -54,9 +65,26 @@ public class Message {
         // for JPA
     }
 
+    /** Something a person wrote, through the form. */
     public static Message of(User sender, String replyTo, String subject, String body) {
+        return create(MessageKind.FEEDBACK, sender, replyTo, subject, body);
+    }
+
+    /**
+     * Something the server is reporting.
+     *
+     * No sender and no reply address, because there is nobody to reply to: the
+     * subject of a notice is an event, not a correspondent.
+     */
+    public static Message notice(String subject, String body) {
+        return create(MessageKind.NOTICE, null, null, subject, body);
+    }
+
+    private static Message create(MessageKind kind, User sender, String replyTo,
+                                  String subject, String body) {
         Message message = new Message();
         message.id = UUID.randomUUID();
+        message.kind = kind;
         message.sender = sender;
         message.replyTo = replyTo;
         message.subject = subject;
@@ -83,6 +111,10 @@ public class Message {
 
     public String getBody() {
         return body;
+    }
+
+    public MessageKind getKind() {
+        return kind;
     }
 
     public Instant getReadAt() {

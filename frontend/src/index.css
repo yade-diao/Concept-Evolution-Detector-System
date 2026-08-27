@@ -151,6 +151,22 @@ nav a {
 nav a:hover { color: var(--ink); border-color: var(--rule); }
 nav a.active { color: var(--accent-ink); background: var(--accent); }
 
+/* The unread count. This deployment sends no mail, so this number is the whole
+   notification: it has to read as a count and not as decoration, which is why
+   it sits on the accent rather than beside it. */
+.badge {
+  display: inline-block;
+  min-width: 1.15rem;
+  margin-left: 0.4rem;
+  padding: 0 0.3rem;
+  font: 600 10px/1.15rem var(--mono);
+  text-align: center;
+  color: var(--accent-ink);
+  background: var(--accent);
+  border-radius: 999px;
+}
+nav a.active .badge { color: var(--accent); background: var(--accent-ink); }
+
 /* ── Account ──────────────────────────────────────────────────────────── */
 
 .header-side { display: grid; gap: 0.6rem; justify-items: end; }
@@ -444,6 +460,31 @@ a.button-link:hover { border-color: var(--ink-2); }
   border-radius: var(--radius);
 }
 .message.read { border-left-color: var(--rule-strong); opacity: 0.72; }
+/* A notice is the server talking, not a person, and there is nobody to reply
+   to. Dashed rather than solid so the difference is visible in the list before
+   the tag is read. */
+.message.notice { border-left-style: dashed; border-left-color: var(--rule-strong); }
+.message .tag {
+  display: inline-block;
+  margin-right: 0.45rem;
+  padding: 0 0.35rem;
+  font: 500 10px/1.5 var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  background: var(--accent-wash);
+  border-radius: 2px;
+  vertical-align: 0.06em;
+}
+
+.inbox-head {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+.inbox-head p { margin: 0; max-width: 46ch; }
 .message header { display: grid; gap: 0.2rem; margin-bottom: 0.5rem; }
 .message header .muted { font-size: 0.75rem; }
 .message p { margin: 0 0 0.6rem; font-size: 0.9rem; white-space: pre-wrap; }

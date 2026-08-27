@@ -10,4 +10,6 @@ public interface MessageRepository extends JpaRepository<Message, UUID> {
     List<Message> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     long countByReadAtIsNull();
+
+    List<Message> findAllByReadAtIsNull();
 }

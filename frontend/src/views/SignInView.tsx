@@ -107,6 +107,13 @@ export function SignInView() {
               buys anything. Nothing else is asked for.
             </p>
           )}
+          {mode === 'register' && (
+            <p className="muted">
+              Nothing is sent to the address: this deployment has no mail relay,
+              so it is your username here and nothing checks that it is yours.
+              Keep the password — without mail there is no way to reset it.
+            </p>
+          )}
           {error && <p className="error">{error}</p>}
 
           <button type="submit" className="primary" disabled={busy}>

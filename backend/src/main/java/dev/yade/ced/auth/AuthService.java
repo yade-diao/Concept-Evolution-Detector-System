@@ -1,5 +1,6 @@
 package dev.yade.ced.auth;
 
+import dev.yade.ced.feedback.Notices;
 import dev.yade.ced.mail.MailSender;
 import java.security.SecureRandom;
 import java.time.Duration;
@@ -21,12 +22,14 @@ public class AuthService {
     private final PasswordEncoder encoder;
     private final JwtService jwt;
     private final MailSender mail;
+    private final Notices notices;
     private final Duration guestLifetime;
     private final Duration codeLifetime;
     private final String adminEmail;
 
     public AuthService(UserRepository users, PendingRegistrationRepository pending,
                        PasswordEncoder encoder, JwtService jwt, MailSender mail,
+                       Notices notices,
                        @Value("${ced.guest.lifetime:P1D}") Duration guestLifetime,
                        @Value("${ced.mail.code-lifetime:PT15M}") Duration codeLifetime,
                        @Value("${ced.admin-email:}") String adminEmail) {
@@ -35,6 +38,7 @@ public class AuthService {
         this.encoder = encoder;
         this.jwt = jwt;
         this.mail = mail;
+        this.notices = notices;
         this.guestLifetime = guestLifetime;
         this.codeLifetime = codeLifetime;
         this.adminEmail = adminEmail;
@@ -132,9 +136,31 @@ public class AuthService {
                 jwt.lifetimeSeconds()));
     }
 
+    /**
+     * The one place an account comes into existence, and the one place that
+     * says so.
+     *
+     * Both routes in - straight through where there is no relay, by code where
+     * there is - end here, so the notice is written once and cannot be missed
+     * by adding a third route later. It goes to the administrator's inbox
+     * rather than to their email, because this deployment cannot send mail
+     * without a relay somebody pays for; see {@link Notices}.
+     */
     private User createAccount(String email, String passwordHash, Instant now) {
-        return users.save(User.registered(UUID.randomUUID(), email, passwordHash,
-                isConfiguredAdmin(email) ? Role.ADMIN : Role.USER, now));
+        boolean admin = isConfiguredAdmin(email);
+        User user = users.save(User.registered(UUID.randomUUID(), email, passwordHash,
+                admin ? Role.ADMIN : Role.USER, now));
+        notices.post("New account: " + email,
+                ("%s registered%s.\n\n%s")
+                        .formatted(email,
+                                admin ? " and matched the configured administrator address" : "",
+                                verificationRequired()
+                                        ? "The address was confirmed with a code, so it receives "
+                                          + "mail."
+                                        : "No mail relay is configured, so the address was not "
+                                          + "confirmed. It is what they typed, and nothing has "
+                                          + "checked that it is theirs."));
+        return user;
     }
 
     /** Six digits, from a source that is not predictable from the last one. */
@@ -184,6 +210,9 @@ public class AuthService {
             guest.promoteToAdmin();
         }
         users.save(guest);
+        notices.post("Guest kept their work: " + request.email(),
+                "A guest session was claimed as an account, so its runs are no longer on a "
+                        + "one-day clock.");
         return AuthDtos.Token.bearer(
                 jwt.issue(guest.getId(), Instant.now()), jwt.lifetimeSeconds());
     }

@@ -8,7 +8,9 @@
  * at it - so a mailto: link here would be a promise nobody could keep.
  *
  * The reply address is optional and says so. Asking for one and then not
- * replying is worse than not asking.
+ * replying is worse than not asking - and since nothing can be sent from here
+ * either, a reply is somebody typing one from their own mailbox. The field says
+ * that rather than implying the site will answer.
  */
 
 import { useState } from 'react'
@@ -61,7 +63,7 @@ export function Feedback() {
       <textarea value={body} placeholder="what happened" required rows={4} maxLength={5000}
                 onChange={(e) => setBody(e.target.value)} />
       <input type="email" value={replyTo} maxLength={320}
-             placeholder="your email, only if you want an answer"
+             placeholder="your email, if you want a reply by hand"
              onChange={(e) => setReplyTo(e.target.value)} />
       {error && <p className="error">{error}</p>}
       <div className="actions">

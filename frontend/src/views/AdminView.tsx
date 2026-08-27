@@ -1,18 +1,28 @@
 /**
- * Accounts, and the ability to remove one.
+ * Accounts, the inbox, and what the server tried to send.
  *
  * Deliberately not a control panel. An administrator here can see who has an
  * account, how much they have run, and delete an account with everything it
  * owns - and nothing else. There is no way to read somebody's runs or their
  * data, because there is no operational reason to and the absence of the
  * endpoint is the only guarantee worth having.
+ *
+ * The inbox is the second half, and it is the deployment's notification
+ * channel rather than a convenience. Nothing can be mailed out of here without
+ * a relay somebody pays for and a domain somebody owns, so the events that
+ * would have been emails - a registration, a guest keeping their work - are
+ * written here beside the feedback, and the header carries the unread count.
+ * It is a weaker channel than mail and the page says so rather than implying a
+ * notification arrived somewhere it did not.
  */
 
 import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { api, ApiError, type AccountRow, type FeedbackMessage, type MailOverview }
   from '../api/client'
 import { useCurrentSession } from '../api/SessionContext'
+import { refreshUnread, setUnread } from '../api/unread'
 
 function when(iso: string): string {
   return new Date(iso).toLocaleString(undefined, {
@@ -22,42 +32,62 @@ function when(iso: string): string {
 
 type Tab = 'accounts' | 'messages' | 'mail'
 
+const TABS: Tab[] = ['accounts', 'messages', 'mail']
+
 export function AdminView() {
   const { session } = useCurrentSession()
-  const [tab, setTab] = useState<Tab>('accounts')
+  const token = session?.token ?? null
+  // The tab lives in the URL so the header's badge can point at the inbox
+  // rather than at the page and hope.
+  const [params, setParams] = useSearchParams()
+  const asked = params.get('tab') as Tab | null
+  const tab: Tab = asked && TABS.includes(asked) ? asked : 'accounts'
+
   const [accounts, setAccounts] = useState<AccountRow[] | null>(null)
   const [messages, setMessages] = useState<FeedbackMessage[] | null>(null)
   const [mail, setMail] = useState<MailOverview | null>(null)
   const [problem, setProblem] = useState<string | null>(null)
 
   const load = useCallback(async () => {
-    if (!session) return
+    if (!token) return
     try {
       const [people, sent, log] = await Promise.all([
-        api.listAccounts(session.token),
-        api.listMessages(session.token),
-        api.mailOverview(session.token),
+        api.listAccounts(token),
+        api.listMessages(token),
+        api.mailOverview(token),
       ])
       setAccounts(people)
       setMessages(sent)
       setMail(log)
       setProblem(null)
+      void refreshUnread(token)
     } catch (cause) {
       setProblem(cause instanceof ApiError ? cause.message : 'that could not be read')
     }
-  }, [session])
+  }, [token])
 
   useEffect(() => { void load() }, [load])
 
+  function show(next: Tab) {
+    setParams(next === 'accounts' ? {} : { tab: next }, { replace: true })
+  }
+
   async function remove(row: AccountRow) {
-    if (!session) return
+    if (!token) return
     setProblem(null)
     try {
-      await api.deleteAccount(session.token, row.id)
+      await api.deleteAccount(token, row.id)
       await load()
     } catch (cause) {
       setProblem(cause instanceof ApiError ? cause.message : 'that account could not be deleted')
     }
+  }
+
+  async function readEverything() {
+    if (!token) return
+    await api.markAllMessagesRead(token)
+    setUnread(0)
+    await load()
   }
 
   const guests = accounts?.filter((a) => a.role === 'GUEST').length ?? 0
@@ -68,46 +98,65 @@ export function AdminView() {
       <div className="tabs admin-tabs" role="tablist">
         <button type="button" role="tab" className={tab === 'accounts' ? 'on' : ''}
                 aria-selected={tab === 'accounts'}
-                onClick={() => setTab('accounts')}>Accounts</button>
+                onClick={() => show('accounts')}>Accounts</button>
         <button type="button" role="tab" className={tab === 'messages' ? 'on' : ''}
                 aria-selected={tab === 'messages'}
-                onClick={() => setTab('messages')}>
-          Messages{unread > 0 ? ` (${unread})` : ''}
+                onClick={() => show('messages')}>
+          Inbox{unread > 0 ? ` (${unread})` : ''}
         </button>
         <button type="button" role="tab" className={tab === 'mail' ? 'on' : ''}
                 aria-selected={tab === 'mail'}
-                onClick={() => setTab('mail')}>Mail sent</button>
+                onClick={() => show('mail')}>Mail out</button>
       </div>
 
       {problem && <p className="error">{problem}</p>}
 
       {tab === 'messages' && (
         <>
-          <p className="muted">
-            Feedback arrives here rather than by mail: this deployment cannot
-            receive any — nothing can point an MX record at a cloudapp.azure.com
-            name.
-          </p>
+          <div className="inbox-head">
+            <p className="muted">
+              Both halves of what would have been email: what visitors wrote,
+              and what the server has to report. Nothing is pushed anywhere —
+              the count in the header is the notification.
+            </p>
+            {unread > 0 && (
+              <button type="button" className="ghost" onClick={() => void readEverything()}>
+                Mark all read
+              </button>
+            )}
+          </div>
           {messages?.length === 0 && <p className="muted">Nothing yet.</p>}
           {messages?.map((message) => (
-            <article key={message.id} className={message.readAt ? 'message read' : 'message'}>
+            <article key={message.id}
+                     className={[
+                       'message',
+                       message.kind === 'NOTICE' ? 'notice' : '',
+                       message.readAt ? 'read' : '',
+                     ].filter(Boolean).join(' ')}>
               <header>
-                <strong>{message.subject}</strong>
+                <strong>
+                  {message.kind === 'NOTICE' && <span className="tag">server</span>}
+                  {message.subject}
+                </strong>
                 <span className="muted">
-                  {message.from ?? 'not signed in'}
-                  {message.replyTo && ` · ${message.replyTo}`} · {when(message.createdAt)}
+                  {message.kind === 'NOTICE'
+                    ? when(message.createdAt)
+                    : <>
+                        {message.from ?? 'not signed in'}
+                        {message.replyTo && ` · ${message.replyTo}`} · {when(message.createdAt)}
+                      </>}
                 </span>
               </header>
               <p>{message.body}</p>
               <div className="actions">
-                {!message.readAt && session && (
+                {!message.readAt && token && (
                   <button type="button" className="ghost"
-                          onClick={() => void api.markMessageRead(session.token, message.id)
+                          onClick={() => void api.markMessageRead(token, message.id)
                             .then(load)}>Mark read</button>
                 )}
-                {session && (
+                {token && (
                   <button type="button" className="ghost"
-                          onClick={() => void api.deleteMessage(session.token, message.id)
+                          onClick={() => void api.deleteMessage(token, message.id)
                             .then(load)}>Delete</button>
                 )}
               </div>
@@ -120,9 +169,11 @@ export function AdminView() {
         <>
           <p className={mail.relayConfigured ? 'muted' : 'locked'}>
             {mail.relayConfigured
-              ? 'A relay is configured, so verification codes are being sent.'
-              : 'No relay is configured, so codes are recorded here instead of sent — and '
-                + 'registration stays one step. Set ced.mail.* on the server to turn it on.'}
+              ? 'A relay is configured, so registration asks for a code and this is what went out.'
+              : 'No relay is configured, and that is the current decision rather than an oversight'
+                + ' — sending mail from here needs a domain and a provider. So registration is one'
+                + ' step with an unverified address, and anything the server would have mailed'
+                + ' goes to the inbox instead. Set ced.mail.* on the server to turn sending on.'}
           </p>
           <div className="table-wrap">
             <table>

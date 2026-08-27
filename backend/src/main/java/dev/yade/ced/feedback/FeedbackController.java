@@ -53,14 +53,24 @@ public class FeedbackController {
     }
 
     public record MessageView(
-            UUID id, String from, String replyTo, String subject, String body,
+            UUID id, MessageKind kind, String from, String replyTo, String subject, String body,
             Instant readAt, Instant createdAt) {
 
         static MessageView of(Message message) {
-            return new MessageView(message.getId(), message.getSenderName(), message.getReplyTo(),
-                    message.getSubject(), message.getBody(), message.getReadAt(),
-                    message.getCreatedAt());
+            return new MessageView(message.getId(), message.getKind(), message.getSenderName(),
+                    message.getReplyTo(), message.getSubject(), message.getBody(),
+                    message.getReadAt(), message.getCreatedAt());
         }
+    }
+
+    /**
+     * How many are waiting, for the badge in the header.
+     *
+     * Its own endpoint rather than a count taken from the list, because the
+     * header asks for it on every page and the list is bodies - up to five
+     * thousand characters each, for a number.
+     */
+    public record Unread(long count) {
     }
 
     @PostMapping("/api/v1/feedback")
@@ -84,6 +94,25 @@ public class FeedbackController {
             defaultValue = "100") int size) {
         return messages.findAllByOrderByCreatedAtDesc(PageRequest.of(0, Math.clamp(size, 1, 500)))
                 .stream().map(MessageView::of).toList();
+    }
+
+    @GetMapping("/api/v1/admin/messages/unread")
+    public Unread unread() {
+        return new Unread(messages.countByReadAtIsNull());
+    }
+
+    /**
+     * Clear the lot.
+     *
+     * The badge is a prompt to look, and once someone has looked, marking eight
+     * notices one at a time is a chore that ends in the badge being ignored.
+     */
+    @PatchMapping("/api/v1/admin/messages/read")
+    public Unread markAllRead() {
+        var unread = messages.findAllByReadAtIsNull();
+        unread.forEach(Message::markRead);
+        messages.saveAll(unread);
+        return new Unread(0);
     }
 
     @PatchMapping("/api/v1/admin/messages/{id}/read")

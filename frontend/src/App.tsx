@@ -9,7 +9,10 @@
  * - **The personal space** - your datasets and your runs - needs an account.
  *   Not as a gate for its own sake: it is storage, and storage has to belong to
  *   somebody.
- * - **Accounts** is for an administrator.
+ * - **Administration** is for an administrator, and carries the count of
+ *   unread messages. That badge is this deployment's notification channel:
+ *   with no mail relay nothing can be pushed to anybody, so a registration or
+ *   a bug report is announced by a number in the header.
  * - **The method** is prose and needs nobody.
  *
  * Someone who reaches a place that is not theirs is sent to the sign-in page
@@ -21,6 +24,7 @@ import type { ReactNode } from 'react'
 import { NavLink, Navigate, Route, Routes, useLocation } from 'react-router-dom'
 
 import { useCurrentSession } from './api/SessionContext'
+import { useUnread } from './api/unread'
 import { AccountBar } from './components/AccountBar'
 import { Feedback } from './components/Feedback'
 import { AdminView } from './views/AdminView'
@@ -47,6 +51,7 @@ function Require({ role, because, children }: {
 
 export function App() {
   const { session } = useCurrentSession()
+  const unread = useUnread(session?.token ?? null, session?.role === 'ADMIN')
 
   return (
     <div className="shell">
@@ -64,7 +69,14 @@ export function App() {
           <nav>
             <NavLink to="/" end>Experiment</NavLink>
             {session?.kind === 'account' && <NavLink to="/space">My space</NavLink>}
-            {session?.role === 'ADMIN' && <NavLink to="/admin">Accounts</NavLink>}
+            {session?.role === 'ADMIN' && (
+              <NavLink to={unread > 0 ? '/admin?tab=messages' : '/admin'}>
+                Admin
+                {unread > 0 && (
+                  <span className="badge" title={`${unread} unread`}>{unread}</span>
+                )}
+              </NavLink>
+            )}
             <NavLink to="/method">Method</NavLink>
           </nav>
           <AccountBar />
