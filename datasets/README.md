@@ -1,7 +1,25 @@
 # Datasets
 
-Eight high-dimensional benchmarks, bundled so the system has something to run on
-without asking anyone to find data first.
+Ten benchmarks, bundled so the system has something to run on without asking
+anyone to find data first.
+
+## The two that are feature streams
+
+Their columns are time, in order, which is the case the method is about. A
+window of columns is therefore an interval, and a change between two windows is
+concept evolution rather than an artefact of how the columns happen to be
+arranged.
+
+| file | samples | features | classes | one column is |
+|---|---:|---:|---:|---|
+| `appliances` | 750 | 720 | 3 | one two-minute power reading, from midnight |
+| `eog` | 362 | 1 250 | 6 | one millisecond of gaze position, at 1 kHz |
+
+`appliances` is one appliance per row, monitored for a day; `eog` is one trial
+per row of somebody writing a katakana stroke with their eyes. Both come from
+the UCR/UEA time series classification archive.
+
+## The eight that are not
 
 | file | samples | features | classes |
 |---|---:|---:|---:|
@@ -14,8 +32,16 @@ without asking anyone to find data first.
 | `mll` | 57 | 5 848 | 3 |
 | `prostate` | 102 | 5 966 | 2 |
 
-Each is a pair: `<name>.mat` holding the feature matrix and `<name>_label.mat`
-holding one class label per sample.
+Their columns are gene indices and pixel positions, in no order that means
+anything. They test the clustering, the event rules and one implementation
+against another — not whether the method finds drift, because there is none in
+them to find. `manifest.json` records which is which, and the interface says so
+on the card before you run one.
+
+Each dataset is a pair: `<name>.mat` holding the feature matrix and
+`<name>_label.mat` holding one class label per sample. `manifest.json` carries
+the shapes, what a row and a column are, whether the columns are ordered, and
+where each came from.
 
 ## Provenance
 
@@ -23,8 +49,10 @@ These are public benchmarks, redistributed here for reproducibility rather than
 claimed as original. `arcene` and `gisette` come from the NIPS 2003 feature
 selection challenge; `dlbcl`, `glioma`, `lung2`, `mll` and `prostate` are gene
 expression sets widely circulated through the ASU feature selection repository;
-`car` is an image set from the same collection. `real_sim`, used in the original
-work, is 34 MB and is left out — download it separately if you need it.
+`car` is an image set from the same collection. `appliances` (UK-DALE) and `eog`
+(Fang & Shinozaki) come from the UCR/UEA time series classification archive.
+`real_sim`, used in the original work, is 34 MB and is left out — download it
+separately if you need it.
 
 ## Why they are committed rather than downloaded
 
@@ -45,7 +73,11 @@ same origin as the page. Note the two provenance caveats when citing: this
 
 ## What these are, and are not, evidence for
 
-**They are not feature streams.** Their columns are gene indices and pixel
+This section is about the eight. `appliances` and `eog` are the answer to it:
+they were added because everything below was true of the whole collection, and
+a method about arrival order needs at least one dataset that has one.
+
+**The eight are not feature streams.** Their columns are gene indices and pixel
 positions, in no order that means anything: column 7 is not earlier than column
 8. Walking the columns imposes an arrival order the data never had.
 

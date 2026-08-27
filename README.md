@@ -1,9 +1,29 @@
 # Concept Evolution Detector (CED-FS)
 
+[![CI](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/ci.yml/badge.svg)](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/ci.yml)
+[![frontend](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/frontend.yml/badge.svg)](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/frontend.yml)
+[![backend](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/backend.yml/badge.svg)](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/backend.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Detects and classifies how concepts appear, move and disappear in a
 high-dimensional **feature stream**, and shows what it found in a browser.
+
+**→ [ced-stream.denmarkeast.cloudapp.azure.com](https://ced-stream.denmarkeast.cloudapp.azure.com)**
+— running, with ten benchmarks bundled. "Continue as guest" needs no account.
+
+![The experiment page: ten benchmarks, the detector's parameters, and the window
+strip above them](docs/experiment.png)
+
+The clustering runs **in the browser**, in a worker thread. The server holds
+accounts, uploaded datasets and saved runs; it computes nothing, so the tool
+works with the network off once a benchmark is cached.
+
+![What a run found: a reading in sentences, then the four
+charts](docs/findings.png)
+
+Every run is read back in the units of the data it came from — the panel above
+is `eog`, where a window is fifty milliseconds of eye movement, so the reading
+says so rather than saying "window 8".
 
 ## The premise: the stream runs along the feature axis
 
@@ -69,7 +89,7 @@ thread, and the server computes nothing.
 
 Two implementations of one method drift, and the way they drift is silent: both
 return a plausible number of clusters and nobody is told which one is right. So
-the port is run over the eight bundled benchmarks and compared against what the
+the port is run over the bundled benchmarks and compared against what the
 reference answered on the same files:
 
 ```bash
@@ -103,6 +123,30 @@ docker compose up -d                               # PostgreSQL only
 cd backend && CED_JWT_SECRET=$(openssl rand -base64 48) ./mvnw spring-boot:run
 ```
 
+`npm run dev` alone is enough to use the detector: the sign-in page offers a
+guest session, and a guest gets the same detector, the same charts and the same
+readings as an account. What an account adds is storage — your own `.mat` or
+CSV files, and every run recorded with the parameters that produced it.
+
+### Who can do what
+
+| | run the benchmarks | bring your own data | kept after the tab closes | accounts, inbox |
+|---|---|---|---|---|
+| guest | yes | no | no — the session is the tab | no |
+| account | yes | 25 MB, uploaded only if you ask | yes | no |
+| administrator | yes | yes | yes | yes |
+
+A guest session lives in `sessionStorage` and dies with the tab, deliberately: a
+guest has no address and no password, so the token in that tab is the only thing
+that could ever reach those runs again. Claiming the session turns it into an
+account and keeps the runs already in it.
+
+The deployment has no mail relay — sending mail needs a domain and a provider,
+and a `*.cloudapp.azure.com` name can carry neither the DKIM records nor an MX
+record. So registration is one step with an address nothing verifies, and what
+would have been email — a new account, feedback from a visitor — goes to the
+administrator's inbox in the application, counted in the sidebar.
+
 ## Results
 
 ### A stream whose answer is known
@@ -133,20 +177,34 @@ classes the Dice overlap stays above the threshold and every boundary is drift.
 It recovers 3/3 windows and both boundaries exactly, `S1 E1 D1 F0` and
 `S1 E0 D1 F1`.
 
-### The eight benchmarks
+### Ten benchmarks, of which two are actually streams
 
 `datasets/bundled` holds them, and they are in the repository rather than
-downloaded: two of the eight exist at these exact shapes nowhere public, and the
-canonical host of a third sends no CORS headers, so a browser could not fetch
-them from upstream even if the shapes matched.
+downloaded: two exist at these exact shapes nowhere public, and the canonical
+host of another sends no CORS headers, so a browser could not fetch them from
+upstream even if the shapes matched.
 
-**They are not feature streams.** Their columns are gene indices and pixel
-positions, in no order that means anything: column 7 is not earlier than column
-8. Shuffling the column order and re-running produces the same answer, which is
-the measurement that shows the order carries no information. They are a fair
-test of the clustering, of the event rules, and of one implementation against
-another. They are not evidence that the method detects drift in a stream,
-because there is no drift in them to detect.
+**Eight of the ten are not feature streams**, and the tool says so on the card
+before you run them. Their columns are gene indices and pixel positions, in no
+order that means anything: column 7 is not earlier than column 8. Shuffling the
+column order and re-running produces the same answer, which is the measurement
+that shows the order carries no information. They are a fair test of the
+clustering, of the event rules, and of one implementation against another. They
+are not evidence that the method detects drift in a stream, because there is no
+drift in them to detect.
+
+**Two of them are.** `appliances` and `eog` were added for exactly this gap, and
+their columns are literally time:
+
+| | one row is | one column is | a window of 50 columns is |
+|---|---|---|---|
+| `appliances` | one appliance, monitored for a day | one two-minute power reading, in clock order from midnight | 100 minutes of that day |
+| `eog` | one trial of a person writing a katakana stroke with their eyes | one millisecond of gaze position, at 1 kHz | 50 ms of the movement |
+
+On these the windows are moments and a change between them is what the method
+claims to detect, so a result means what it appears to mean. The reading under a
+run says which case it is in, because the same numbers support a much weaker
+claim on the other eight.
 
 See [datasets/README.md](datasets/README.md).
 
@@ -163,11 +221,16 @@ See [datasets/README.md](datasets/README.md).
       src/cedfs/              the TypeScript port, module for module
       src/datasets/           a MATLAB v5 reader, orientation, caching
       src/worker/             where the clustering actually runs
+      src/views/              one file per module in the sidebar
+      src/nav.ts              the module registry the rail and routes read
+      src/findings.ts         a run, turned into sentences
+      src/index.css           the design system: tokens, then primitives
       tests/                  the port against the reference, on real data
 
-    backend/                  Spring Boot: accounts, saved runs, PostgreSQL
+    backend/                  Spring Boot 4: accounts, roles, datasets, runs,
+                              the administrator's inbox, PostgreSQL + Flyway
     deploy/                   what the server runs; see deploy/README.md
-    datasets/bundled/         the eight benchmarks
+    datasets/bundled/         the ten benchmarks, and their manifest
     experiments/              synthetic_drift, run_experiment
 
 ## Deploying

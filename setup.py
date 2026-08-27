@@ -11,8 +11,8 @@ setup(
     name="concept-evolution-detector",
     version="1.0.0",
     description=(
-        "CED-FS: Concept Evolution Detection with Feature Selection "
-        "for high-dimensional data streams."
+        "CED-FS: concept evolution detection in a feature stream - "
+        "the samples are fixed and the features arrive over time."
     ),
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
