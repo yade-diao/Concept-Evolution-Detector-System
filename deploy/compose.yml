@@ -51,6 +51,22 @@ services:
       # No default anywhere in the application: a signing secret that falls back
       # to a value in a repository is one every deployment shares.
       CED_JWT_SECRET: ${CED_JWT_SECRET:?set CED_JWT_SECRET in .env}
+      # Whoever registers with this address becomes the administrator. Matched
+      # at registration rather than granted through an endpoint, so the role
+      # takes access to this file - not to the API. Blank means the deployment
+      # has no administrator and the administration pages are unreachable,
+      # which is the right default and the wrong state to leave a real
+      # deployment in.
+      CED_ADMIN_EMAIL: ${CED_ADMIN_EMAIL:-}
+      # Mail out, if there is ever a relay. Blank host means none, and then
+      # registration is one step and the server reports what happened to the
+      # administrator's inbox instead of to an address. Port 587 because Azure
+      # blocks outbound 25 on every virtual machine.
+      CED_MAIL_HOST: ${CED_MAIL_HOST:-}
+      CED_MAIL_PORT: ${CED_MAIL_PORT:-587}
+      CED_MAIL_USERNAME: ${CED_MAIL_USERNAME:-}
+      CED_MAIL_PASSWORD: ${CED_MAIL_PASSWORD:-}
+      CED_MAIL_FROM: ${CED_MAIL_FROM:-}
     depends_on:
       db:
         # Flyway runs at startup and fails against a database that is still

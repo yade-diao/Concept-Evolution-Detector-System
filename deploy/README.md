@@ -60,6 +60,20 @@ and a name that does not resolve yet fails the certificate request and then
 waits out a rate limit. The Student Pack includes a year of a Namecheap domain
 if you have none.
 
+Set `CED_ADMIN_EMAIL` too, and then **register on the site with that address**:
+matching it at registration is the only way an account becomes an
+administrator, so a deployment that leaves it blank has nobody who can read the
+feedback or remove an account. Changing it later takes an edit and
+`docker compose up -d api`; an account that was already promoted stays
+promoted.
+
+Leave the `CED_MAIL_*` block blank unless you have a relay. Without one the
+server sends nothing at all: registration is one step with an address nothing
+verifies, and what would have been mail - a new account, a guest keeping their
+work, feedback from a visitor - goes to the administrator's inbox in the
+application, with the unread count in the site header. That is the notification
+channel, and it is the honest one for a host that cannot send or receive mail.
+
 Then:
 
 ```sh
