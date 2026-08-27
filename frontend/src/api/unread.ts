@@ -4,11 +4,11 @@
  * A number small enough that it could have lived inside the administration
  * page, except that the whole point of it is to be visible from somewhere
  * else: it is the notification. There is no mail going out of this deployment,
- * so a badge in the header is what tells whoever runs this that a registration
+ * so a badge in the rail is what tells whoever runs this that a registration
  * happened or somebody reported a bug.
  *
  * Shared through a module-level value rather than context because two places
- * show the same number and one of them changes it - the header counts down as
+ * show the same number and one of them changes it - the rail counts down as
  * the administration page marks things read - and threading that through the
  * session context would put administration into something every page uses.
  *

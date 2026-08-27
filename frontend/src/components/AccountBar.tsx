@@ -1,98 +1,52 @@
 /**
- * Signing in, and what signing in is for.
+ * Who this tab belongs to, at the foot of the rail.
  *
- * An account buys exactly one thing here: runs are kept. Everything else works
- * signed out, because the computation is local and the server has no part in
- * it - so these controls say what they give you rather than demanding a login
- * the way a page does when it has nothing to offer yet.
+ * Only ever shown to someone who has a session, because the gate is where
+ * sessions start now - so there is no signed-out state here and no sign-in
+ * form. Two states remain, and the second one is the point.
  *
- * Three states, and the middle one is the point. A **guest** session belongs to
- * this tab: it keeps runs while you are here and is gone when the tab closes,
- * because a guest has no address and no password, so the token in this tab is
- * the only thing that can ever reach those runs again. The control says that
- * plainly rather than implying a persistence nothing can deliver, and offers
- * the one way out of it - claiming the session, which keeps the runs already in
- * it.
+ * A **guest** session belongs to this tab: it keeps runs while you are here
+ * and is gone when the tab closes, because a guest has no address and no
+ * password, so the token in this tab is the only thing that can ever reach
+ * those runs again. It says that plainly rather than implying a persistence
+ * nothing can deliver, and offers the one way out - claiming the session,
+ * which keeps the runs already in it.
  */
 
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
 
 import { useCurrentSession } from '../api/SessionContext'
 
-type Form = 'none' | 'signin' | 'claim'
-
 export function AccountBar() {
-  const { session, busy, error, authenticate, continueAsGuest, claim, signOut } =
-    useCurrentSession()
-  const [form, setForm] = useState<Form>('none')
+  const { session, busy, error, claim, signOut } = useCurrentSession()
+  const [claiming, setClaiming] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  async function submit(action: 'login' | 'register' | 'claim') {
-    const done = action === 'claim'
-      ? await claim(email.trim(), password)
-      : await authenticate(action, email.trim(), password) === 'signed-in'
-    if (done) {
-      setForm('none')
-      setPassword('')
-    }
-  }
-
-  if (form !== 'none') {
-    const claiming = form === 'claim'
+  if (claiming) {
     return (
       <form
-        className="account signin"
-        onSubmit={(e) => {
-          e.preventDefault()
-          void submit(claiming ? 'claim' : 'login')
+        className="account claiming"
+        onSubmit={async (event) => {
+          event.preventDefault()
+          if (await claim(email.trim(), password)) {
+            setClaiming(false)
+            setPassword('')
+          }
         }}
       >
-        <input
-          type="email" value={email} placeholder="email"
-          autoComplete="username" required
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password" value={password} placeholder="password"
-          autoComplete={claiming ? 'new-password' : 'current-password'}
-          minLength={12} required
-          onChange={(e) => setPassword(e.target.value)}
-        />
-
-        {claiming ? (
-          <button type="submit" className="primary" disabled={busy}>
-            {busy ? 'Keeping…' : 'Keep my runs'}
-          </button>
-        ) : (
-          <>
-            <button type="submit" className="primary" disabled={busy}>
-              {busy ? 'Signing in…' : 'Sign in'}
-            </button>
-            {/* Creating an account can need a mailed code, which needs room to
-                type it in - so that path goes to the page built for it. */}
-            <Link className="button-link" to="/signin">Create account</Link>
-          </>
-        )}
-
-        <button type="button" className="ghost" onClick={() => setForm('none')}>Cancel</button>
+        <input type="email" value={email} placeholder="email" required
+               autoComplete="username" onChange={(e) => setEmail(e.target.value)} />
+        <input type="password" value={password} placeholder="password, 12+" required
+               minLength={12} autoComplete="new-password"
+               onChange={(e) => setPassword(e.target.value)} />
+        <button type="submit" className="primary" disabled={busy}>
+          {busy ? 'Keeping…' : 'Keep my runs'}
+        </button>
+        <button type="button" className="ghost" onClick={() => setClaiming(false)}>Cancel</button>
         {error && <p className="error">{error}</p>}
-        <p className="muted">
-          {claiming
-            ? 'The runs in this tab move to the account. Nothing else changes.'
-            : 'A new account needs a password of at least 12 characters. Nothing else is asked for, and the data you run on never leaves this browser.'}
-        </p>
+        <p className="muted">The runs in this tab move to the account. Nothing else changes.</p>
       </form>
-    )
-  }
-
-  if (session?.kind === 'account') {
-    return (
-      <div className="account">
-        <span className="who" title={session.email ?? ''}>{session.email}</span>
-        <button type="button" className="ghost" onClick={signOut}>Sign out</button>
-      </div>
     )
   }
 
@@ -100,7 +54,7 @@ export function AccountBar() {
     return (
       <div className="account">
         <span className="who">guest · this tab only</span>
-        <button type="button" onClick={() => setForm('claim')}>Keep my runs</button>
+        <button type="button" onClick={() => setClaiming(true)}>Keep my runs</button>
         <button type="button" className="ghost" onClick={signOut}>Leave</button>
       </div>
     )
@@ -108,11 +62,8 @@ export function AccountBar() {
 
   return (
     <div className="account">
-      <button type="button" className="ghost" disabled={busy}
-              onClick={() => void continueAsGuest()}>
-        Continue as guest
-      </button>
-      <button type="button" onClick={() => setForm('signin')}>Sign in</button>
+      <span className="who" title={session?.email ?? ''}>{session?.email}</span>
+      <button type="button" className="ghost" onClick={signOut}>Sign out</button>
     </div>
   )
 }

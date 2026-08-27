@@ -1,11 +1,12 @@
 /**
  * The way in, and what each way in gets you.
  *
- * Three doors, and the page says what is behind each rather than making the
- * visitor find out by hitting a wall. An account gets a personal space: your
- * own datasets, kept across machines, and every run recorded. A guest gets the
- * example benchmarks and runs that live in this tab. Both compute in the
- * browser either way - the difference is what is kept, not what is possible.
+ * Three doors and no fourth: nothing behind this page runs without one of
+ * them. The page says what is behind each rather than making the visitor find
+ * out by hitting a wall. An account gets a personal space: your own datasets,
+ * kept across machines, and every run recorded. A guest gets the example
+ * benchmarks and runs that live in this tab. Both compute in the browser
+ * either way - the difference is what is kept, not what is possible.
  */
 
 import { useState } from 'react'
@@ -129,11 +130,13 @@ export function SignInView() {
       </div>
 
       <div className="signin-card guest">
-        <h2>Or look around first</h2>
+        <h2>Or start as a guest</h2>
         <p>
           A guest session runs the example benchmarks — the same detector, the
-          same charts, the same readings. Runs are kept for this tab only, and
-          uploading your own data needs an account.
+          same charts, the same readings. It belongs to this tab: close the tab
+          and the runs in it are gone, because a guest has no address to look
+          them up by. Uploading your own data needs an account, and you can turn
+          a guest session into one later without losing what is in it.
         </p>
         <button type="button" disabled={busy}
                 onClick={async () => { if (await continueAsGuest()) navigate('/') }}>

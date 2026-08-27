@@ -100,23 +100,59 @@ body::before {
   z-index: 0;
 }
 
+/* ── The shell: a rail, and everything else ───────────────────────────── */
+
 .shell {
   position: relative;
   z-index: 1;
-  max-width: 62rem;
-  margin: 0 auto;
-  padding: 2.5rem 1.25rem 5rem;
+  display: grid;
+  /* 2px, the same gap the charts leave between surfaces, so the rail reads as
+     a separate sheet rather than a border on the page. */
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: 2px;
+  min-height: 100vh;
 }
 
-/* ── Header ───────────────────────────────────────────────────────────── */
+main {
+  max-width: 58rem;
+  padding: 2.5rem 2rem 5rem;
+}
 
-header {
+.rail {
+  position: sticky;
+  top: 0;
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: flex-start;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2.25rem;
+  height: 100vh;
+  padding: 2rem 1.1rem;
+  background: var(--surface);
+  overflow-y: auto;
 }
+
+.rail-brand .eyebrow { margin: 0; }
+.rail-name {
+  margin: 0.55rem 0 0;
+  font: 700 1.4rem/1.06 var(--display);
+  letter-spacing: -0.012em;
+  color: var(--ink);
+}
+
+/* The foot is pinned down there because those are not places to go: they are
+   what you do at the end. */
+.rail-foot {
+  margin-top: auto;
+  display: grid;
+  gap: 0.85rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--rule);
+  font: 400 11px/1.6 var(--mono);
+}
+.rail-foot > * { justify-self: start; }
+.rail-foot button { text-align: left; font: 500 11px/1.6 var(--mono); }
+.rail-foot a { color: var(--muted); text-decoration: none; }
+.rail-foot a:hover { color: var(--ink); text-decoration: underline; }
+.rail-foot .feedback { margin: 0; }
 
 .eyebrow {
   font: 500 11px/1 var(--mono);
@@ -138,18 +174,27 @@ h1 {
   font-size: 0.95rem;
 }
 
-nav { display: flex; gap: 0.25rem; padding-top: 0.4rem; }
-nav a {
-  padding: 0.3rem 0.7rem;
+.rail nav { display: grid; gap: 1px; }
+.rail nav a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.42rem 0.65rem;
   font: 500 12px/1.6 var(--mono);
   letter-spacing: 0.04em;
   color: var(--muted);
   text-decoration: none;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
+  /* A marker on the left rather than a filled pill: in a vertical list the
+     filled version reads as four buttons, and only one of these is a state. */
+  border-left: 2px solid transparent;
+  border-radius: 0 var(--radius) var(--radius) 0;
 }
-nav a:hover { color: var(--ink); border-color: var(--rule); }
-nav a.active { color: var(--accent-ink); background: var(--accent); }
+.rail nav a:hover { color: var(--ink); background: var(--paper); }
+.rail nav a.active {
+  color: var(--ink);
+  background: var(--accent-wash);
+  border-left-color: var(--accent);
+}
 
 /* The unread count. This deployment sends no mail, so this number is the whole
    notification: it has to read as a count and not as decoration, which is why
@@ -165,39 +210,33 @@ nav a.active { color: var(--accent-ink); background: var(--accent); }
   background: var(--accent);
   border-radius: 999px;
 }
-nav a.active .badge { color: var(--accent); background: var(--accent-ink); }
+
 
 /* ── Account ──────────────────────────────────────────────────────────── */
 
-.header-side { display: grid; gap: 0.6rem; justify-items: end; }
-
 .account {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: grid;
+  justify-items: start;
+  gap: 0.4rem;
   font: 400 11px/1.6 var(--mono);
   color: var(--muted);
 }
-.account button { padding: 0.25rem 0.7rem; font-size: 12px; }
+.account button { padding: 0.3rem 0.7rem; font-size: 12px; }
 .account .who {
-  max-width: 14rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--ink-2);
 }
 
-.account.signin {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(9rem, 1fr));
+.account.claiming {
+  justify-items: stretch;
   gap: 0.4rem;
-  padding: 0.8rem;
-  background: var(--surface);
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  max-width: 24rem;
+  width: 100%;
 }
-.account.signin input {
+.account.claiming .error,
+.account.claiming .muted { margin: 0; }
+.account.claiming input {
   padding: 0.4rem 0.5rem;
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);
@@ -205,10 +244,7 @@ nav a.active .badge { color: var(--accent); background: var(--accent-ink); }
   color: inherit;
   font: 400 12px/1.4 var(--mono);
 }
-.account.signin input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-.account.signin .error,
-.account.signin .muted { grid-column: 1 / -1; margin: 0; }
-.account.signin .muted { line-height: 1.5; }
+.account.claiming input:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
 /* ── The window strip: the signature, and the progress bar ────────────── */
 
@@ -255,7 +291,21 @@ nav a.active .badge { color: var(--accent); background: var(--accent-ink); }
 
 /* ── Sections ─────────────────────────────────────────────────────────── */
 
+.page-head { margin: 0 0 2rem; }
+.page-head h1 {
+  margin: 0;
+  font: 700 1.95rem/1.1 var(--display);
+  letter-spacing: -0.018em;
+}
+.lede {
+  margin: 0.65rem 0 0;
+  max-width: 36rem;
+  color: var(--ink-2);
+  font-size: 0.92rem;
+}
+
 main > section { margin: 2.5rem 0; }
+main > .page-head + section { margin-top: 0; }
 
 h2 {
   display: flex;
@@ -378,14 +428,96 @@ h3.sub {
 }
 .locked a, .mine a { color: var(--accent); }
 
+.refusal {
+  max-width: 34rem;
+  margin-top: 1rem;
+  padding: 1.3rem 1.4rem;
+  background: var(--surface);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--radius);
+}
+.refusal h2 { margin-top: 0; }
+.refusal p { color: var(--ink-2); font-size: 0.9rem; }
+.refusal .muted { font-size: 11px; }
+
+/* ── The gate ─────────────────────────────────────────────────────────── */
+
+.gate {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(19rem, 25rem);
+  gap: 3.5rem;
+  align-items: center;
+  min-height: 100vh;
+  max-width: 66rem;
+  margin: 0 auto;
+  padding: 3rem 1.5rem;
+}
+
+.gate-hero h1 {
+  margin: 0.7rem 0 0;
+  font: 700 3.1rem/0.98 var(--display);
+  letter-spacing: -0.022em;
+}
+.gate-hero .subtitle { margin-top: 1.1rem; max-width: 28rem; }
+
+/* The hero is a real result: arcene's four windows, the clustering finding two
+   groups, then three, then four, then three. The heights carry it, so nothing
+   else here is allowed to. */
+.motif { margin: 2.75rem 0 0; max-width: 24rem; }
+.motif-rail {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 88px;
+  margin-top: 1.4rem;
+}
+.motif-rail .tick {
+  position: relative;
+  flex: 1 1 0;
+  background: var(--accent);
+  border-radius: 1px 1px 0 0;
+}
+.motif-rail .tick span {
+  position: absolute;
+  top: -1.4rem;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font: 500 11px/1 var(--mono);
+  color: var(--muted);
+}
+.motif figcaption {
+  margin-top: 0.75rem;
+  font: 400 11px/1.7 var(--mono);
+  color: var(--muted);
+}
+.motif code { color: var(--ink-2); }
+
+.gate-doors { display: grid; gap: 2px; }
+
+/* On the gate the tab bar sits directly above a primary button, and a filled
+   tab there reads as a second button rather than as which form you are in. It
+   marks itself instead. */
+.signin-card .tabs { border-bottom: 1px solid var(--rule); }
+.signin-card .tabs button {
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.signin-card .tabs button.on {
+  background: transparent;
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+}
+
 /* ── Sign in ──────────────────────────────────────────────────────────── */
 
 .signin-page {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
-  gap: 0.75rem;
+  gap: 2px;
   align-items: start;
-  margin: 2.5rem 0;
 }
 .signin-card {
   padding: 1.4rem;
@@ -437,17 +569,6 @@ h3.sub {
   letter-spacing: 0.04em;
 }
 .tabs button.on { background: var(--accent); color: var(--accent-ink); }
-
-a.button-link {
-  padding: 0.5rem 1.1rem;
-  border: 1px solid var(--rule-strong);
-  border-radius: var(--radius);
-  font: 500 13px/1.4 var(--body);
-  color: inherit;
-  text-decoration: none;
-  text-align: center;
-}
-a.button-link:hover { border-color: var(--ink-2); }
 
 .admin-tabs { max-width: 30rem; margin-bottom: 1.25rem; }
 
@@ -504,8 +625,6 @@ a.button-link:hover { border-color: var(--ink-2); }
   font: 400 13px/1.5 var(--body);
   resize: vertical;
 }
-footer { display: grid; gap: 0.5rem; justify-items: start; }
-
 /* ── Storage ──────────────────────────────────────────────────────────── */
 
 .upload-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem; }
@@ -727,11 +846,53 @@ td { border-bottom: 1px solid var(--rule); }
 .muted { color: var(--muted); font: 400 12px/1.6 var(--mono); }
 .error { color: var(--danger); font-size: 0.88rem; }
 
-footer {
-  margin-top: 3.5rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--rule);
-  font: 400 11px/1.6 var(--mono);
+
+
+/* ── Narrow ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 60rem) {
+  .gate {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.25rem;
+    align-items: start;
+    padding-top: 2.5rem;
+  }
+  .gate-hero h1 { font: 700 2.4rem/1 var(--display); }
+  .gate-hero h1 br { display: none; }
+  .motif { margin-top: 2rem; }
 }
-footer a { color: var(--muted); }
-footer a:hover { color: var(--ink); }
+
+@media (max-width: 56rem) {
+  /* The rail lies down. It keeps its order - where you are, then who you are -
+     so the same things are in the same sequence, just along the other axis. */
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .rail {
+    position: static;
+    height: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.5rem;
+    padding: 1rem 1.25rem;
+  }
+  .rail-name { display: none; }
+  .rail nav { grid-auto-flow: column; gap: 0.25rem; }
+  .rail nav a {
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .rail nav a.active { border-left: 0; border-bottom-color: var(--accent); }
+  .rail-foot {
+    margin: 0 0 0 auto;
+    grid-auto-flow: column;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 0;
+    border-top: 0;
+  }
+  .rail-foot a { display: none; }
+  .account { grid-auto-flow: column; align-items: center; gap: 0.5rem; }
+  .account.claiming { grid-auto-flow: row; }
+  main { padding: 2rem 1.25rem 4rem; }
+}

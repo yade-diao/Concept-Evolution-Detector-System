@@ -11,7 +11,7 @@
  * channel rather than a convenience. Nothing can be mailed out of here without
  * a relay somebody pays for and a domain somebody owns, so the events that
  * would have been emails - a registration, a guest keeping their work - are
- * written here beside the feedback, and the header carries the unread count.
+ * written here beside the feedback, and the rail carries the unread count.
  * It is a weaker channel than mail and the page says so rather than implying a
  * notification arrived somewhere it did not.
  */
@@ -37,7 +37,7 @@ const TABS: Tab[] = ['accounts', 'messages', 'mail']
 export function AdminView() {
   const { session } = useCurrentSession()
   const token = session?.token ?? null
-  // The tab lives in the URL so the header's badge can point at the inbox
+  // The tab lives in the URL so the rail's badge can point at the inbox
   // rather than at the page and hope.
   const [params, setParams] = useSearchParams()
   const asked = params.get('tab') as Tab | null
@@ -117,7 +117,7 @@ export function AdminView() {
             <p className="muted">
               Both halves of what would have been email: what visitors wrote,
               and what the server has to report. Nothing is pushed anywhere —
-              the count in the header is the notification.
+              the count in the sidebar is the notification.
             </p>
             {unread > 0 && (
               <button type="button" className="ghost" onClick={() => void readEverything()}>
