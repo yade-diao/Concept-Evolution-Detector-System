@@ -1,0 +1,47 @@
+name: mail-check
+
+# Does a registration on the live site still mail a verification code?
+# A failed run is the alert: GitHub notifies the owner of a scheduled
+# workflow when it fails.
+#
+# Once a day at an unpredictable hour. Cron cannot say "random", so this
+# wakes every hour and only the hour drawn from the date's hash goes on;
+# the others stop after the first step. A manual run always goes on.
+on:
+  schedule:
+    - cron: '23 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mail-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - id: draw
+        run: |
+          hour=$(( $(date -u +%Y-%m-%d | cksum | cut -d' ' -f1) % 24 ))
+          echo "today's check runs at ${hour}:23 UTC, it is $(date -u +%H:%M) now"
+          if [ "${{ github.event_name }}" = workflow_dispatch ] || [ "$hour" -eq "$(date -u +%-H)" ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.draw.outputs.go == 'true'
+        uses: actions/checkout@v4
+      - if: steps.draw.outputs.go == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - if: steps.draw.outputs.go == 'true'
+        run: node .github/scripts/mail-check.mjs
+        env:
+          CED_URL: https://ced-stream.denmarkeast.cloudapp.azure.com
+          TEST_MAILBOX: cedtest@catstu.onmicrosoft.com
+          MONITOR_TENANT_ID: ${{ secrets.MONITOR_TENANT_ID }}
+          MONITOR_CLIENT_ID: ${{ secrets.MONITOR_CLIENT_ID }}
+          MONITOR_CLIENT_SECRET: ${{ secrets.MONITOR_CLIENT_SECRET }}
