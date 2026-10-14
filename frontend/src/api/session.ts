@@ -217,13 +217,34 @@ export function useSession() {
     }
   }, [session])
 
+  /**
+   * Take the session the Microsoft callback handed over in the URL fragment.
+   *
+   * The server has already done the sign-in; this only stores the result the
+   * same way a password sign-in would, as an account.
+   */
+  const adoptMicrosoft = useCallback(async (token: string, expiresInSeconds: number,
+                                            email: string) => {
+    const next: Session = {
+      email,
+      kind: 'account',
+      role: await roleOf(token),
+      token,
+      expiresAt: Date.now() + expiresInSeconds * 1000,
+    }
+    setSession(next)
+    write(next)
+  }, [])
+
   const signOut = useCallback(() => {
     setSession(null)
     write(null)
     setError(null)
   }, [])
 
-  return { session, busy, error, authenticate, confirm, continueAsGuest, claim, signOut }
+  return {
+    session, busy, error, authenticate, confirm, continueAsGuest, claim, adoptMicrosoft, signOut,
+  }
 }
 
 /**

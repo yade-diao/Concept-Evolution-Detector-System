@@ -561,6 +561,10 @@ tbody tr:hover td { background: var(--surface-2); }
   color: var(--muted);
 }
 .signin-card > p + button, .signin-card > p + .btn { margin-top: var(--s4); }
+.signin-card .btn.microsoft {
+  display: flex; justify-content: center; width: 100%;
+  text-decoration: none; margin-bottom: var(--s2);
+}
 .signin-card .what-you-get {
   padding-top: var(--s4);
   border-top: 1px solid var(--rule);

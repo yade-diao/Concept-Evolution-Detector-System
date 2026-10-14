@@ -39,6 +39,14 @@ public class User {
     @Column(name = "password_hash")
     private String passwordHash;
 
+    /**
+     * "tenant:object" for an account that signs in with Microsoft, null
+     * otherwise. Null password hash and non-null id is an account with no
+     * password at all; the database requires at least one of the two.
+     */
+    @Column(name = "microsoft_id")
+    private String microsoftId;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -71,6 +79,19 @@ public class User {
             throw new IllegalArgumentException("A guest has no email or password.");
         }
         return new User(id, email, passwordHash, role, null, createdAt);
+    }
+
+    /**
+     * Someone who signed in with Microsoft and has never had a password here.
+     *
+     * Always an ordinary user. The administrator is matched on the configured
+     * address at password registration, and an email claim from an arbitrary
+     * tenant is not evidence that someone owns that address.
+     */
+    public static User microsoft(UUID id, String email, String microsoftId, Instant createdAt) {
+        User user = new User(id, email, null, Role.USER, null, createdAt);
+        user.microsoftId = microsoftId;
+        return user;
     }
 
     /**
@@ -117,6 +138,10 @@ public class User {
 
     public String getPasswordHash() {
         return passwordHash;
+    }
+
+    public String getMicrosoftId() {
+        return microsoftId;
     }
 
     public Instant getCreatedAt() {

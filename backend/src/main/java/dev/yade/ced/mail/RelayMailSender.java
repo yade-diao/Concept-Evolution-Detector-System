@@ -9,7 +9,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Mail out through a relay on port 587, or into the log if there is none.
+ * Mail out through Microsoft Graph or a relay on port 587, or into the log if
+ * there is neither.
+ *
+ * `ced.mail.via=graph` sends through {@link GraphMail} as `ced.mail.from`;
+ * anything else uses the SMTP relay when a host is set.
  *
  * Written against JavaMail directly rather than through a starter, because what
  * is needed is one authenticated submission over STARTTLS and the starter's
@@ -25,19 +29,24 @@ public class RelayMailSender implements MailSender {
     private static final Logger log = LoggerFactory.getLogger(RelayMailSender.class);
 
     private final MailLogRepository entries;
+    private final GraphMail graph;
+    private final boolean viaGraph;
     private final String host;
     private final int port;
     private final String username;
     private final String password;
     private final String from;
 
-    public RelayMailSender(MailLogRepository entries,
+    public RelayMailSender(MailLogRepository entries, GraphMail graph,
+                           @Value("${ced.mail.via:smtp}") String via,
                            @Value("${ced.mail.host:}") String host,
                            @Value("${ced.mail.port:587}") int port,
                            @Value("${ced.mail.username:}") String username,
                            @Value("${ced.mail.password:}") String password,
                            @Value("${ced.mail.from:}") String from) {
         this.entries = entries;
+        this.graph = graph;
+        this.viaGraph = "graph".equalsIgnoreCase(via.trim());
         this.host = host;
         this.port = port;
         this.username = username;
@@ -47,7 +56,8 @@ public class RelayMailSender implements MailSender {
 
     @Override
     public boolean canDeliver() {
-        return !host.isBlank() && !from.isBlank();
+        if (from.isBlank()) return false;
+        return viaGraph ? graph.configured() : !host.isBlank();
     }
 
     @Override
@@ -78,6 +88,10 @@ public class RelayMailSender implements MailSender {
     }
 
     private void deliver(String recipient, String subject, String body) throws Exception {
+        if (viaGraph) {
+            graph.send(from, recipient, subject, body);
+            return;
+        }
         Properties properties = new Properties();
         properties.put("mail.smtp.host", host);
         properties.put("mail.smtp.port", String.valueOf(port));

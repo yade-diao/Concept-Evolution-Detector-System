@@ -62,11 +62,18 @@ services:
       # registration is one step and the server reports what happened to the
       # administrator's inbox instead of to an address. Port 587 because Azure
       # blocks outbound 25 on every virtual machine.
+      CED_MAIL_VIA: ${CED_MAIL_VIA:-smtp}
       CED_MAIL_HOST: ${CED_MAIL_HOST:-}
       CED_MAIL_PORT: ${CED_MAIL_PORT:-587}
       CED_MAIL_USERNAME: ${CED_MAIL_USERNAME:-}
       CED_MAIL_PASSWORD: ${CED_MAIL_PASSWORD:-}
       CED_MAIL_FROM: ${CED_MAIL_FROM:-}
+      # Sign in with Microsoft, and Graph mail when CED_MAIL_VIA=graph.
+      CED_PUBLIC_URL: ${CED_PUBLIC_URL:-}
+      CED_MICROSOFT_CLIENT_ID: ${CED_MICROSOFT_CLIENT_ID:-}
+      CED_MICROSOFT_CLIENT_SECRET: ${CED_MICROSOFT_CLIENT_SECRET:-}
+      CED_MICROSOFT_TENANT_ID: ${CED_MICROSOFT_TENANT_ID:-}
+      CED_MICROSOFT_AUTHORITY: ${CED_MICROSOFT_AUTHORITY:-common}
     depends_on:
       db:
         # Flyway runs at startup and fails against a database that is still

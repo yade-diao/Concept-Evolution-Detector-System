@@ -9,13 +9,16 @@
  * either way - the difference is what is kept, not what is possible.
  */
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
+import { api } from '../api/client'
 import { useCurrentSession } from '../api/SessionContext'
 
 export function SignInView() {
-  const { session, busy, error, authenticate, confirm, continueAsGuest } = useCurrentSession()
+  const {
+    session, busy, error, authenticate, confirm, continueAsGuest, adoptMicrosoft,
+  } = useCurrentSession()
   const navigate = useNavigate()
   const location = useLocation() as { state?: { from?: string; because?: string } }
   const [mode, setMode] = useState<'login' | 'register'>('login')
@@ -24,6 +27,29 @@ export function SignInView() {
   // Set once the server says it mailed a code instead of creating an account.
   const [awaitingCode, setAwaitingCode] = useState(false)
   const [code, setCode] = useState('')
+  const [options, setOptions] = useState({ microsoft: false, verifiesEmail: false })
+  const [microsoftError, setMicrosoftError] = useState<string | null>(null)
+
+  useEffect(() => {
+    api.authOptions().then(setOptions).catch(() => {
+      // Without the answer, offer only what always works: the password form.
+    })
+  }, [])
+
+  // The Microsoft callback lands here with the outcome in the fragment, which
+  // is read once and then removed so a reload or a shared URL carries nothing.
+  useEffect(() => {
+    if (!window.location.hash) return
+    const params = new URLSearchParams(window.location.hash.slice(1))
+    const token = params.get('microsoft')
+    const failure = params.get('microsoft-error')
+    if (!token && !failure) return
+    window.history.replaceState(null, '', window.location.pathname)
+    if (failure) setMicrosoftError(failure)
+    if (token) {
+      void adoptMicrosoft(token, Number(params.get('expires') ?? 0), params.get('email') ?? '')
+    }
+  }, [adoptMicrosoft])
 
   if (session) return <Navigate to={location.state?.from ?? '/'} replace />
 
@@ -108,19 +134,31 @@ export function SignInView() {
               buys anything. Nothing else is asked for.
             </p>
           )}
-          {mode === 'register' && (
+          {mode === 'register' && (options.verifiesEmail ? (
+            <p className="muted">
+              A six-digit code is sent to the address, and the account exists
+              once it is entered.
+            </p>
+          ) : (
             <p className="muted">
               Nothing is sent to the address: this deployment has no mail relay,
               so it is your username here and nothing checks that it is yours.
               Keep the password — without mail there is no way to reset it.
             </p>
-          )}
+          ))}
           {error && <p className="error">{error}</p>}
 
           <button type="submit" className="primary" disabled={busy}>
             {busy ? 'Working…' : mode === 'login' ? 'Sign in' : 'Create account'}
           </button>
         </form>
+
+        {options.microsoft && (
+          <a className="btn microsoft" href="/api/v1/auth/microsoft/start">
+            Sign in with Microsoft
+          </a>
+        )}
+        {microsoftError && <p className="error">{microsoftError}</p>}
 
         <p className="what-you-get">
           An account gets a personal space: your own datasets, kept on the server

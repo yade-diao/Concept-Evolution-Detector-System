@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     boolean existsByEmailIgnoreCase(String email);
 
+    Optional<User> findByMicrosoftId(String microsoftId);
+
     Page<User> findAllByOrderByCreatedAtDesc(Pageable pageable);
 
     /**

@@ -186,6 +186,10 @@ export const api = {
   /** A session with no account behind it, for this tab. */
   guest: () => request<Token>('/auth/guest', { method: 'POST' }),
 
+  /** Which ways in this deployment offers. */
+  authOptions: () =>
+    request<{ microsoft: boolean; verifiesEmail: boolean }>('/auth/options'),
+
   /** Who this token names, and what it may do. */
   me: (token: string) => request<Me>('/auth/me', { token }),
 

@@ -248,10 +248,41 @@ public class AuthService {
             throw new InvalidCredentials();
         }
         User user = found.get();
+        if (user.getPasswordHash() == null) {
+            // Signs in with Microsoft only. Same answer and same cost as a
+            // wrong password, for the same reason as an unknown address.
+            encoder.matches(request.password(), NO_SUCH_USER_HASH);
+            throw new InvalidCredentials();
+        }
         if (!encoder.matches(request.password(), user.getPasswordHash())) {
             throw new InvalidCredentials();
         }
         return AuthDtos.Token.bearer(jwt.issue(user.getId(), Instant.now()), jwt.lifetimeSeconds());
+    }
+
+    /**
+     * Sign in someone Microsoft has just vouched for, creating the account the
+     * first time.
+     *
+     * Matched on the Microsoft identity only. An existing password account with
+     * the same address is not taken over: the address in the token is whatever
+     * the issuing tenant says it is, and linking on it would hand that account
+     * to anyone able to create a tenant. The person signs in with their
+     * password instead.
+     */
+    @Transactional
+    public AuthDtos.Token signInWithMicrosoft(String microsoftId, String email) {
+        Instant now = Instant.now();
+        User user = users.findByMicrosoftId(microsoftId).orElse(null);
+        if (user == null) {
+            if (users.existsByEmailIgnoreCase(email)) {
+                throw new EmailAlreadyRegistered();
+            }
+            user = users.save(User.microsoft(UUID.randomUUID(), email, microsoftId, now));
+            notices.post("New account: " + email,
+                    email + " signed in with a Microsoft account for the first time.");
+        }
+        return AuthDtos.Token.bearer(jwt.issue(user.getId(), now), jwt.lifetimeSeconds());
     }
 
     /**
