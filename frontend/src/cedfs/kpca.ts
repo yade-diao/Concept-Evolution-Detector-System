@@ -14,7 +14,7 @@
  * *distances* between projected points, and those are invariant under both.
  */
 
-import { symmetricEigen } from './eigen'
+import { tridiagonalEigen } from './tridiagonal'
 import { gramMatrix, type KernelType } from './kernel'
 
 export interface Reduced {
@@ -51,7 +51,7 @@ export function kernelPca(
   targetDim: number,
 ): Reduced {
   const centred = centreInFeatureSpace(gramMatrix(X, n, width, kernelType, sigma), n)
-  const { values, vectors } = symmetricEigen(centred, n)
+  const { values, vectors } = tridiagonalEigen(centred, n)
 
   const order = Array.from({ length: n }, (_, i) => i).sort((a, b) => values[b] - values[a])
   const dim = Math.max(1, Math.min(targetDim, n))
