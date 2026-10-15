@@ -16,7 +16,7 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       OLD³S for evolving feature spaces), density peaks (Rodriguez & Laio 2014,
       KNN-DPC), and drift detection on time series (Page-Hinkley, ADWIN). For
       each: what it detects, on which axis the stream runs, what we borrow.
-- [ ] T2 Formal problem statement (`docs/THEORY.md`): windows over the feature
+- [x] T2 Formal problem statement (`docs/THEORY.md`): windows over the feature
       axis, the event taxonomy as a function of the overlap matrix, and which
       events are reachable under which class-size conditions (the "uneven"
       result in the README, proved rather than observed).
