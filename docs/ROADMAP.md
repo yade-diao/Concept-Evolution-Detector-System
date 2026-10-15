@@ -9,7 +9,7 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 
 ## T — Theory
 
-- [ ] T1 Literature map (`docs/RELATED_WORK.md`): concept evolution / novel
+- [x] T1 Literature map (`docs/RELATED_WORK.md`): concept evolution / novel
       class detection (ECSMiner, Masud 2011; SAND), cluster-transition
       monitoring (MONIC, Spiliopoulou 2006; MEC, Oliveira & Gama 2012;
       clusTransition), feature streams (OSFS, SAOLA, Alpha-investing, OCDS /
