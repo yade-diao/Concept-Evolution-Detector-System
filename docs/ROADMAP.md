@@ -26,6 +26,10 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 - [ ] T4 KPCA scaling (`K_c v` vs. `sqrt(lambda) v`, inherited from the MATLAB
       original): state it, then ablate it in E3.
 
+- [~] T5 One-cluster decision (P3, P6): `screening.py` and `significance.py`
+      exist; screening is the useful one. Open: make it an option of `CED_FS`
+      and of the TypeScript port, so the app can use it.
+
 ## E — Experiments
 
 - [ ] E1 Evaluation protocol: ARI and NMI alongside the Rand Index, event-level
@@ -44,11 +48,17 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 The stream runs along the feature axis, so the industrial case must be a
 *fleet* (fixed set of units) observed over *time* (columns arriving).
 
-- [ ] I1 Tennessee Eastman process: rows = simulation runs (normal + faults),
+- [~] I1 Tennessee Eastman process: rows = simulation runs (normal + faults),
       columns = time steps of a process variable; the fault is introduced at a
       known step, so "a new concept emerges at step t" has ground truth.
       Measure detection delay and false alarms against PCA-T²/SPE, the
       standard monitoring baseline.
+      *Done so far* (`docs/INDUSTRIAL.md`): unchanged CED-FS alarms on 31% of
+      pre-fault run-windows (P3); variable screening (IF-PCA-style, Bonferroni)
+      takes that to 0 and detection 0.52 → 0.63 vs PCA 0.77 with no clean
+      history, beats PCA on fault 5, names the faulty variable.
+      *Open*: variance faults (8, 10–13, 16, 17, 20), window size, smaller
+      faulty fraction, two-in-a-row rule results.
 - [ ] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.

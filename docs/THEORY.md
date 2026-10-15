@@ -98,6 +98,27 @@ splitting every class in two raises the separated-pair count and RI with it.
 Hence the project reports the adjusted Rand Index (ARI) and NMI alongside RI
 (ROADMAP E1), and the centre-selection rule was chosen on ARI.
 
+**P6 (screening bounds the false-alarm rate).** Screening (in
+`cedfs/algorithm/screening.py`, after IF-PCA, Jin & Wang 2016) tests each
+variable's per-object window mean and log-spread for normality across the
+objects, at level `α / 2V` for `V` variables, and calls a window one cluster
+when nothing is selected. If the objects are independent and every summary is
+Gaussian across them — what "no structure" means for a fleet of like units —
+then by the union bound `P(window selects anything) ≤ α`, and by P1 a window
+called one cluster next to another called one cluster is *stable*. So the
+event stream before a fault is "stable" except with probability `≤ α` per
+window. The bound is only as good as the Gaussian assumption: on Tennessee
+Eastman fault-free fleets the measured rate is 5.7% at α = 1%, the excess
+coming from a few variables with heavier tails. Sample-and-hold analysers are
+the one case handled specially: their window spread is discrete, so it is not
+tested (`held`).
+
+The SigClust gate (`significance.py`, Liu et al. 2008) answers the same
+question differently — is the partition tighter than one Gaussian with the
+window's own spectrum? — and has the same kind of guarantee, but on wide
+windows it is too conservative to be useful: on Tennessee Eastman it removes
+every pre-fault alarm and most of the detections with them.
+
 ## 4. What is not claimed
 
 - The method's KPCA projection uses `K_c v` (eigenvalue-scaled) where the

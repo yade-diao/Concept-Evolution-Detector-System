@@ -35,6 +35,8 @@ from scipy import stats
 from sklearn.metrics import adjusted_rand_score
 
 from cedfs.algorithm.k_r_dpc import k_r_dpc
+from cedfs.algorithm.screening import screen
+from cedfs.algorithm.significance import significance
 from cedfs.evaluation import event_counts
 
 ONSET = 160
@@ -61,17 +63,42 @@ def as_stream(runs: np.ndarray) -> np.ndarray:
     return (flat - lo) / span
 
 
-def ced_fs_flags(stream, n_vars, hour, params):
-    clusterings, counts, flags = [], [], []
+def ced_fs_flags(stream, runs, hour, params, gate=None, screen_alpha=None):
+    """Cluster every window, optionally behind one of two one-cluster tests.
+
+    `gate` is a level alpha: a window whose partition is not tighter than the
+    one-cluster Gaussian null at that level is read as a single cluster.
+    `screen_alpha` screens variables first (`cedfs.algorithm.screening`): a
+    window in which no variable splits the fleet is a single cluster, and
+    otherwise only the selected variables' columns are clustered.
+    Returns clusterings, cluster counts, per-run flags and, per window, the
+    variables that were selected (all of them when not screening).
+    """
+    n_vars = runs.shape[-1]
+
+    def cluster(x):
+        return np.asarray(k_r_dpc(x, image_dir=None, **params)[0])
+
+    clusterings, counts, flags, chosen = [], [], [], []
     for start in range(0, SAMPLES, hour):
-        window = stream[:, start * n_vars:(start + hour) * n_vars]
-        labels, _, k = k_r_dpc(window, image_dir=None, **params)
-        labels = np.asarray(labels)
+        variables = np.arange(n_vars)
+        if screen_alpha is not None:
+            variables, _ = screen(runs[:, start:start + hour], screen_alpha)
+        cols = (start + np.arange(hour))[:, None] * n_vars + variables[None, :]
+        window = stream[:, cols.ravel()]
+        if variables.size == 0:
+            labels, k = np.ones(len(runs), dtype=int), 1
+        else:
+            labels, _, k = k_r_dpc(window, image_dir=None, **params)
+            labels = np.asarray(labels)
+        if gate is not None and k > 1 and significance(window, labels, cluster, seed=start) > gate:
+            labels, k = np.ones_like(labels), 1
         clusterings.append(labels)
         counts.append(int(k))
         largest = np.bincount(labels).argmax()
         flags.append(labels != largest)
-    return clusterings, counts, np.array(flags).T          # (runs, windows)
+        chosen.append(variables.tolist())
+    return clusterings, counts, np.array(flags).T, chosen   # flags: (runs, windows)
 
 
 def pca_monitor(reference: np.ndarray, alpha: float = 0.01, variance: float = 0.9):
@@ -114,11 +141,12 @@ def rates(flags, faulty, onset_window):
             "median_delay_windows": float(np.median(delays)) if delays else None}
 
 
-def run(fault, data, n_normal, n_faulty, hour, params, monitor):
+def run(fault, data, n_normal, n_faulty, hour, params, monitor, gate=None, screen_alpha=None):
     runs, faulty = fleet(data, fault, n_normal, n_faulty)
-    n_vars = runs.shape[-1]
     onset_w = ONSET // hour
-    clusterings, counts, flags = ced_fs_flags(as_stream(runs), n_vars, hour, params)
+    clusterings, counts, flags, chosen = ced_fs_flags(as_stream(runs), runs, hour, params,
+                                                      gate, screen_alpha)
+    picked = np.bincount([v for w in chosen[onset_w:] for v in w], minlength=runs.shape[-1])
     truth = [np.zeros_like(faulty) if w < onset_w else faulty for w in range(len(counts))]
     ari = [adjusted_rand_score(t, c) for t, c in zip(truth, clusterings)]
     pre_events = event_counts(clusterings[:onset_w], counts[:onset_w])
@@ -132,9 +160,23 @@ def run(fault, data, n_normal, n_faulty, hour, params, monitor):
         "clusters_post": counts[onset_w:],
         "events_pre_onset": pre_events,
         "ari_post_mean": float(np.mean(ari[onset_w:])),
+        "variables_post": {str(data["columns"][v]): int(picked[v])
+                           for v in np.argsort(picked)[::-1][:5] if picked[v]},
         "ced_fs": rates(flags, faulty, onset_w),
+        # Two consecutive windows, the oldest of the Western Electric run rules:
+        # a false selection rarely repeats, a fault does.
+        "ced_fs_two_in_a_row": rates(flags & np.c_[np.zeros(len(flags), bool), flags[:, :-1]],
+                                     faulty, onset_w),
         "pca": rates(pca_flags, faulty, onset_w),
     }
+
+
+def _run_one(job):
+    fault, args, params = job
+    data = np.load(args.data)
+    monitor, _ = pca_monitor(data["normal"][400:500])
+    return run(fault, data, args.normal, args.faulty, args.hour, params, monitor, args.gate,
+               args.screen)
 
 
 def main() -> None:
@@ -146,6 +188,9 @@ def main() -> None:
     parser.add_argument("--hour", type=int, default=20, help="samples per window")
     parser.add_argument("--sigma", type=float, default=6.0)
     parser.add_argument("--p", type=float, default=0.05)
+    parser.add_argument("--gate", type=float, help="significance level for the one-cluster test")
+    parser.add_argument("--screen", type=float, help="family-wise level for variable screening")
+    parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
@@ -156,16 +201,20 @@ def main() -> None:
 
     print(f"fleet: {args.normal} normal + {args.faulty} faulty runs, window = "
           f"{args.hour} samples ({args.hour * 3} min), PCA keeps {n_pc} components")
-    print(f"{'fault':>5}  {'CED-FS FAR':>10} {'det':>5} {'ARI':>5}   "
+    print(f"{'fault':>5}  {'CED-FS FAR':>10} {'det':>5} {'ARI':>5}   {'2-row FAR':>9} {'det':>5}   "
           f"{'PCA FAR':>7} {'det':>5}   pre-onset events")
-    results = []
-    for f in args.faults:
-        r = run(f, data, args.normal, args.faulty, args.hour, params, monitor)
-        results.append(r)
+    from concurrent.futures import ProcessPoolExecutor
+    with ProcessPoolExecutor(args.jobs) as pool:
+        results = list(pool.map(_run_one, [(f, args, params) for f in args.faults]))
+    for r in results:
+        f = r["fault"]
         c, p, e = r["ced_fs"], r["pca"], r["events_pre_onset"]
+        c2 = r["ced_fs_two_in_a_row"]
         print(f"{f:>5}  {c['far_pre']:>10.3f} {c['detection']:>5.2f} {r['ari_post_mean']:>5.2f}"
+              f"   {c2['far_pre']:>9.3f} {c2['detection']:>5.2f}"
               f"   {p['far_pre']:>7.3f} {p['detection']:>5.2f}   "
-              f"S{e['stable']} D{e['drift']} E{e['emerging']} F{e['forgetting']}")
+              f"S{e['stable']} D{e['drift']} E{e['emerging']} F{e['forgetting']}   "
+              + " ".join(list(r["variables_post"])[:3]))
     if args.out:
         args.out.write_text(json.dumps(results, indent=1))
 
