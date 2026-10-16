@@ -14,6 +14,9 @@ Reference: density-peak clustering extended with kernel mapping and rKNN
 density estimation.
 """
 
+from __future__ import annotations
+
+
 import logging
 import os
 import uuid

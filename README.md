@@ -5,45 +5,97 @@
 [![backend](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/backend.yml/badge.svg)](https://github.com/yade-diao/Concept-Evolution-Detector-System/actions/workflows/backend.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Detects and classifies how concepts appear, move and disappear in a
-high-dimensional **feature stream**, and shows what it found in a browser.
+Detects how groups appear, split, merge and disappear in a **feature stream** —
+a fixed set of objects whose measurements arrive over time — and turns that
+into a monitor for **fleets of machines**: which units left their peers, when,
+and through which variables, with no fault-free history and no labels.
 
 **→ [ced-stream.denmarkeast.cloudapp.azure.com](https://ced-stream.denmarkeast.cloudapp.azure.com)**
-— running, with ten benchmarks bundled. "Continue as guest" needs no account.
+— "Continue as guest" needs no account. Everything is computed in your browser.
 
-![The experiment page: ten benchmarks, the detector's parameters, and the window
-strip above them](docs/experiment.png)
+![The Fleets page on a Tennessee Eastman fleet: no unit flagged before the
+fault, the twenty faulty runs leaving together at 8:00, and the variable they
+left through](docs/fleets.png)
 
-The clustering runs **in the browser**, in a worker thread. The server holds
-accounts, uploaded datasets and saved runs; it computes nothing, so the tool
-works with the network off once a benchmark is cached.
+## What it does on industrial fleets
 
-![What a run found: a reading in sentences, then the four
-charts](docs/findings.png)
+A fleet of like units observed together is exactly the method's setting: the
+units are the samples, which stay; the measurements are the features, which
+arrive. Three fleets, two simulated and one real, each against the monitor
+its field would normally use:
 
-Every run is read back in the units of the data it came from — the panel above
-is `eog`, where a window is fifty milliseconds of eye movement, so the reading
-says so rather than saying "window 8".
+| fleet | question | this project | reference monitor |
+|---|---|---|---|
+| **Tennessee Eastman** process, 100 runs, 17 detectable faults ([Rieth et al. 2017](https://doi.org/10.7910/DVN/6C3JR1)) | which runs became faulty, and through what? | detection **0.83**, **no alarm before any fault**, names the variable (fault 5: xmv_11, condenser cooling water) | PCA T²/SPE on 100 clean runs: 0.77 |
+| **C-MAPSS** turbofans, 100 engines, run to failure (NASA) | which engines are degrading? | FD001: **0.71** detection, 0 false alarms; FD003: **0.68**; and its first-window split *is* the fault mode (p = 10⁻¹⁶) | PCA on each engine's first 30 cycles: 0.22 / 0.36 |
+| **Lithium-ion cells**, 128 real cells, 70 charging protocols ([Severson et al. 2019](https://doi.org/10.1038/s41560-019-0356-8)) | which cells will die young, by cycle 100? | names **69%** of the shortest-lived quarter at **55%** precision (chance 25%), unsupervised | the paper's best feature, ranked: ρ = −0.90 with life (reproduced) |
 
-**What it is for.** A fleet of like units — process runs, engines, machines —
-observed together is a feature stream in exactly the method's sense: the units
-are fixed, the measurements arrive. On a Tennessee Eastman fleet, with no
-fault-free history at all, the detector (with the variable screening and
-summary clustering added here) finds faults with mean detection **0.83 against
-0.77** for the textbook PCA T²/SPE monitor fitted on 100 clean runs, raises
-**no alarm before any fault**, and names the variable each fault moved. On
-NASA's C-MAPSS turbofans a second, graded monitor flags degrading engines at
-0.71 detection against PCA's 0.22. Where it loses, the documents say so. Both
-monitors also run in the browser, on the **Fleets** page, over three bundled
-fleets with their ground truth.
+The numbers, the baselines, and every case where it loses are in
+[docs/INDUSTRIAL.md](docs/INDUSTRIAL.md). In one line each: the clustering
+monitor needs a group (one faulty unit in a hundred is seen 29% of the time);
+it is behind PCA on TEP faults 10, 16 and 17; and on the battery fleet the
+alarm keeps much less than the score behind it.
+
+### Three monitors, for three shapes of change
+
+| change | example | use |
+|---|---|---|
+| some units **leave** the fleet, abruptly | process faults, a new operating mode | `cedfs.fleet.monitor` — K-R-DPC per window, after screening which variables split the fleet; events between windows in CED-FS's and MONIC's terms |
+| units **drift**, the fleet otherwise alike | wear in identical machines | `cedfs.fleet.deviation` + `accumulate` — conformal p-value against the fleet, each unit minus its own start |
+| units drift, the fleet **heterogeneous** in use or ageing | batteries on different duty, mixed fault modes | `cedfs.fleet.own_change` + `accumulate` — one-sided: each unit against its own start, the fleet only ranks how much |
+
+```
+python -m cedfs.monitor fleet.csv --unit engine --time cycle --window 5 --baseline 30
+```
+
+reads a long-format CSV and runs the first two; the **Fleets** page runs all
+three in the browser on the bundled fleets.
+
+### What changed from the published method, and why
+
+The original CED-FS (Guo, Anhui University, 2023) is kept as the default
+everywhere, and the browser port is held to it on the bundled benchmarks.
+What was added, each because a measurement showed the need:
+
+- **Variable screening** (after IF-PCA, Jin & Wang 2016). The method always
+  returns at least two clusters ([docs/THEORY.md](docs/THEORY.md), P3), so on a
+  fleet with no structure it reported events in every window — 31% of
+  run-windows alarmed before any fault. Screening tests each variable for
+  being one Gaussian across the fleet, calls a window one group when nothing
+  is selected, and clusters only what was selected. Pre-fault alarms: 31% → 0.
+- **Clustering on summaries.** A fault that adds variance scatters its units
+  in raw columns; their window means and spreads gather them. TEP detection
+  0.63 → 0.83.
+- **Relative density** (RECOME, Geng et al. 2018), an option: the original
+  absorbs a group under a third of its neighbour's size — exactly the groups
+  emerging and forgetting depend on (P2).
+- **MONIC's transitions** (Spiliopoulou et al. 2006) next to the original four
+  events: the original calls every split *drift* and some merges *forgetting*.
+- **The graded monitors** above, for fleets that wear out rather than break.
+
+Findings against the method are kept too: max Rand Index, the thesis's figure,
+stays at 0.96 on a stream where every rare event is missed
+([docs/EXPERIMENTS.md](docs/EXPERIMENTS.md), E1); screening *hurts* on the
+gene-expression benchmarks, whose columns are skewed regardless (T5); and on
+the industrial fleet the choice of clusterer barely matters once screening has
+run (E2).
 
 | | |
 |---|---|
-| [docs/INDUSTRIAL.md](docs/INDUSTRIAL.md) | Tennessee Eastman and C-MAPSS fleets, baselines, failures, how to run it on your own CSV |
+| [docs/INDUSTRIAL.md](docs/INDUSTRIAL.md) | the three fleets, baselines, failures, sensitivity, how to run it on your own CSV |
 | [docs/THEORY.md](docs/THEORY.md) | what the event rules imply before any data is run (P1–P6) |
 | [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) | evaluation protocol, ablations, other clusterers, running time |
 | [docs/RELATED_WORK.md](docs/RELATED_WORK.md) | where the method sits, organised by which axis each stream runs along |
 | [docs/ROADMAP.md](docs/ROADMAP.md) | what is done and what is open |
+
+### The benchmarks
+
+The experiment page runs the original method on ten benchmarks in the browser,
+in a worker thread; the server holds accounts and saved runs and computes
+nothing.
+
+![What a run found on a benchmark: a reading in sentences, then the four
+charts](docs/findings.png)
 
 ## The premise: the stream runs along the feature axis
 
@@ -102,10 +154,15 @@ as drift.
 
 ## The algorithm exists twice, and the two are held together
 
-`cedfs/` is the reference, in Python, and is where the numbers reported here
-come from. `frontend/src/cedfs/` is a TypeScript port, and is what actually runs
-when someone uses the tool — the clustering happens in the browser, in a worker
-thread, and the server computes nothing.
+The deployed system is **React + Spring Boot**: the detector is TypeScript
+(`frontend/src/cedfs/`) and runs in the visitor's browser, in a worker thread;
+the Java service (`backend/`) holds accounts, datasets and saved runs and
+computes nothing. No Python runs in production.
+
+`cedfs/` is the **reference implementation**, in Python, and it stays for two
+reasons: every experiment and number in `docs/` is produced with it (NumPy,
+SciPy, scikit-learn, and readers for the raw R and HDF5 releases), and it is
+what the TypeScript port is checked against.
 
 Two implementations of one method drift, and the way they drift is silent: both
 return a plausible number of clusters and nobody is told which one is right. So
@@ -127,6 +184,15 @@ even: at `p = 0.05` a 50-sample window asks for `round(2.5)` neighbours — two
 there, three here — and the density estimate is built on those neighbours. One
 window of `glioma` split into three clusters where the reference found two.
 
+The fleet monitors are held the same way: `frontend/tests/fleets.test.ts`
+runs the TypeScript screening, clustering, deviation and own-change monitors
+on the three bundled fleets and compares every window's groups, flagged units,
+selected variables, events, transitions and p-values with
+`frontend/tests/reference/fleet_answers.json`
+(`python -m tests.generate_fleet_answers`). To make that possible, every
+screening decision in Python is taken by a closed form (the Dallal–Wilkinson
+Lilliefors tail) rather than a simulated null the browser could not reproduce.
+
 ## Running it
 
 ```bash
@@ -137,6 +203,11 @@ python -m experiments.synthetic_drift              # the run reported below
 
 # A fleet in a CSV file: unit column, time column, one column per variable
 python -m cedfs.monitor fleet.csv --unit engine --time cycle --window 5 --baseline 30
+
+# The industrial experiments (each script's docstring says where its data comes from)
+python -m experiments.tep_fleet --screen 0.001 --represent summaries
+python -m experiments.cmapss_fleet --subset FD003 --window 5 --represent summaries
+python -m experiments.matr_prepare && python -m experiments.matr_curves && python -m experiments.matr_fleet
 
 # The application: detector, datasets and all, in a browser
 cd frontend && npm ci && npm run dev
@@ -237,8 +308,9 @@ See [datasets/README.md](datasets/README.md).
       algorithm/              ced_fs, k_r_dpc, k_pca, kernel, knn, density,
                               screening (is there structure, and in which
                               variables), significance (SigClust gate)
-      fleet.py                the detector as a fleet monitor, and the graded
-                              deviation monitor
+      fleet.py                the three fleet monitors, persistence and
+                              accumulation
+      fleets.py               the bundled fleets, addressable by name
       monitor.py              python -m cedfs.monitor: a fleet from a CSV
       transitions.py          MONIC's survive / split / absorb / emerge
       baselines.py            k-means, HDBSCAN, evolutionary k-means
@@ -248,10 +320,12 @@ See [datasets/README.md](datasets/README.md).
       synthetic.py            streams with the events placed on purpose
 
     frontend/
-      src/cedfs/              the TypeScript port, module for module
+      src/cedfs/              the TypeScript port, module for module, including
+                              screening, fleet and transitions
       src/datasets/           a MATLAB v5 reader, orientation, caching
       src/worker/             where the clustering actually runs
-      src/views/              one file per module in the sidebar
+      src/views/              one file per module in the sidebar (FleetView is
+                              the Fleets page)
       src/nav.ts              the module registry the rail and routes read
       src/findings.ts         a run, turned into sentences
       src/index.css           the design system: tokens, then primitives
@@ -261,8 +335,10 @@ See [datasets/README.md](datasets/README.md).
                               the administrator's inbox, PostgreSQL + Flyway
     deploy/                   what the server runs; see deploy/README.md
     datasets/bundled/         the ten benchmarks, and their manifest
+      fleets/                 three industrial fleets as int16, and theirs
     experiments/              synthetic_drift, protocol, baselines, transitions,
-                              tep_* (Tennessee Eastman), cmapss_fleet; results/
+                              tep_* (Tennessee Eastman), cmapss_* (turbofans),
+                              matr_* (battery cells), build_fleets; results/
     docs/                     theory, experiments, industrial, related work
 
 ## Deploying
