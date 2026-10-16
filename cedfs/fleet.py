@@ -58,7 +58,7 @@ def as_stream(units: np.ndarray) -> np.ndarray:
 def monitor(units: np.ndarray, window: int, params: dict | None = None,
             screen_alpha: float | None = None, gate: float | None = None,
             threshold: float = 0.5, represent: str = "columns",
-            roughness: bool = False) -> FleetResult:
+            roughness: bool | str = False) -> FleetResult:
     """Watch a fleet window by window.
 
     `units` is (units, samples, variables). Trailing samples that do not fill a

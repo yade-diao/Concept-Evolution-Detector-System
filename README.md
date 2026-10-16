@@ -326,7 +326,11 @@ fitted on 100 *separate* fault-free runs. Means over the 17 detectable faults
   but 17 drops 0.73 → 0.62 and 20 0.62 → 0.45; mean detection 0.827 → 0.839,
   still no pre-fault alarm. Holding the per-test threshold equal changes
   nothing, so the losses come from clustering on the extra dimensions, not
-  from the stricter Bonferroni level. Off by default.
+  from the stricter Bonferroni level. `roughness="fallback"` tests it the
+  same way but clusters on it only for variables nothing else selected: 17
+  comes back to 0.72, 16 keeps 0.43, 20 stays at 0.47, and mean detection is
+  0.845 — the best of the three, but not a free gain, so both stay off by
+  default.
 - *Faulty share*: with k faulty runs in 100, the clustering monitor needs a
   group (k = 1: 0.29; k = 20: 0.83) while the deviation monitor ranks units one
   by one (k = 1: 0.77, with a 4% pre-fault rate from runs' persistent

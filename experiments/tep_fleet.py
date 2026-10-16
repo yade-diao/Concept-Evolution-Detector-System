@@ -141,8 +141,9 @@ def main() -> None:
     parser.add_argument("--gate", type=float, help="significance level for the one-cluster test")
     parser.add_argument("--screen", type=float, help="family-wise level for variable screening")
     parser.add_argument("--represent", choices=["columns", "summaries"], default="columns")
-    parser.add_argument("--roughness", action="store_true",
-                        help="also screen the spread of first differences")
+    parser.add_argument("--roughness", nargs="?", const=True, default=False,
+                        help="also screen the spread of first differences; 'fallback' clusters on "
+                             "it only where nothing else selected the variable")
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()

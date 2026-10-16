@@ -123,7 +123,7 @@ def spread_scale(sd: np.ndarray) -> np.ndarray:
     return np.choose(pick, candidates)
 
 
-def summaries(window: np.ndarray, roughness: bool = False) -> np.ndarray:
+def summaries(window: np.ndarray, roughness: bool | str = False) -> np.ndarray:
     """(objects, samples, variables) -> (objects, k * variables).
 
     Window means, then window spreads on the scale `spread_scale` picks; with
@@ -168,7 +168,7 @@ def screen(window: np.ndarray, alpha: float = 0.01):
     return selected, per_var
 
 
-def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool = False):
+def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool | str = False):
     """`screen`, plus the standardised summaries that were selected.
 
     The third value is (objects, s): the summary columns, standardised across
@@ -176,6 +176,8 @@ def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool = 
     representation to cluster on when a fault shows in spread rather than
     level (Wang, Smith & Hyndman, "Characteristic-based clustering for time
     series data", DMKD 2006). Bonferroni is over every summary tested.
+    `roughness=True` adds the spread of first differences; "fallback" tests it
+    too but clusters on it only for variables nothing else selected.
     """
     window = np.asarray(window, dtype=float)
     s = summaries(window, roughness)
@@ -189,4 +191,11 @@ def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool = 
     per_var = p.reshape(m // n_vars, n_vars).min(0)
     hit = p <= alpha / m
     selected = np.flatnonzero(hit.reshape(m // n_vars, n_vars).any(0))
-    return selected, per_var, standardise(s)[:, hit]
+    use = hit.copy()
+    if roughness == "fallback":
+        # Roughness only where neither level nor spread already selected the
+        # variable: it widens what is caught without adding dimensions to the
+        # clustering of what was caught already.
+        level_or_spread = hit[:n_vars] | hit[n_vars:2 * n_vars]
+        use[2 * n_vars:] &= ~level_or_spread
+    return selected, per_var, standardise(s)[:, use]
