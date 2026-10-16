@@ -6,40 +6,39 @@
  "cluster_counts": [
   1,
   1,
-  1,
-  1,
-  1,
-  1,
-  1,
-  1,
-  1,
   2,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
   1,
   1
  ],
  "variables": [
   [],
   [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
   [
-   3,
-   17
+   11
   ],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
   [],
   []
  ],
  "ced_fs_screened": {
-  "detection": 0.13725490196078433,
-  "far": 0.008670520231213872,
+  "detection": 0.0,
+  "far": 0.06213872832369942,
   "engines_degraded": 23,
-  "engines_caught": 16,
-  "median_rul_at_first_flag": 55.0
+  "engines_caught": 12,
+  "median_rul_at_first_flag": 128.0
  },
  "ced_fs_persistent": {
   "detection": 0.0,
@@ -47,6 +46,13 @@
   "engines_degraded": 23,
   "engines_caught": 0,
   "median_rul_at_first_flag": null
+ },
+ "deviation_accumulated": {
+  "detection": 0.49019607843137253,
+  "far": 0.0,
+  "engines_degraded": 23,
+  "engines_caught": 11,
+  "median_rul_at_first_flag": 45.0
  },
  "peer_z": {
   "detection": 0.0,

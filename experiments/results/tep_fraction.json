@@ -5,8 +5,8 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.65,
-   "far_post_normal": 0.27045454545454545,
-   "median_delay_windows": 1.0
+   "far_post_normal": 0.2744949494949495,
+   "median_delay_windows": 4.0
   },
   "deviation": {
    "far_pre": 0.04,
@@ -20,8 +20,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.8,
-   "far_post_normal": 0.1086734693877551,
+   "detection": 0.775,
+   "far_post_normal": 0.11479591836734694,
    "median_delay_windows": 4.0
   },
   "deviation": {
@@ -84,8 +84,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.55,
-   "far_post_normal": 0.2820707070707071,
+   "detection": 0.525,
+   "far_post_normal": 0.28964646464646465,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -100,8 +100,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.85,
-   "far_post_normal": 0.06224489795918367,
+   "detection": 0.8,
+   "far_post_normal": 0.06836734693877551,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -116,9 +116,9 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.975,
+   "detection": 1.0,
    "far_post_normal": 0.0,
-   "median_delay_windows": 1.0
+   "median_delay_windows": 0.0
   },
   "deviation": {
    "far_pre": 0.0375,
@@ -261,7 +261,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.35,
-   "far_post_normal": 0.0778061224489796,
+   "far_post_normal": 0.09158163265306123,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -277,7 +277,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 1.0,
-   "far_post_normal": 0.022894736842105263,
+   "far_post_normal": 0.02157894736842105,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -324,8 +324,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.4,
-   "far_post_normal": 0.29924242424242425,
+   "detection": 0.425,
+   "far_post_normal": 0.2946969696969697,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -340,8 +340,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.45,
-   "far_post_normal": 0.2895408163265306,
+   "detection": 0.275,
+   "far_post_normal": 0.26198979591836735,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -357,7 +357,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 1.0,
-   "far_post_normal": 0.005,
+   "far_post_normal": 0.0,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -404,8 +404,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.525,
-   "far_post_normal": 0.24898989898989898,
+   "detection": 0.55,
+   "far_post_normal": 0.26161616161616164,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -420,9 +420,9 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.9,
-   "far_post_normal": 0.06198979591836735,
-   "median_delay_windows": 0.0
+   "detection": 0.875,
+   "far_post_normal": 0.05510204081632653,
+   "median_delay_windows": 1.0
   },
   "deviation": {
    "far_pre": 0.0425,
@@ -437,7 +437,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 1.0,
-   "far_post_normal": 0.0,
+   "far_post_normal": 0.007105263157894737,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -485,7 +485,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.275,
-   "far_post_normal": 0.2553030303030303,
+   "far_post_normal": 0.24898989898989898,
    "median_delay_windows": 3.0
   },
   "deviation": {
@@ -500,8 +500,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.375,
-   "far_post_normal": 0.29948979591836733,
+   "detection": 0.325,
+   "far_post_normal": 0.29744897959183675,
    "median_delay_windows": 4.5
   },
   "deviation": {
@@ -516,8 +516,8 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.765,
-   "far_post_normal": 0.08578947368421053,
+   "detection": 0.775,
+   "far_post_normal": 0.08526315789473685,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -580,9 +580,9 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.0,
-   "far_post_normal": 0.0,
-   "median_delay_windows": null
+   "detection": 0.025,
+   "far_post_normal": 0.007142857142857143,
+   "median_delay_windows": 31.0
   },
   "deviation": {
    "far_pre": 0.0425,
@@ -628,9 +628,9 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.00375,
-   "far_post_normal": 0.003125,
-   "median_delay_windows": 30.0
+   "detection": 0.0075,
+   "far_post_normal": 0.000625,
+   "median_delay_windows": 13.0
   },
   "deviation": {
    "far_pre": 0.04125,
@@ -644,8 +644,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.2,
-   "far_post_normal": 0.07525252525252525,
+   "detection": 0.225,
+   "far_post_normal": 0.08535353535353535,
    "median_delay_windows": 5.0
   },
   "deviation": {
@@ -660,8 +660,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.375,
-   "far_post_normal": 0.16683673469387755,
+   "detection": 0.425,
+   "far_post_normal": 0.19591836734693877,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -725,7 +725,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.2,
-   "far_post_normal": 0.18409090909090908,
+   "far_post_normal": 0.1803030303030303,
    "median_delay_windows": 7.0
   },
   "deviation": {
@@ -741,7 +741,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.325,
-   "far_post_normal": 0.2701530612244898,
+   "far_post_normal": 0.25892857142857145,
    "median_delay_windows": 3.0
   },
   "deviation": {
@@ -756,8 +756,8 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.845,
-   "far_post_normal": 0.06894736842105263,
+   "detection": 0.875,
+   "far_post_normal": 0.04447368421052632,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -772,8 +772,8 @@
   "k": 10,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.8975,
-   "far_post_normal": 0.01,
+   "detection": 0.9825,
+   "far_post_normal": 0.0,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -788,7 +788,7 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.71375,
+   "detection": 0.985,
    "far_post_normal": 0.0,
    "median_delay_windows": 0.0
   },
@@ -804,9 +804,9 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.2,
-   "far_post_normal": 0.20707070707070707,
-   "median_delay_windows": 10.0
+   "detection": 0.275,
+   "far_post_normal": 0.1941919191919192,
+   "median_delay_windows": 8.0
   },
   "deviation": {
    "far_pre": 0.04,
@@ -821,7 +821,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.2375,
-   "far_post_normal": 0.2543367346938776,
+   "far_post_normal": 0.2686224489795918,
    "median_delay_windows": 7.0
   },
   "deviation": {
@@ -836,8 +836,8 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.785,
-   "far_post_normal": 0.07421052631578948,
+   "detection": 0.835,
+   "far_post_normal": 0.06368421052631579,
    "median_delay_windows": 2.0
   },
   "deviation": {
@@ -852,9 +852,9 @@
   "k": 10,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.9075,
+   "detection": 0.895,
    "far_post_normal": 0.0,
-   "median_delay_windows": 2.0
+   "median_delay_windows": 3.5
   },
   "deviation": {
    "far_pre": 0.04125,
@@ -868,9 +868,9 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.89625,
-   "far_post_normal": 0.0046875,
-   "median_delay_windows": 3.0
+   "detection": 0.89,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 4.0
   },
   "deviation": {
    "far_pre": 0.04125,
@@ -884,8 +884,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.6,
-   "far_post_normal": 0.302020202020202,
+   "detection": 0.5,
+   "far_post_normal": 0.2911616161616162,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -917,7 +917,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 1.0,
-   "far_post_normal": 0.0036842105263157894,
+   "far_post_normal": 0.009210526315789473,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -980,9 +980,9 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.0,
-   "far_post_normal": 0.0,
-   "median_delay_windows": null
+   "detection": 0.0125,
+   "far_post_normal": 0.007142857142857143,
+   "median_delay_windows": 31.0
   },
   "deviation": {
    "far_pre": 0.0425,
@@ -1028,9 +1028,9 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.0075,
-   "far_post_normal": 0.011875,
-   "median_delay_windows": 26.5
+   "detection": 0.01875,
+   "far_post_normal": 0.00125,
+   "median_delay_windows": 38.0
   },
   "deviation": {
    "far_pre": 0.04125,
@@ -1044,8 +1044,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.475,
-   "far_post_normal": 0.20479797979797978,
+   "detection": 0.525,
+   "far_post_normal": 0.20757575757575758,
    "median_delay_windows": 4.0
   },
   "deviation": {
@@ -1061,7 +1061,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.5625,
-   "far_post_normal": 0.2181122448979592,
+   "far_post_normal": 0.21428571428571427,
    "median_delay_windows": 3.5
   },
   "deviation": {
@@ -1092,8 +1092,8 @@
   "k": 10,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.8025,
-   "far_post_normal": 0.0,
+   "detection": 0.805,
+   "far_post_normal": 0.006388888888888889,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -1108,7 +1108,7 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.72125,
+   "detection": 0.7325,
    "far_post_normal": 0.0065625,
    "median_delay_windows": 1.0
   },
@@ -1124,8 +1124,8 @@
   "k": 1,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.125,
-   "far_post_normal": 0.26616161616161615,
+   "detection": 0.225,
+   "far_post_normal": 0.26666666666666666,
    "median_delay_windows": 3.0
   },
   "deviation": {
@@ -1140,8 +1140,8 @@
   "k": 2,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.45,
-   "far_post_normal": 0.2566326530612245,
+   "detection": 0.3,
+   "far_post_normal": 0.26479591836734695,
    "median_delay_windows": 3.0
   },
   "deviation": {
@@ -1157,7 +1157,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.875,
-   "far_post_normal": 0.04473684210526316,
+   "far_post_normal": 0.045263157894736845,
    "median_delay_windows": 2.0
   },
   "deviation": {
@@ -1172,8 +1172,8 @@
   "k": 10,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.9125,
-   "far_post_normal": 0.009166666666666667,
+   "detection": 0.94,
+   "far_post_normal": 0.020277777777777777,
    "median_delay_windows": 1.0
   },
   "deviation": {
@@ -1188,7 +1188,7 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.87625,
+   "detection": 0.91875,
    "far_post_normal": 0.0,
    "median_delay_windows": 3.0
   },
@@ -1236,7 +1236,7 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.55,
+   "detection": 0.57,
    "far_post_normal": 0.06368421052631579,
    "median_delay_windows": 0.0
   },
@@ -1253,7 +1253,7 @@
   "clustering": {
    "far_pre": 0.0,
    "detection": 0.9675,
-   "far_post_normal": 0.04055555555555555,
+   "far_post_normal": 0.035555555555555556,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -1268,8 +1268,8 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.99125,
-   "far_post_normal": 0.0959375,
+   "detection": 0.9925,
+   "far_post_normal": 0.0909375,
    "median_delay_windows": 0.0
   },
   "deviation": {
@@ -1316,8 +1316,8 @@
   "k": 5,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.525,
-   "far_post_normal": 0.09289473684210527,
+   "detection": 0.57,
+   "far_post_normal": 0.08710526315789474,
    "median_delay_windows": 3.0
   },
   "deviation": {
@@ -1332,8 +1332,8 @@
   "k": 10,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.675,
-   "far_post_normal": 0.028333333333333332,
+   "detection": 0.6775,
+   "far_post_normal": 0.025277777777777777,
    "median_delay_windows": 2.0
   },
   "deviation": {
@@ -1348,7 +1348,7 @@
   "k": 20,
   "clustering": {
    "far_pre": 0.0,
-   "detection": 0.63375,
+   "detection": 0.62375,
    "far_post_normal": 0.0096875,
    "median_delay_windows": 2.0
   },

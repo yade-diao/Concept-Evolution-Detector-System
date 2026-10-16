@@ -202,11 +202,11 @@ Full table, with window ARI and event F1: `experiments/results/baselines_synthet
 | k-means | no | 0.436 | 0.56 | 0.239 |
 | HDBSCAN | no | 0.134 | 0.22 | 0.024 |
 | evolutionary | no | 0.665 | 0.79 | 0.569 |
-| K-R-DPC | yes | 0.000 | 0.63 | 0.024 |
-| K-R-DPC relative | yes | 0.000 | 0.65 | 0.016 |
-| k-means | yes | 0.000 | 0.65 | 0.020 |
-| HDBSCAN | yes | 0.000 | 0.48 | 0.022 |
-| evolutionary | yes | 0.000 | **0.68** | 0.046 |
+| K-R-DPC | yes | 0.000 | 0.62 | 0.023 |
+| K-R-DPC relative | yes | 0.000 | 0.65 | 0.017 |
+| k-means | yes | 0.000 | 0.65 | 0.019 |
+| HDBSCAN | yes | 0.000 | 0.48 | 0.024 |
+| evolutionary | yes | 0.000 | **0.67** | 0.036 |
 
 ### Findings
 
@@ -228,7 +228,7 @@ Full table, with window ARI and event F1: `experiments/results/baselines_synthet
    does.** Unscreened, every clusterer is unusable as a monitor (13–67% of
    pre-fault run-windows alarm; HDBSCAN's lower rate comes with 0.22
    detection). Screened, every one has zero pre-fault alarms and detection
-   between 0.63 and 0.68, HDBSCAN aside at 0.48. Once the window is reduced to
+   between 0.62 and 0.67, HDBSCAN aside at 0.48. Once the window is reduced to
    the variables that split the fleet, the grouping is easy; deciding *which*
    variables and *whether* anything splits is the hard part, and that is what
    screening does.

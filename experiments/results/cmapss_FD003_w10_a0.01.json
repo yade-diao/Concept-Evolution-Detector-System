@@ -33,7 +33,9 @@
    13
   ],
   [
+   4,
    6,
+   7,
    8,
    12,
    13
@@ -48,25 +50,11 @@
    7,
    8,
    12,
-   13,
-   15
-  ],
-  [
-   6,
-   7,
-   8,
-   12,
    13
   ],
   [
    6,
    7,
-   8,
-   12,
-   13
-  ],
-  [
-   6,
    8,
    12,
    13
@@ -86,10 +74,24 @@
   ],
   [
    6,
+   7,
+   8,
+   12,
+   13
+  ],
+  [
+   6,
+   8,
+   12,
+   13
+  ],
+  [
+   6,
    8,
    13
   ],
   [
+   2,
    6,
    7,
    8,
@@ -117,17 +119,24 @@
  ],
  "ced_fs_screened": {
   "detection": 0.014925373134328358,
-  "far": 0.3989010989010989,
+  "far": 0.389010989010989,
   "engines_degraded": 27,
   "engines_caught": 1,
   "median_rul_at_first_flag": 180.0
  },
  "ced_fs_persistent": {
   "detection": 0.014925373134328358,
-  "far": 0.37362637362637363,
+  "far": 0.36153846153846153,
   "engines_degraded": 27,
   "engines_caught": 1,
   "median_rul_at_first_flag": 170.0
+ },
+ "deviation_accumulated": {
+  "detection": 0.1044776119402985,
+  "far": 0.07142857142857142,
+  "engines_degraded": 27,
+  "engines_caught": 4,
+  "median_rul_at_first_flag": 26.5
  },
  "peer_z": {
   "detection": 0.05970149253731343,

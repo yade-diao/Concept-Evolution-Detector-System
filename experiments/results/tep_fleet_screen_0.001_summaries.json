@@ -148,9 +148,9 @@
   },
   "ari_post_mean": 1.0,
   "variables_post": {
+   "xmv_6": 40,
    "xmeas_10": 40,
    "xmeas_34": 39,
-   "xmv_6": 39,
    "xmeas_28": 38,
    "xmeas_22": 38
   },
@@ -216,7 +216,7 @@
    2,
    1,
    1,
-   2,
+   1,
    1,
    1,
    1,
@@ -233,16 +233,15 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": -0.0018813680620318022,
+  "ari_post_mean": -0.0022420014433485688,
   "variables_post": {
-   "xmv_5": 1,
-   "xmeas_5": 1
+   "xmv_5": 1
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.00375,
-   "far_post_normal": 0.0059375,
-   "median_delay_windows": 30.0
+   "detection": 0.0,
+   "far_post_normal": 0.0028125,
+   "median_delay_windows": null
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
@@ -320,9 +319,8 @@
   "ari_post_mean": 1.0,
   "variables_post": {
    "xmv_10": 40,
-   "xmv_5": 1,
-   "xmeas_9": 1,
-   "xmeas_5": 1
+   "xmv_5": 2,
+   "xmeas_9": 1
   },
   "ced_fs": {
    "far_pre": 0.0,
@@ -407,9 +405,9 @@
   "variables_post": {
    "xmv_11": 40,
    "xmv_5": 7,
-   "xmeas_4": 6,
    "xmeas_22": 6,
-   "xmeas_8": 6
+   "xmeas_20": 6,
+   "xmeas_4": 6
   },
   "ced_fs": {
    "far_pre": 0.0,
@@ -582,8 +580,8 @@
    "xmv_4": 40,
    "xmv_5": 12,
    "xmv_3": 12,
-   "xmv_2": 11,
-   "xmeas_4": 11
+   "xmeas_1": 12,
+   "xmeas_8": 11
   },
   "ced_fs": {
    "far_pre": 0.0,
@@ -734,7 +732,7 @@
    1,
    1,
    1,
-   2,
+   1,
    1,
    1,
    1,
@@ -751,15 +749,13 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.0003606333813167664,
-  "variables_post": {
-   "xmeas_5": 1
-  },
+  "ari_post_mean": 0.0,
+  "variables_post": {},
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.00375,
-   "far_post_normal": 0.003125,
-   "median_delay_windows": 30.0
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
@@ -800,24 +796,24 @@
    1,
    1,
    1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
    2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
    1,
    1,
    1,
@@ -834,15 +830,15 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.0003606333813167664,
+  "ari_post_mean": 0.006937445699391834,
   "variables_post": {
-   "xmeas_5": 1
+   "xmeas_18": 1
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.00375,
-   "far_post_normal": 0.003125,
-   "median_delay_windows": 30.0
+   "detection": 0.0075,
+   "far_post_normal": 0.000625,
+   "median_delay_windows": 13.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
@@ -920,8 +916,7 @@
   "ari_post_mean": 0.9587176484564661,
   "variables_post": {
    "xmv_10": 40,
-   "xmeas_9": 40,
-   "xmeas_5": 1
+   "xmeas_9": 40
   },
   "ced_fs": {
    "far_pre": 0.0,
@@ -1002,7 +997,7 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.7296581901670605,
+  "ari_post_mean": 0.9850341334848507,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_11": 40,
@@ -1012,13 +1007,13 @@
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.71375,
+   "detection": 0.985,
    "far_post_normal": 0.0,
    "median_delay_windows": 0.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.60625,
+   "detection": 0.94875,
    "far_post_normal": 0.0,
    "median_delay_windows": 1.0
   },
@@ -1089,23 +1084,23 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.8922299960005772,
+  "ari_post_mean": 0.8942992899542676,
   "variables_post": {
    "xmv_5": 39,
+   "xmeas_7": 39,
    "xmeas_16": 39,
-   "xmv_6": 38,
    "xmeas_35": 38,
    "xmeas_22": 38
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.89625,
-   "far_post_normal": 0.0046875,
-   "median_delay_windows": 3.0
+   "detection": 0.89,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 4.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.8575,
+   "detection": 0.85625,
    "far_post_normal": 0.0,
    "median_delay_windows": 5.0
   },
@@ -1180,8 +1175,7 @@
   "variables_post": {
    "xmv_10": 40,
    "xmeas_21": 40,
-   "xmeas_9": 40,
-   "xmeas_5": 1
+   "xmeas_9": 40
   },
   "ced_fs": {
    "far_pre": 0.0,
@@ -1238,7 +1232,7 @@
    1,
    1,
    1,
-   2,
+   1,
    1,
    1,
    1,
@@ -1262,15 +1256,13 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": -0.0013325471698113207,
-  "variables_post": {
-   "xmeas_6": 1
-  },
+  "ari_post_mean": 0.0,
+  "variables_post": {},
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.00375,
-   "far_post_normal": 0.0078125,
-   "median_delay_windows": 23.0
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
@@ -1321,22 +1313,22 @@
    1,
    1,
    1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
    2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
    1
   ],
   "events_pre_onset": {
@@ -1345,16 +1337,15 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": -0.0008997357267791758,
+  "ari_post_mean": 0.01545049819800721,
   "variables_post": {
-   "xmeas_6": 1,
-   "xmeas_5": 1
+   "xmeas_18": 1
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.0075,
-   "far_post_normal": 0.011875,
-   "median_delay_windows": 26.5
+   "detection": 0.01875,
+   "far_post_normal": 0.00125,
+   "median_delay_windows": 38.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
@@ -1389,7 +1380,7 @@
    3,
    2,
    2,
-   2,
+   3,
    2,
    2,
    2,
@@ -1429,22 +1420,22 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.7247011542207472,
+  "ari_post_mean": 0.7342595058781289,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_21": 40,
    "xmeas_9": 40,
-   "xmeas_11": 2
+   "xmeas_11": 3
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.72125,
+   "detection": 0.7325,
    "far_post_normal": 0.0065625,
    "median_delay_windows": 1.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.52,
+   "detection": 0.53375,
    "far_post_normal": 0.0,
    "median_delay_windows": 3.0
   },
@@ -1515,7 +1506,7 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.8818640680320179,
+  "ari_post_mean": 0.9213618848523979,
   "variables_post": {
    "xmeas_22": 39,
    "xmv_11": 38,
@@ -1525,13 +1516,13 @@
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.87625,
+   "detection": 0.91875,
    "far_post_normal": 0.0,
    "median_delay_windows": 3.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.8325,
+   "detection": 0.88875,
    "far_post_normal": 0.0,
    "median_delay_windows": 4.0
   },
@@ -1587,7 +1578,7 @@
    2,
    2,
    2,
-   3,
+   2,
    2,
    2,
    3,
@@ -1602,21 +1593,21 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.8431672753305117,
+  "ari_post_mean": 0.8542391396659903,
   "variables_post": {
    "xmeas_5": 40,
-   "xmv_5": 12
+   "xmv_5": 15
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.99125,
-   "far_post_normal": 0.0959375,
+   "detection": 0.9925,
+   "far_post_normal": 0.0909375,
    "median_delay_windows": 0.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.9575,
-   "far_post_normal": 0.0096875,
+   "detection": 0.96,
+   "far_post_normal": 0.01125,
    "median_delay_windows": 1.0
   },
   "pca": {
@@ -1686,23 +1677,23 @@
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.6388954529781257,
+  "ari_post_mean": 0.6295038805601894,
   "variables_post": {
    "xmv_5": 39,
-   "xmeas_20": 16,
-   "xmeas_13": 5,
-   "xmeas_11": 5,
-   "xmeas_22": 3
+   "xmeas_20": 19,
+   "xmeas_11": 7,
+   "xmeas_13": 6,
+   "xmeas_22": 5
   },
   "ced_fs": {
    "far_pre": 0.0,
-   "detection": 0.63375,
+   "detection": 0.62375,
    "far_post_normal": 0.0096875,
    "median_delay_windows": 2.0
   },
   "ced_fs_two_in_a_row": {
    "far_pre": 0.0,
-   "detection": 0.35625,
+   "detection": 0.34375,
    "far_post_normal": 0.0,
    "median_delay_windows": 3.0
   },

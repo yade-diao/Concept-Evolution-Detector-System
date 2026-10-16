@@ -51,3 +51,12 @@ def test_sample_and_hold_variables_are_recognised():
     w = rng.standard_normal((50, 20, 3))
     w[:, :, 1] = np.repeat(w[:, ::5, 1], 5, axis=1)
     assert held(w).tolist() == [False, True, False]
+
+
+def test_p_values_reach_below_the_simulation_floor():
+    from cedfs.algorithm.screening import lilliefors_null, p_values
+    n = 100
+    floor = 1 / (lilliefors_null(n).size + 1)
+    assert p_values(np.array([3.0]), n)[0] < floor / 100
+    mid = np.quantile(lilliefors_null(n), 0.99)
+    assert abs(p_values(np.array([mid]), n)[0] - 0.01) < 0.002

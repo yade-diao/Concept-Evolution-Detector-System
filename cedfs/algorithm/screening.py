@@ -57,10 +57,28 @@ def lilliefors_null(n: int, sims: int = 200_000, seed: int = 0) -> np.ndarray:
     return np.sort(np.concatenate(out))
 
 
+def dallal_wilkinson(stat: np.ndarray, n: int) -> np.ndarray:
+    """Lilliefors upper-tail p-value, analytic (Dallal & Wilkinson, *The American
+    Statistician* 40, 1986), accurate for p below about 0.1. `stat` is
+    sqrt(n) * D as `ks_normal` returns it."""
+    d = np.asarray(stat, dtype=float) / np.sqrt(n)
+    m = n + 2.78019
+    return np.exp(-7.01256 * d ** 2 * m + 2.99587 * d * np.sqrt(m) - 0.122119
+                  + 0.974598 / np.sqrt(n) + 1.67997 / n)
+
+
 def p_values(stat: np.ndarray, n: int) -> np.ndarray:
+    """Lilliefors p-values: simulated where the simulation has resolution, the
+    Dallal-Wilkinson tail below 1e-3. A simulated p cannot go below
+    1 / (sims + 1), and a Bonferroni level of 1e-4 over a hundred summaries
+    asks for 1e-6 — without the analytic tail nothing could ever be selected.
+    The two agree to within a few percent from 0.1 down to 1e-4."""
     null = lilliefors_null(n)
     above = null.size - np.searchsorted(null, stat, side="left")
-    return (1 + above) / (1 + null.size)
+    p = (1 + above) / (1 + null.size)
+    tail = p < 1e-3
+    p[tail] = np.minimum(p[tail], dallal_wilkinson(stat[tail], n))
+    return p
 
 
 def held(window: np.ndarray) -> np.ndarray:
@@ -76,14 +94,36 @@ def held(window: np.ndarray) -> np.ndarray:
     return np.median(same, axis=0) > 0.5
 
 
+def spread_scale(sd: np.ndarray) -> np.ndarray:
+    """Put per-object window spreads on the scale closest to Gaussian.
+
+    `sd` is (objects, variables). Each column is mapped by the power in
+    {0 (log), 1/3, 2/3} that leaves it least skewed across the objects. The
+    two ends are each right somewhere: s^(2/3), the cube root of the variance
+    (Wilson & Hilferty, PNAS 1931), is the Gaussian scale for the spread of
+    white noise — skewness within 0.07 of zero from 5 samples up, where the log
+    is at -0.34 (20 samples) to -0.77 (5); the log is the scale for spreads
+    that differ multiplicatively between objects, as Tennessee Eastman runs do,
+    where s^(2/3) alarmed on a quarter of fault-free windows and the log on
+    0.4%. A monotone power cannot make a two-group mixture one Gaussian, so
+    choosing among three of them by skewness leaves the test's power for real
+    structure; it removes the shape the null does not model.
+    """
+    sd = np.maximum(np.asarray(sd, dtype=float), np.finfo(float).tiny)
+    from scipy import stats
+    candidates = [np.log(sd), sd ** (1 / 3), sd ** (2 / 3)]
+    skews = np.abs(np.stack([stats.skew(c, axis=0) for c in candidates]))
+    skews = np.nan_to_num(skews, nan=np.inf)
+    pick = skews.argmin(0)
+    return np.choose(pick, candidates)
+
+
 def summaries(window: np.ndarray) -> np.ndarray:
     """(objects, samples, variables) -> (objects, 2 * variables).
 
-    Window means, then log standard deviations: the spread of a short window is
-    chi-like and right-skewed, its logarithm close to symmetric.
+    Window means, then window spreads on the scale `spread_scale` picks.
     """
-    spread = np.log(np.maximum(window.std(1), np.finfo(float).tiny))
-    return np.concatenate([window.mean(1), spread], axis=1)
+    return np.concatenate([window.mean(1), spread_scale(window.std(1))], axis=1)
 
 
 def testable(s: np.ndarray) -> np.ndarray:
@@ -118,7 +158,7 @@ def screen(window: np.ndarray, alpha: float = 0.01):
 def screen_summaries(window: np.ndarray, alpha: float = 0.01):
     """`screen`, plus the standardised summaries that were selected.
 
-    The third value is (objects, s): the window-mean and log-spread columns,
+    The third value is (objects, s): the window-mean and spread columns,
     standardised across the objects, of every summary that passed the
     threshold — the representation to cluster on when a fault shows in spread
     rather than level (Wang, Smith & Hyndman, "Characteristic-based clustering

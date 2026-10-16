@@ -70,7 +70,7 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
 
     `represent` chooses what a screened window is clustered on: "columns",
     the raw stream columns of the selected variables (the original's view), or
-    "summaries", the selected per-unit window means and log-spreads. A fault
+    "summaries", the selected per-unit window means and spreads (s^(2/3)). A fault
     that adds variance spreads its units out in the raw columns instead of
     gathering them, and only the summaries make them a group.
     """

@@ -12,7 +12,6 @@
   2,
   1,
   1,
-  2,
   1,
   1,
   1,
@@ -21,13 +20,14 @@
   1,
   1,
   1,
-  2,
-  2,
-  2,
   1,
   1,
   1,
-  2,
+  1,
+  1,
+  1,
+  1,
+  1,
   1
  ],
  "variables": [
@@ -41,9 +41,6 @@
   ],
   [],
   [],
-  [
-   7
-  ],
   [],
   [],
   [],
@@ -52,36 +49,29 @@
   [],
   [],
   [],
-  [
-   8
-  ],
-  [
-   21
-  ],
-  [
-   13
-  ],
   [],
   [],
   [],
-  [
-   13
-  ],
+  [],
+  [],
+  [],
+  [],
+  [],
   []
  ],
  "ced_fs_screened": {
-  "detection": 0.07142857142857142,
-  "far": 0.040887040887040885,
+  "detection": 0.0,
+  "far": 0.02494802494802495,
   "engines_degraded": 25,
-  "engines_caught": 18,
-  "median_rul_at_first_flag": 111.0
+  "engines_caught": 8,
+  "median_rul_at_first_flag": 125.5
  },
  "ced_fs_persistent": {
-  "detection": 0.08035714285714286,
-  "far": 0.037422037422037424,
+  "detection": 0.0,
+  "far": 0.0,
   "engines_degraded": 25,
-  "engines_caught": 2,
-  "median_rul_at_first_flag": 50.0
+  "engines_caught": 0,
+  "median_rul_at_first_flag": null
  },
  "deviation_accumulated": {
   "detection": 0.7053571428571429,

@@ -45,8 +45,11 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       *Done* (EXPERIMENTS.md E2; MONIC in T3, change-point not added — the PCA
       and peer-z monitors of I1/I2 play that role): no clusterer wins
       everywhere; smoothing suppresses emergence; on TEP screening decides.
-- [ ] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
+- [~] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
       KPCA scaling. Sensitivity curves, not single numbers.
+      *TEP done* (`tep_sensitivity.py`, INDUSTRIAL.md): after the spread-scale
+      fix the monitor is flat in alpha (1e-2..1e-4) and p, sigma 3–6 best,
+      window trades delay (15 min at 5 samples) against detection (0.68 → 0.86).
 - [~] E4 Scalability: time vs. samples and features; Nyström / top-k
       eigenpairs for large n. *Done so far*: vectorised kernel, centring and
       kNN with identical partitions — eog window 0.98 s → 0.034 s. Partial
@@ -74,7 +77,7 @@ The stream runs along the feature axis, so the industrial case must be a
       takes that to 0 and detection 0.52 → 0.63 vs PCA 0.77 with no clean
       history, beats PCA on fault 5, names the faulty variable.
       *Then*: clustering on the selected summaries (`represent="summaries"`)
-      fixes the variance faults — mean detection 0.81 vs PCA 0.77, FAR 0.
+      fixes the variance faults — mean detection 0.83 vs PCA 0.77, FAR 0.
       *Faulty share* (`tep_fraction.py`): clustering and deviation monitors
       cross at ~5% of the fleet; confirming cluster flags with the deviation
       p-value cuts single-unit FAR 17% → 1%. *Open*: window size.

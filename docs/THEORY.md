@@ -107,9 +107,18 @@ Gaussian across them — what "no structure" means for a fleet of like units —
 then by the union bound `P(window selects anything) ≤ α`, and by P1 a window
 called one cluster next to another called one cluster is *stable*. So the
 event stream before a fault is "stable" except with probability `≤ α` per
-window. The bound is only as good as the Gaussian assumption: on Tennessee
-Eastman fault-free fleets the measured rate is 5.7% at α = 1%, the excess
-coming from a few variables with heavier tails. Sample-and-hold analysers are
+window. The bound is only as good as the Gaussian assumption, and the
+spreads are where it fails first: a short window's spread is chi-like, and
+which power of it is Gaussian across objects depends on the data — s^(2/3)
+for white noise (Wilson & Hilferty 1931), the log for spreads that differ
+multiplicatively between units. With the log alone, pure Gaussian noise
+selected something in 5.2% of windows at a nominal 0.5%; with s^(2/3) alone,
+Tennessee Eastman fault-free fleets did in 25%. `spread_scale` picks, per
+variable and window, the least skewed of {log, s^(1/3), s^(2/3)}; measured
+rates are then 0.0–0.5% on Gaussian noise (nominal 0.5%) and 0.4% on TEP
+fault-free fleets at α = 0.001. P-values below 1e-3 use the Dallal–Wilkinson
+tail (1986), since a simulated null cannot resolve the 1e-6 a Bonferroni level
+of 1e-4 needs. Sample-and-hold analysers are
 the one case handled specially: their window spread is discrete, so it is not
 tested (`held`).
 

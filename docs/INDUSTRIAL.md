@@ -41,9 +41,9 @@ method here scores zero on them):
 |---|---|---|---:|---:|
 | CED-FS, unchanged | none | 0.52 | 0.315 | 0.197 |
 | + SigClust one-cluster gate (α 0.05) | none | 0.18 | 0.000 | 0.005 |
-| + variable screening (α 0.01) | none | 0.62 | 0.106 | 0.035 |
-| + variable screening (α 0.001) | none | 0.63 | 0.000 | 0.024 |
-| **+ screening, clustered on the selected summaries** | none | **0.81** | **0.000** | 0.008 |
+| + variable screening (α 0.01) | none | 0.63 | 0.000 | 0.031 |
+| + variable screening (α 0.001) | none | 0.62 | 0.000 | 0.023 |
+| **+ screening, clustered on the selected summaries** | none | **0.83** | **0.000** | 0.006 |
 | PCA T² / SPE | 100 clean runs | 0.77 | 0.000 | 0.000 |
 
 Raw per-fault numbers: `experiments/results/tep_fleet_*.json`.
@@ -83,14 +83,15 @@ Raw per-fault numbers: `experiments/results/tep_fleet_*.json`.
    the selected *summaries* instead — each unit's window mean and log-spread
    of the variables that failed the test, the characteristic-based clustering
    of Wang, Smith & Hyndman (DMKD 2006) — makes them a group
-   (`cedfs.fleet.monitor(..., represent="summaries")`). Fault 8 goes 0.49 →
-   0.93, 11 0.29 → 0.96, 13 0.56 → 0.90, 14 0.78 → 1.00, 19 0.32 → 0.99,
-   20 0.50 → 0.63, with no pre-fault alarm anywhere.
+   (`cedfs.fleet.monitor(..., represent="summaries")`). Fault 8 goes 0.52 →
+   0.93, 11 0.30 → 0.96, 12 0.37 → 0.98, 13 0.57 → 0.89, 14 0.69 → 1.00,
+   19 0.33 → 0.99, 20 0.46 → 0.62, with no pre-fault alarm anywhere.
 7. *With it, the fleet monitor out-detects the reference monitor.* Mean
-   detection 0.81 against PCA's 0.77, without the 100 clean runs PCA is fitted
+   detection 0.83 against PCA's 0.77, without the 100 clean runs PCA is fitted
    on. Per fault it is ahead on 4 (5, 11, 19, 20 — fault 19 by 0.99 to 0.01),
-   behind on 7 (10, 12, 16, 17 most), level on the rest. The cost is fault 19's
-   9.6% alarm rate on normal runs after the fault, the only one above 2%.
+   behind on 5 (10 and 16 most, then 17, 13, 8), level on the rest. The cost
+   is fault 19's 9.1% alarm rate on normal runs after the fault, the only one
+   above 2%.
 
 **Where that leaves the method.** As a *peer-comparison* monitor for a fleet —
 no clean history required, every window read as "one group" or "these units
@@ -98,7 +99,7 @@ left the group, through these variables" — it is competitive with the textbook
 reference-based monitor on step faults and better on a compensated one, and
 it explains its alarms. Clustered on the selected summaries it detects more
 than the reference-based monitor on average, with no reference. It is still
-behind PCA on faults 10, 12, 16 and 17, so where a clean reference exists the
+behind PCA on faults 10, 16 and 17, so where a clean reference exists the
 two are complements: one says a unit changed, the other that it is unlike its
 peers and through which variable.
 
@@ -115,11 +116,11 @@ keeps the fleet at 100 runs and varies the faulty ones, k = 1 … 20, over the
 
 | faulty runs | clustering: detection | FAR before | FAR on normals after | deviation: detection | FAR before | FAR on normals after |
 |---:|---:|---:|---:|---:|---:|---:|
-| 1 | 0.28 | 0.000 | 0.169 | **0.77** | 0.040 | 0.065 |
-| 2 | 0.45 | 0.000 | 0.125 | **0.71** | 0.043 | 0.061 |
-| 5 | **0.77** | 0.000 | 0.028 | 0.72 | 0.037 | 0.050 |
+| 1 | 0.29 | 0.000 | 0.169 | **0.77** | 0.040 | 0.065 |
+| 2 | 0.43 | 0.000 | 0.128 | **0.71** | 0.043 | 0.061 |
+| 5 | **0.78** | 0.000 | 0.026 | 0.72 | 0.037 | 0.050 |
 | 10 | **0.83** | 0.000 | 0.005 | 0.72 | 0.041 | 0.034 |
-| 20 | **0.81** | 0.000 | 0.008 | 0.66 | 0.041 | 0.019 |
+| 20 | **0.83** | 0.000 | 0.006 | 0.66 | 0.041 | 0.019 |
 
 (clustering: screened at α = 0.001, clustered on summaries; deviation: own
 baseline over the first 100 samples, m = 5, level 0.01, not latched.)
@@ -193,12 +194,12 @@ Eastman results are unchanged by it.
 
 | | monitor | detection (degraded engine-windows) | FAR (healthy) | engines caught | median RUL at first flag |
 |---|---|---:|---:|---:|---:|
-| FD001 | CED-FS + screening | 0.14 | 0.009 | 16 / 23 | 55 |
+| FD001 | CED-FS + screening | 0.00 | 0.062 | 12 / 23 | 128 |
 | | CED-FS + screening + persistence (2 of 5) | 0.00 | 0.000 | 0 / 23 | — |
 | | peer robust z | 0.00 | 0.000 | 0 / 23 | — |
 | | PCA, first 30 cycles | 0.16 | 0.000 | 6 / 23 | 32 |
-| FD003 | CED-FS + screening | 0.01 | 0.399 | 1 / 27 | — |
-| | CED-FS + screening + persistence (2 of 5) | 0.01 | 0.374 | 1 / 27 | — |
+| FD003 | CED-FS + screening | 0.01 | 0.389 | 1 / 27 | — |
+| | CED-FS + screening + persistence (2 of 5) | 0.01 | 0.362 | 1 / 27 | — |
 | | peer robust z | 0.06 | 0.463 | 3 / 27 | — |
 | | PCA, first 30 cycles | 0.27 | 0.003 | 12 / 27 | 32 |
 
@@ -217,6 +218,11 @@ Eastman results are unchanged by it.
    failure. Gradual degradation in a fifth of the fleet is below what the
    screening resolves window by window; PCA against each engine's own early
    life is the better detector here.
+   *(Re-run after the spread-scale change of THEORY.md P6: the one split now
+   falls in an earlier window and catches 12 engines at a median RUL of 128 —
+   still a single split, now unrelated to degradation; the table shows the
+   re-run. The reading above was made on the earlier run and its conclusion
+   stands.)*
 2. *On FD003 the fleet is not one group to begin with.* From the very first
    window the screening selects the two fan-speed sensors (8 and 13), whose
    window means are strongly skewed across engines (skewness −2.3), and splits
@@ -285,10 +291,10 @@ does with its conformal z-values.
 
 | | monitor | detection | FAR (healthy) | engines caught | median RUL at first alarm |
 |---|---|---:|---:|---:|---:|
-| FD001 | clustering, screened (summaries) | 0.07 | 0.041 | 18 / 25 | 111 |
+| FD001 | clustering, screened (summaries) | 0.00 | 0.025 | 8 / 25 | 126 |
 | | **deviation, accumulated** | **0.71** | **0.000** | 17 / 25 | 52 |
 | | PCA, first 30 cycles | 0.22 | 0.005 | 10 / 25 | 45 |
-| FD003 | clustering, screened (summaries) | 0.12 | 0.121 | 32 / 34 | 48 |
+| FD003 | clustering, screened (summaries) | 0.13 | 0.151 | 32 / 34 | 48 |
 | | deviation, accumulated | 0.29 | 0.119 | 12 / 34 | 38 |
 | | PCA, first 30 cycles | **0.36** | **0.011** | 21 / 34 | 49 |
 
@@ -318,3 +324,45 @@ the fleet — abrupt faults, new operating modes — and reads out events and th
 variables behind them. The deviation monitor (`deviation` + `accumulate`) is
 for units *drifting* — wear, degradation — and needs each unit's own baseline.
 Neither wins on both datasets; each wins on the one shaped like its question.
+
+## Sensitivity of the clustering monitor (E3, Tennessee Eastman)
+
+`experiments/tep_sensitivity.py`: one parameter at a time around window 20,
+α = 0.001, σ = 6, p = 0.05, clustered on summaries; 17 faults, 80 + 20 runs
+(`experiments/results/tep_sensitivity.json`). Delay is the median over
+faults detected above 0.5, from onset to the end of the first flagged window.
+
+| parameter | value | detection | FAR before | FAR on normals after | delay |
+|---|---:|---:|---:|---:|---:|
+| window (samples) | 5 (15 min) | 0.68 | 0.003 | 0.009 | 15 min |
+| | 10 | 0.78 | 0.018 | 0.010 | 45 min |
+| | **20** | 0.83 | 0.000 | 0.006 | 60 min |
+| | 40 | 0.86 | 0.000 | 0.003 | 120 min |
+| α | 0.01 | 0.83 | 0.000 | 0.011 | 60 min |
+| | **0.001** | 0.83 | 0.000 | 0.006 | 60 min |
+| | 0.0001 | 0.83 | 0.000 | 0.006 | 60 min |
+| σ | 1 | 0.60 | 0.000 | 0.096 | 60 min |
+| | 3 | 0.84 | 0.000 | 0.006 | 60 min |
+| | **6** | 0.83 | 0.000 | 0.006 | 60 min |
+| | 12 | 0.76 | 0.000 | 0.006 | 60 min |
+| p | 0.02 | 0.82 | 0.000 | 0.001 | 60 min |
+| | **0.05** | 0.83 | 0.000 | 0.006 | 60 min |
+| | 0.1 | 0.83 | 0.000 | 0.007 | 60 min |
+
+1. **The window is the one real choice, and it is a delay trade.** A 15-minute
+   window alarms 15 minutes after onset and sees 0.68 of the faulty
+   run-windows; a 2-hour window sees 0.86 and alarms after 2 hours. Detection
+   delay is quantised to the window (THEORY.md P4), so the operator picks the
+   delay they can afford and gets the detection that comes with it.
+2. **α does not matter between 1e-2 and 1e-4** — and that is the result of two
+   fixes found by this sweep, not of luck. The first sweep showed α = 1e-4
+   detecting nothing: the simulated Lilliefors null could not produce a p-value
+   below 5·10⁻⁶ and the Bonferroni level asked for 10⁻⁶ (fixed with the
+   Dallal–Wilkinson tail). It also showed α = 0.01 alarming on 11% of
+   pre-fault windows and a 5-sample window on 15%: the log-spread summary was
+   not Gaussian enough (fixed by `spread_scale`, THEORY.md P6). After both, the
+   pre-fault rate is 0–2% across the whole table.
+3. **σ has a broad optimum (3–6); p barely matters.** σ = 1 makes the Gaussian
+   kernel nearly diagonal on standardised summaries and the clustering
+   fragments (10% FAR on normals after the fault); σ = 12 smooths the faulty
+   group into the normals.

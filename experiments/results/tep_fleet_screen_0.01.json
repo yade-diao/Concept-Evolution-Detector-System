@@ -4,10 +4,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -54,8 +54,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -68,10 +68,16 @@
    "xmeas_18": 36
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 1.0,
    "far_post_normal": 0.0,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -85,10 +91,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -135,8 +141,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -149,10 +155,16 @@
    "xmeas_22": 38
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 1.0,
    "far_post_normal": 0.0,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -166,10 +178,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -182,14 +194,6 @@
    1,
    1,
    1,
-   2,
-   1,
-   2,
-   1,
-   1,
-   2,
-   2,
-   1,
    1,
    1,
    1,
@@ -197,6 +201,14 @@
    1,
    1,
    2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   2,
    2,
    1,
    1,
@@ -204,10 +216,10 @@
    2,
    2,
    1,
-   2,
+   1,
    2,
    1,
-   3,
+   2,
    1,
    1,
    1,
@@ -216,24 +228,30 @@
    1
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.0020843958897717777,
+  "ari_post_mean": 0.0009882953147276048,
   "variables_post": {
    "xmv_5": 2,
-   "xmv_11": 1,
    "xmeas_41": 1,
+   "xmv_1": 1,
    "xmeas_19": 1,
-   "xmeas_3": 1
+   "xmeas_2": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.0975,
-   "far_post_normal": 0.0928125,
-   "median_delay_windows": 13.0
+   "far_pre": 0.0,
+   "detection": 0.06,
+   "far_post_normal": 0.0575,
+   "median_delay_windows": 22.5
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.01,
+   "far_post_normal": 0.0078125,
+   "median_delay_windows": 23.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -247,10 +265,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -297,8 +315,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -307,14 +325,20 @@
    "xmv_10": 40,
    "xmv_5": 2,
    "xmeas_41": 1,
-   "xmv_11": 1,
-   "xmeas_10": 1
+   "xmv_1": 1,
+   "xmeas_9": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 1.0,
    "far_post_normal": 0.0096875,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -328,10 +352,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -378,8 +402,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -392,10 +416,16 @@
    "xmeas_4": 6
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 0.98375,
    "far_post_normal": 0.02375,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.9425,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -409,10 +439,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -459,8 +489,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -473,10 +503,16 @@
    "xmeas_23": 40
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 1.0,
    "far_post_normal": 0.0,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -490,10 +526,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -540,8 +576,8 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
@@ -549,15 +585,21 @@
   "variables_post": {
    "xmv_4": 40,
    "xmv_5": 13,
+   "xmeas_8": 13,
    "xmv_3": 12,
-   "xmeas_20": 12,
-   "xmeas_4": 12
+   "xmeas_1": 12
   },
   "ced_fs": {
-   "far_pre": 0.10625,
+   "far_pre": 0.0,
    "detection": 1.0,
    "far_post_normal": 0.00625,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -571,10 +613,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -621,12 +663,12 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.5096928926435899,
+  "ari_post_mean": 0.5239789724695175,
   "variables_post": {
    "xmv_5": 39,
    "xmv_3": 39,
@@ -635,10 +677,16 @@
    "xmeas_16": 39
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.48375,
+   "far_pre": 0.0,
+   "detection": 0.49875,
    "far_post_normal": 0.0,
    "median_delay_windows": 2.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.29,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 5.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -652,10 +700,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -668,12 +716,6 @@
    1,
    1,
    1,
-   2,
-   1,
-   2,
-   1,
-   1,
-   2,
    1,
    1,
    1,
@@ -683,14 +725,20 @@
    1,
    1,
    1,
-   2,
    1,
    1,
    1,
    1,
    1,
    1,
-   2,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
    1,
    1,
    1,
@@ -702,24 +750,24 @@
    1
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": -0.0008174896070716755,
-  "variables_post": {
-   "xmv_11": 1,
-   "xmeas_3": 1,
-   "xmeas_6": 1,
-   "xmeas_5": 1,
-   "xmeas_10": 1
-  },
+  "ari_post_mean": 0.0,
+  "variables_post": {},
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.0325,
-   "far_post_normal": 0.0296875,
-   "median_delay_windows": 10.0
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "pca": {
    "far_pre": 0.0,
@@ -733,10 +781,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -762,16 +810,16 @@
    1,
    1,
    1,
-   1,
-   1,
-   2,
-   2,
-   1,
    2,
    1,
    1,
+   2,
    1,
    2,
+   1,
+   1,
+   1,
+   1,
    2,
    1,
    1,
@@ -783,24 +831,28 @@
    1
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.02083191982187084,
+  "ari_post_mean": 0.03304724938318453,
   "variables_post": {
    "xmeas_18": 4,
-   "xmv_11": 1,
-   "xmeas_6": 1,
    "xmv_5": 1,
-   "xmeas_5": 1
+   "xmeas_19": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.06,
-   "far_post_normal": 0.04,
+   "far_pre": 0.0,
+   "detection": 0.05125,
+   "far_post_normal": 0.021875,
    "median_delay_windows": 16.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "pca": {
    "far_pre": 0.0,
@@ -814,10 +866,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -864,24 +916,29 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.28187836663917887,
+  "ari_post_mean": 0.30199052520011127,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_9": 40,
    "xmv_5": 2,
-   "xmeas_5": 1,
-   "xmeas_6": 1
+   "xmeas_2": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.28875,
-   "far_post_normal": 0.0471875,
+   "far_pre": 0.0,
+   "detection": 0.2975,
+   "far_post_normal": 0.0234375,
    "median_delay_windows": 2.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.0825,
+   "far_post_normal": 0.001875,
+   "median_delay_windows": 9.5
   },
   "pca": {
    "far_pre": 0.0,
@@ -895,10 +952,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -945,12 +1002,12 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.3909139590268132,
+  "ari_post_mean": 0.38283138945994794,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_11": 40,
@@ -959,10 +1016,16 @@
    "xmeas_16": 40
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.3825,
+   "far_pre": 0.0,
+   "detection": 0.375,
    "far_post_normal": 0.023125,
    "median_delay_windows": 0.5
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.26,
+   "far_post_normal": 0.0053125,
+   "median_delay_windows": 10.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -976,10 +1039,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1026,12 +1089,12 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.5631801055480572,
+  "ari_post_mean": 0.5643663133484024,
   "variables_post": {
    "xmv_5": 39,
    "xmeas_7": 39,
@@ -1040,10 +1103,16 @@
    "xmeas_22": 38
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.54625,
+   "far_pre": 0.0,
+   "detection": 0.5475,
    "far_post_normal": 0.0065625,
    "median_delay_windows": 4.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.45375,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 6.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -1057,10 +1126,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1075,7 +1144,7 @@
    2,
    2,
    4,
-   2,
+   6,
    2,
    2,
    2,
@@ -1093,7 +1162,7 @@
    3,
    2,
    4,
-   6,
+   2,
    5,
    2,
    2,
@@ -1107,24 +1176,30 @@
    13
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.7142344080416115,
+  "ari_post_mean": 0.719355049034712,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_21": 40,
    "xmeas_9": 40,
-   "xmv_11": 1,
+   "xmv_5": 1,
    "xmeas_19": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.73,
+   "far_pre": 0.0,
+   "detection": 0.735,
    "far_post_normal": 0.0096875,
    "median_delay_windows": 0.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.54125,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -1138,10 +1213,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1151,32 +1226,32 @@
    1,
    1,
    1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
+   1,
    2,
    1,
    1,
-   1,
-   1,
-   2,
-   1,
-   1,
-   2,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   1,
-   2,
-   1,
-   1,
-   1,
-   1,
-   2,
-   1,
-   2,
    2,
    1,
    1,
@@ -1188,24 +1263,27 @@
    1
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": -0.0016316002253154137,
+  "ari_post_mean": -0.0009230262706811767,
   "variables_post": {
-   "xmv_11": 2,
    "xmv_5": 1,
-   "xmeas_6": 1,
-   "xmeas_5": 1,
-   "xmeas_10": 1
+   "xmeas_2": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.055,
-   "far_post_normal": 0.055625,
-   "median_delay_windows": 10.0
+   "far_pre": 0.0,
+   "detection": 0.0175,
+   "far_post_normal": 0.0209375,
+   "median_delay_windows": 28.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "pca": {
    "far_pre": 0.0,
@@ -1219,10 +1297,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1240,27 +1318,27 @@
    1,
    1,
    1,
-   2,
    1,
    1,
    1,
    1,
    1,
    1,
-   1,
-   1,
-   2,
-   2,
    1,
    1,
    1,
    2,
    1,
    1,
-   2,
+   1,
+   1,
    2,
    1,
    1,
+   1,
+   2,
+   1,
+   2,
    1,
    1,
    1,
@@ -1269,24 +1347,29 @@
    1
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.0023479817816931038,
+  "ari_post_mean": 0.002341804938468851,
   "variables_post": {
    "xmv_5": 2,
-   "xmv_11": 1,
+   "xmeas_41": 1,
    "xmeas_40": 1,
-   "xmeas_18": 1,
-   "xmeas_6": 1
+   "xmeas_18": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.05,
-   "far_post_normal": 0.0428125,
-   "median_delay_windows": 22.0
+   "far_pre": 0.0,
+   "detection": 0.02625,
+   "far_post_normal": 0.0215625,
+   "median_delay_windows": 27.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
   },
   "pca": {
    "far_pre": 0.0,
@@ -1300,10 +1383,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1350,23 +1433,29 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.5467447001742942,
+  "ari_post_mean": 0.5470403326964994,
   "variables_post": {
    "xmv_10": 40,
    "xmeas_21": 40,
    "xmeas_9": 40,
-   "xmeas_11": 8
+   "xmeas_11": 10
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.53,
-   "far_post_normal": 0.006875,
-   "median_delay_windows": 1.5
+   "far_pre": 0.0,
+   "detection": 0.5325,
+   "far_post_normal": 0.008125,
+   "median_delay_windows": 1.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.23875,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 5.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -1380,10 +1469,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1430,12 +1519,12 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.7625225560364841,
+  "ari_post_mean": 0.7628431162848095,
   "variables_post": {
    "xmeas_22": 39,
    "xmv_11": 38,
@@ -1444,10 +1533,16 @@
    "xmeas_36": 38
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.78,
-   "far_post_normal": 0.0190625,
+   "far_pre": 0.0,
+   "detection": 0.77875,
+   "far_post_normal": 0.018125,
    "median_delay_windows": 1.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.69375,
+   "far_post_normal": 0.0053125,
+   "median_delay_windows": 3.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -1461,10 +1556,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1511,24 +1606,28 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.01615433418088873,
+  "ari_post_mean": 0.015800081647817755,
   "variables_post": {
    "xmeas_5": 40,
-   "xmv_5": 22,
-   "xmeas_18": 1,
-   "xmeas_10": 1,
-   "xmeas_3": 1
+   "xmv_5": 23,
+   "xmeas_2": 1
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.345,
-   "far_post_normal": 0.2990625,
+   "far_pre": 0.0,
+   "detection": 0.34375,
+   "far_post_normal": 0.2940625,
    "median_delay_windows": 1.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.115,
+   "far_post_normal": 0.0725,
+   "median_delay_windows": 6.0
   },
   "pca": {
    "far_pre": 0.0,
@@ -1542,10 +1641,10 @@
   "clusters_pre": [
    1,
    1,
-   2,
    1,
    1,
-   2,
+   1,
+   1,
    1,
    1
   ],
@@ -1592,24 +1691,30 @@
    2
   ],
   "events_pre_onset": {
-   "stable": 3,
-   "drift": 6,
+   "stable": 7,
+   "drift": 0,
    "forgetting": 0,
    "emerging": 0
   },
-  "ari_post_mean": 0.4372566025117587,
+  "ari_post_mean": 0.4584767174607999,
   "variables_post": {
    "xmv_5": 40,
    "xmeas_20": 31,
-   "xmeas_13": 15,
-   "xmeas_11": 13,
-   "xmeas_22": 12
+   "xmeas_13": 16,
+   "xmeas_11": 14,
+   "xmeas_22": 14
   },
   "ced_fs": {
-   "far_pre": 0.10625,
-   "detection": 0.44125,
-   "far_post_normal": 0.069375,
+   "far_pre": 0.0,
+   "detection": 0.46375,
+   "far_post_normal": 0.055625,
    "median_delay_windows": 1.0
+  },
+  "ced_fs_two_in_a_row": {
+   "far_pre": 0.0,
+   "detection": 0.1775,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 3.0
   },
   "pca": {
    "far_pre": 0.0,
