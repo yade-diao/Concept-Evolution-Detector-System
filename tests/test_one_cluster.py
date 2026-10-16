@@ -60,3 +60,17 @@ def test_p_values_reach_below_the_simulation_floor():
     assert p_values(np.array([3.0]), n)[0] < floor / 100
     mid = np.quantile(lilliefors_null(n), 0.99)
     assert abs(p_values(np.array([mid]), n)[0] - 0.01) < 0.002
+
+
+def test_roughness_catches_a_fault_that_only_changes_how_fast_a_signal_moves():
+    from cedfs.algorithm.screening import screen_summaries
+    rng = np.random.default_rng(41)
+    w = rng.standard_normal((100, 40, 6))
+    # A fifth of the fleet: same level and same overall spread, but smooth
+    # (a slow random walk rescaled to unit variance) instead of white noise.
+    walk = np.cumsum(rng.standard_normal((20, 40)), axis=1)
+    walk = (walk - walk.mean(1, keepdims=True)) / walk.std(1, keepdims=True)
+    w[:20, :, 2] = walk
+    plain, _, _ = screen_summaries(w, 0.001)
+    rough, _, _ = screen_summaries(w, 0.001, roughness=True)
+    assert 2 not in plain and 2 in rough

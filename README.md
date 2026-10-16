@@ -319,6 +319,14 @@ fitted on 100 *separate* fault-free runs. Means over the 17 detectable faults
   0.99 against 0.01.
 - *It loses* on faults 10, 16 and 17, and fault 19 costs 9% alarms on normal
   runs after it.
+- *Roughness* (`monitor(..., roughness=True)`, an option): screening and
+  clustering also on the spread of first differences — how much a signal
+  moves between samples, a serial-correlation feature in the sense of Wang,
+  Smith & Hyndman. Fault 16 goes 0.02 → 0.43 (PCA: 0.19) and 12 0.98 → 1.00,
+  but 17 drops 0.73 → 0.62 and 20 0.62 → 0.45; mean detection 0.827 → 0.839,
+  still no pre-fault alarm. Holding the per-test threshold equal changes
+  nothing, so the losses come from clustering on the extra dimensions, not
+  from the stricter Bonferroni level. Off by default.
 - *Faulty share*: with k faulty runs in 100, the clustering monitor needs a
   group (k = 1: 0.29; k = 20: 0.83) while the deviation monitor ranks units one
   by one (k = 1: 0.77, with a 4% pre-fault rate from runs' persistent

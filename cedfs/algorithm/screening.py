@@ -123,12 +123,20 @@ def spread_scale(sd: np.ndarray) -> np.ndarray:
     return np.choose(pick, candidates)
 
 
-def summaries(window: np.ndarray) -> np.ndarray:
-    """(objects, samples, variables) -> (objects, 2 * variables).
+def summaries(window: np.ndarray, roughness: bool = False) -> np.ndarray:
+    """(objects, samples, variables) -> (objects, k * variables).
 
-    Window means, then window spreads on the scale `spread_scale` picks.
+    Window means, then window spreads on the scale `spread_scale` picks; with
+    `roughness`, also the spread of the first differences on the same kind of
+    scale - how much the signal moves from one sample to the next, which a
+    fault that randomises a disturbance changes even when the control loop
+    holds level and overall spread (the serial-correlation features of Wang,
+    Smith & Hyndman, DMKD 2006).
     """
-    return np.concatenate([window.mean(1), spread_scale(window.std(1))], axis=1)
+    blocks = [window.mean(1), spread_scale(window.std(1))]
+    if roughness:
+        blocks.append(spread_scale(np.diff(window, axis=1).std(1)))
+    return np.concatenate(blocks, axis=1)
 
 
 def testable(s: np.ndarray) -> np.ndarray:
@@ -160,22 +168,25 @@ def screen(window: np.ndarray, alpha: float = 0.01):
     return selected, per_var
 
 
-def screen_summaries(window: np.ndarray, alpha: float = 0.01):
+def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool = False):
     """`screen`, plus the standardised summaries that were selected.
 
-    The third value is (objects, s): the window-mean and spread columns,
-    standardised across the objects, of every summary that passed the
-    threshold — the representation to cluster on when a fault shows in spread
-    rather than level (Wang, Smith & Hyndman, "Characteristic-based clustering
-    for time series data", DMKD 2006).
+    The third value is (objects, s): the summary columns, standardised across
+    the objects, of every summary that passed the threshold — the
+    representation to cluster on when a fault shows in spread rather than
+    level (Wang, Smith & Hyndman, "Characteristic-based clustering for time
+    series data", DMKD 2006). Bonferroni is over every summary tested.
     """
-    s = summaries(np.asarray(window, dtype=float))
+    window = np.asarray(window, dtype=float)
+    s = summaries(window, roughness)
     n, m = s.shape
+    n_vars = window.shape[2]
     p = p_values(ks_normal(standardise(s)), n)
     p[~testable(s)] = 1.0
-    n_vars = m // 2
-    p[n_vars:][held(window)] = 1.0
-    per_var = np.minimum(p[:n_vars], p[n_vars:])
+    hold = held(window)
+    for b in range(1, m // n_vars):
+        p[b * n_vars:(b + 1) * n_vars][hold] = 1.0
+    per_var = p.reshape(m // n_vars, n_vars).min(0)
     hit = p <= alpha / m
-    selected = np.flatnonzero(hit[:n_vars] | hit[n_vars:])
+    selected = np.flatnonzero(hit.reshape(m // n_vars, n_vars).any(0))
     return selected, per_var, standardise(s)[:, hit]

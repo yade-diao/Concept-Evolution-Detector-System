@@ -57,7 +57,8 @@ def as_stream(units: np.ndarray) -> np.ndarray:
 
 def monitor(units: np.ndarray, window: int, params: dict | None = None,
             screen_alpha: float | None = None, gate: float | None = None,
-            threshold: float = 0.5, represent: str = "columns") -> FleetResult:
+            threshold: float = 0.5, represent: str = "columns",
+            roughness: bool = False) -> FleetResult:
     """Watch a fleet window by window.
 
     `units` is (units, samples, variables). Trailing samples that do not fill a
@@ -86,7 +87,8 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
     for start in range(0, n_samples - window + 1, window):
         variables = np.arange(n_vars)
         if screen_alpha is not None:
-            variables, _, summary = screen_summaries(units[:, start:start + window], screen_alpha)
+            variables, _, summary = screen_summaries(units[:, start:start + window], screen_alpha,
+                                                     roughness)
         if screen_alpha is not None and represent == "summaries":
             x = summary
         else:
