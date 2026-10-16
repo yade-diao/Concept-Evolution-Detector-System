@@ -9,7 +9,7 @@ The implementation follows the standard K-PCA algorithm:
 """
 
 import numpy as np
-from cedfs.algorithm.kernel import k_kernel
+from cedfs.algorithm.kernel import kernel_matrix
 
 
 def k_pca(
@@ -46,14 +46,12 @@ def k_pca(
         )
 
     # Build the kernel (Gram) matrix
-    K = np.zeros((n, n))
-    for i in range(n):
-        for j in range(n):
-            K[i, j] = k_kernel(data[i], data[j], kernel_choice, sigma)
+    K = kernel_matrix(data, kernel_choice, sigma)
 
     # Center the kernel matrix in the implicit feature space
-    ones = np.ones((n, n)) / n
-    K_centered = K - ones @ K - K @ ones + ones @ K @ ones
+    # Double centring, K - 1K - K1 + 1K1 with 1 the averaging matrix, written as
+    # row and column means: the same matrix without three n x n products.
+    K_centered = K - K.mean(0, keepdims=True) - K.mean(1, keepdims=True) + K.mean()
 
     # Eigendecomposition (symmetric matrix → use eigh for numerical stability)
     eigenvalues, eigenvectors = np.linalg.eigh(K_centered)

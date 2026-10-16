@@ -33,14 +33,21 @@ logger = logging.getLogger(__name__)
 
 def _pairwise_distances(data: np.ndarray) -> np.ndarray:
     """Return the full symmetric distance matrix for *data*."""
-    n = data.shape[0]
-    dist = np.zeros((n, n))
-    for i in range(n):
-        for j in range(i + 1, n):
-            d = float(np.linalg.norm(data[i] - data[j]))
-            dist[i, j] = d
-            dist[j, i] = d
-    return dist
+    from scipy.spatial.distance import cdist
+    return cdist(data, data)
+
+
+def _knn_from_distances(dist: np.ndarray, k: int):
+    """The k nearest neighbours of every point, excluding itself, nearest first.
+
+    Equivalent to `knn.search_knn` (a KD-tree, kept for callers without a
+    distance matrix) but reads the matrix the algorithm needs anyway; a KD-tree
+    in the hundreds of dimensions KPCA leaves is slower than a sort.
+    """
+    d = dist.copy()
+    np.fill_diagonal(d, np.inf)
+    idx = np.argsort(d, axis=1, kind="stable")[:, :k]
+    return idx, np.take_along_axis(d, idx, axis=1)
 
 
 def _get_delta(dist_matrix: np.ndarray, rhos):
@@ -211,8 +218,9 @@ def k_r_dpc(
     target_dim = round(n / 3)
     reduced = k_pca(data, sigma, kernel_type, target_dim, scaling=kpca_scaling)
 
-    # --- KNN graph ---
-    index_knn, k_dist = search_knn(reduced, k)
+    # --- Pairwise distances, and the KNN graph read from them ---
+    dist_mat = _pairwise_distances(reduced)
+    index_knn, k_dist = _knn_from_distances(dist_mat, k)
 
     # --- Local density via rKNN ---
     rhos = get_rknn_density(index_knn, k_dist)
@@ -226,8 +234,6 @@ def k_r_dpc(
     elif density != "rknn":
         raise ValueError(f"density must be 'rknn' or 'relative', not {density!r}")
 
-    # --- Pairwise distance matrix ---
-    dist_mat = _pairwise_distances(reduced)
 
     # --- Decision distances ---
     deltas, nneigh = _get_delta(dist_mat, rhos)

@@ -47,8 +47,10 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       everywhere; smoothing suppresses emergence; on TEP screening decides.
 - [ ] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
       KPCA scaling. Sensitivity curves, not single numbers.
-- [ ] E4 Scalability: time vs. samples and features; Nyström / top-k
-      eigenpairs for large n.
+- [~] E4 Scalability: time vs. samples and features; Nyström / top-k
+      eigenpairs for large n. *Done so far*: vectorised kernel, centring and
+      kNN with identical partitions — eog window 0.98 s → 0.034 s. Partial
+      eigensolve tried, no gain. *Open*: Nyström option for n ≫ 1000.
 
 - [x] E5 Small-cluster recovery: K-R-DPC absorbs a 6-object group at spread
       0.5–0.7 though it is trivially separable (EXPERIMENTS.md E1, point 2), and

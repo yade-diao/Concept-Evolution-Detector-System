@@ -240,3 +240,36 @@ The README should present screening, not the clusterer, as what turns the
 method into a monitor. HDBSCAN is the stronger choice when small emerging
 groups matter most and groups are well separated in scale; that is offered
 through `cedfs.baselines` rather than made the default.
+
+## E4 — Running time
+
+Three changes to the reference implementation, each checked to leave every
+partition unchanged — all 231 windows of glioma, mll and eog are identical
+label for label before and after:
+
+- the KPCA kernel matrix is computed at once (`kernel.kernel_matrix`, scipy
+  `cdist`) instead of by n² calls to `k_kernel`, which stays as the definition;
+- the double centring `K − 1K − K1 + 1K1` is written as row and column means
+  instead of three n × n products;
+- the kNN graph is read from the distance matrix the algorithm computes anyway
+  (`_knn_from_distances`) instead of a KD-tree, which in the ~n/3 dimensions
+  KPCA leaves is slower than a sort.
+
+One K-R-DPC call, single thread, uniform data with 50 features:
+
+| n | before | after |
+|---:|---:|---:|
+| 100 (× 1 040 features, a TEP window) | — | 0.010 s |
+| 362 (eog) | 0.98 s | 0.034 s |
+| 1 000 | — | 0.38 s |
+| 2 000 | — | 2.6 s |
+| 4 000 | 48 s (vectorised kernel only) | 20 s |
+
+What is left is cubic by design: the method keeps n/3 kernel components, so
+both the eigendecomposition and the distances in the reduced space cost
+O(n³). A partial eigensolver for the top n/3 pairs (LAPACK syevr) was tried
+and saves nothing — the tridiagonal reduction dominates either way. For a
+fleet of a few hundred to a thousand units a window takes under half a second.
+Beyond that the route is a Nyström approximation of the kernel (Williams &
+Seeger, NIPS 2001) with a fixed number of components, which would change
+results and belongs behind an option.

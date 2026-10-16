@@ -71,3 +71,26 @@ def k_kernel(x: np.ndarray, y: np.ndarray, kernel_choice: int, sigma: float) -> 
         raise ValueError(
             f"kernel_choice must be an integer from 1 to 5, got {kernel_choice}."
         )
+
+
+def kernel_matrix(data: np.ndarray, kernel_choice: int, sigma: float) -> np.ndarray:
+    """K[i, j] = k_kernel(data[i], data[j]) for all pairs, computed at once.
+
+    The same five kernels as `k_kernel`, which is kept as the definition and
+    for the tests that hold the two together; this is what the algorithm calls,
+    because n^2 Python-level calls were most of its running time.
+    """
+    from scipy.spatial.distance import cdist
+
+    data = np.asarray(data, dtype=float)
+    if kernel_choice == 1:
+        return np.exp(-cdist(data, data, "sqeuclidean") / (2 * sigma ** 2))
+    if kernel_choice == 2:
+        return (data @ data.T + 1) ** sigma
+    if kernel_choice == 3:
+        return data @ data.T
+    if kernel_choice == 4:
+        return np.exp(-cdist(data, data) / (2 * sigma ** 2))
+    if kernel_choice == 5:
+        return np.exp(-cdist(data, data) / sigma)
+    raise ValueError(f"kernel_choice must be an integer from 1 to 5, got {kernel_choice}.")
