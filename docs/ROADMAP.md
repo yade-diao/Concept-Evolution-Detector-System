@@ -117,9 +117,11 @@ The stream runs along the feature axis, so the industrial case must be a
 
 ## O — Operations
 
-- [x] O1 Move the site to `evolve.daokui.fr`: Cloudflare A record `evolve` →
+- [~] O1 Move the site to `evolve.daokui.fr`: Cloudflare A record `evolve` →
       `9.205.159.213` (DNS only); Caddy serves both names with a Let's Encrypt
-      certificate for the new one; the Entra app has the new callback and
-      `CED_PUBLIC_URL` is the new name, so Microsoft sign-in returns there from
-      either; README and mail-check point at it. The old name keeps working.
+      certificate for the new one; README and mail-check point at it.
+      *Open*: the Entra app does not have
+      `https://evolve.daokui.fr/api/v1/auth/microsoft/callback` yet (a real
+      sign-in returned AADSTS50011), so `CED_PUBLIC_URL` stays on the old name
+      and Microsoft sign-in returns there; switch it once the URI is added.
 - [x] O2 README rewrite once T/E/I have results (7cf992a).
