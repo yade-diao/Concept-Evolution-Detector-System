@@ -69,6 +69,15 @@ def CED_FS(
         * ``sigma``               (float, default 6.0) – kernel bandwidth.
         * ``p``                   (float, default 0.05) – KNN fraction.
         * ``similarityThreshold`` (float, default 0.5) – concept-drift threshold τ.
+        * ``density``             ("rknn" | "relative", default "rknn") – see
+          `k_r_dpc`; "relative" keeps small groups (docs/EXPERIMENTS.md E5).
+        * ``screenAlpha``         (float or None, default None) – screen the
+          window's columns first and cluster only those that are not one
+          Gaussian across the samples; a window with none is one cluster
+          (`cedfs.algorithm.screening`). Meant for fleets of like units, where
+          "no structure" means Gaussian columns; on gene-expression benchmarks,
+          whose columns are skewed regardless, it selects skewed noise and
+          lowers ARI (docs/EXPERIMENTS.md T5). Off by default.
 
     image_dir : str, optional
         Directory where similarity-graph PNG files are saved.  When *None*,
@@ -95,6 +104,8 @@ def CED_FS(
     kernel_type = int(params["kernelType"])
     sigma = float(params["sigma"])
     p = float(params["p"])
+    density = params.get("density", "rknn")
+    screen_alpha = params.get("screenAlpha")
 
     if image_dir is None:
         image_dir = "static/images"
@@ -142,13 +153,22 @@ def CED_FS(
 
         window = X[:, start:end]
 
-        current_cluster, _, current_k = k_r_dpc(
-            window,
-            image_dir=None,          # decision graphs are optional; skip here
-            kernel_type=kernel_type,
-            sigma=sigma,
-            p=p,
-        )
+        columns = np.arange(window.shape[1])
+        if screen_alpha is not None:
+            from cedfs.algorithm.screening import screen
+            # Each column is its own variable, observed once per sample.
+            columns, _ = screen(window[:, None, :], float(screen_alpha))
+        if columns.size == 0:
+            current_cluster, current_k = np.ones(window.shape[0], dtype=int), 1
+        else:
+            current_cluster, _, current_k = k_r_dpc(
+                window[:, columns],
+                image_dir=None,          # decision graphs are optional; skip here
+                kernel_type=kernel_type,
+                sigma=sigma,
+                p=p,
+                density=density,
+            )
         cluster_nums.append(current_k)
 
         if past_cluster is not None:

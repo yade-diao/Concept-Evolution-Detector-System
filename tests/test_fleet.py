@@ -81,3 +81,14 @@ def test_accumulate_clears_unless_latched():
     free, held = accumulate(p, 5, 0.001), accumulate(p, 5, 0.001, latch=True)
     assert free[0, 6] and not free[0, 11]
     assert held[0, 6:].all()
+
+
+def test_ced_fs_options_default_to_the_original_and_screening_can_say_one_cluster(tmp_path):
+    from cedfs import CED_FS
+    rng = np.random.default_rng(5)
+    X = rng.standard_normal((60, 100))
+    X = np.c_[X, np.ones(60)]
+    _, events, counts, _ = CED_FS(X, 100, 50, image_dir=str(tmp_path))
+    assert min(counts) >= 2
+    _, events, counts, _ = CED_FS(X, 100, 50, {"screenAlpha": 0.001}, image_dir=str(tmp_path))
+    assert counts == [1, 1] and events["stable"] == [1]

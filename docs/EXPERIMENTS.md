@@ -273,3 +273,32 @@ fleet of a few hundred to a thousand units a window takes under half a second.
 Beyond that the route is a Nyström approximation of the kernel (Williams &
 Seeger, NIPS 2001) with a fixed number of components, which would change
 results and belongs behind an option.
+
+## T5 — Screening inside CED_FS, and where it does not belong
+
+`CED_FS` now takes `density` and `screenAlpha` in `algorithm_params` (both
+off by default, so the port and the server's checks are unaffected). With
+`screenAlpha`, each column of a window is a variable observed once per sample
+and the window is screened as IF-PCA screens features (Jin & Wang 2016).
+
+On the bundled benchmarks it **hurts** (window ARI against the labels, window
+50; columns kept out of 50 in brackets):
+
+| dataset | no screening | α = 0.05 | α = 0.001 |
+|---|---|---|---|
+| glioma | **0.371** | 0.058 (8) | 0.045 (6) |
+| mll | **0.359** | 0.257 (13) | 0.220 (9) |
+| lung2 | **0.283** | 0.206 (16) | 0.171 (12) |
+| prostate | 0.025 | 0.025 (22) | 0.025 (18) |
+| car | **0.066** | 0.052 (19) | 0.051 (15) |
+| eog | **0.037** | 0.024 (45) | 0.025 (42) |
+
+The premise of screening is that a column with no group structure is
+Gaussian across the objects. That holds for a fleet of like units — it is
+what makes the Tennessee Eastman result — and it does not hold for gene
+expression, whose columns are skewed and heavy-tailed whether or not they
+separate the classes. The test then keeps the skewed noise and drops the
+informative columns. IF-PCA itself works on such data because it standardises
+and thresholds by Higher Criticism for rare, weak signals, a regime these
+min-max-normalised windows of 50 are not in. The option is documented as
+meant for fleets, and stays off for the benchmarks.

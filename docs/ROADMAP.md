@@ -30,8 +30,9 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       is worse everywhere it differs; the original's λ weighting stays.
 
 - [~] T5 One-cluster decision (P3, P6): `screening.py` and `significance.py`
-      exist; screening is the useful one. Open: make it an option of `CED_FS`
-      and of the TypeScript port, so the app can use it.
+      exist; screening is the useful one. *Done (Python)*: `CED_FS` takes
+      `density` and `screenAlpha`; screening hurts on gene benchmarks
+      (EXPERIMENTS.md T5), so it is for fleets. *Open*: the TypeScript port.
 
 ## E — Experiments
 
