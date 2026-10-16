@@ -134,3 +134,33 @@ than the spread.)
 4. On the real benchmarks the choice makes no difference beyond window-to-window
    spread. The default stays the original; `density="relative"` is recommended
    where small groups are the point — the emerging/forgetting case.
+
+## T3 — MONIC's transitions next to the Dice events
+
+`cedfs/transitions.py` reads consecutive partitions the way MONIC does
+(Spiliopoulou et al., KDD 2006): an asymmetric overlap |X ∩ Y| / |X| and five
+external transitions — survive, absorb, split, disappear, emerge — with the
+clusTransition defaults τ = 0.7, τ_split = 0.3. `experiments/transitions.py`
+derives the truth in each vocabulary from the perfect per-window partitions
+and scores the detector's partitions (relative density) against both.
+
+What each vocabulary says about the placed boundaries:
+
+| stream, boundary | what was placed | Dice (CED-FS) | MONIC |
+|---|---|---|---|
+| canonical 2→3 | class 3 separates from class 2 (30 + 30) | stable 1, **drift 1** | survive 1, **split 1** |
+| canonical 4→5 | class 2 merges into class 1 | stable 1, **drift 2** | survive 1, **absorb 2** |
+| uneven 1→2 | small class 2 (6) leaves class 1 (60) | stable 1, drift 1, emerging 1 | survive 2, emerge 1 |
+| uneven 2→3 | class 2 rejoins class 1 | stable 1, drift 1, **forgetting 1** | survive 1, **absorb 2** |
+
+Exact boundaries, 20 seeds: identical for both up to spread 1.0 (canonical
+1.00 / 1.00, uneven 0.85 / 0.85 at 1.0); at 1.4 canonical 0.09 (Dice) against
+0.17 (MONIC), uneven 0 / 0.
+
+**Finding.** On the same partitions MONIC is as accurate and says more: the
+split and the merge that Dice can only call drift (THEORY.md P2) are named,
+and the small class rejoining its neighbour — "forgetting" to Dice, as if a
+concept were lost — is an absorption, which is what happened. The original
+events stay the default for fidelity; `boundary_transitions` is offered next
+to them, and the fleet reading benefits most: "units 1–12 split off" and "two
+operating modes merged" are the sentences an operator needs.

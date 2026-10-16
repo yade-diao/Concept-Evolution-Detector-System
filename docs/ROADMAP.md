@@ -20,9 +20,11 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       axis, the event taxonomy as a function of the overlap matrix, and which
       events are reachable under which class-size conditions (the "uneven"
       result in the README, proved rather than observed).
-- [ ] T3 Extend the taxonomy to MONIC's external transitions: split and merge,
+- [x] T3 Extend the taxonomy to MONIC's external transitions: split and merge,
       and stable that does not require Dice == 1. Keep the original rule as the
       default so the port stays faithful; the extension is an option.
+      *Done*: `cedfs/transitions.py`; as accurate as Dice on the same
+      partitions and names the splits/merges Dice calls drift/forgetting.
 - [x] T4 KPCA scaling (`K_c v` vs. `sqrt(lambda) v`, inherited from the MATLAB
       original): state it, then ablate it in E3. *Done*: `kpca_scaling="sqrt"`
       is worse everywhere it differs; the original's λ weighting stays.

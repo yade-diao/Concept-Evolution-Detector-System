@@ -1,0 +1,8002 @@
+[
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.35,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 0.7,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.0,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.5
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.5
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.5
+ },
+ {
+  "stream": "canonical",
+  "spread": 1.4,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 2,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 3,
+    "drift": 0,
+    "forgetting": 0,
+    "emerging": 0
+   },
+   {
+    "stable": 1,
+    "drift": 2,
+    "forgetting": 0,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 0,
+    "split": 1,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 3,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.25,
+  "monic_exact": 0.25
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.35,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 0.7,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.0,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 1.0,
+  "monic_exact": 1.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 0,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 1,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 2,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 3,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 4,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 5,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 6,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 7,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 8,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 9,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 10,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 11,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 12,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 13,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 14,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 15,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 16,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 17,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 18,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ },
+ {
+  "stream": "uneven",
+  "spread": 1.4,
+  "seed": 19,
+  "dice_truth": [
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 0,
+    "emerging": 1
+   },
+   {
+    "stable": 1,
+    "drift": 1,
+    "forgetting": 1,
+    "emerging": 0
+   }
+  ],
+  "monic_truth": [
+   {
+    "survive": 2,
+    "absorb": 0,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 1
+   },
+   {
+    "survive": 1,
+    "absorb": 2,
+    "split": 0,
+    "disappear": 0,
+    "emerge": 0
+   }
+  ],
+  "dice_exact": 0.0,
+  "monic_exact": 0.0
+ }
+]
