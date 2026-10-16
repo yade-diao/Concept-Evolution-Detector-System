@@ -53,6 +53,52 @@ def _knn_from_distances(dist: np.ndarray, k: int):
     return idx, np.take_along_axis(d, idx, axis=1)
 
 
+def _knn_from_index(data: np.ndarray, k: int):
+    """The k nearest neighbours of every point, excluding itself, from a tree."""
+    from sklearn.neighbors import NearestNeighbors
+
+    n = data.shape[0]
+    dist, idx = NearestNeighbors(n_neighbors=min(k + 1, n)).fit(data).kneighbors(data)
+    out_i = np.zeros((n, k), dtype=int)
+    out_d = np.zeros((n, k))
+    for i in range(n):
+        keep = idx[i] != i
+        out_i[i] = idx[i][keep][:k]
+        out_d[i] = dist[i][keep][:k]
+    return out_i, out_d
+
+
+def _delta_from_neighbours(data: np.ndarray, rhos, index_knn: np.ndarray, k_dist: np.ndarray):
+    """`_get_delta` without the distance matrix (see `neighbour_index`)."""
+    rhos = np.asarray(rhos)
+    n = len(rhos)
+    order = np.argsort(rhos)[::-1]               # the order _get_delta uses
+    rank = np.empty(n, dtype=int)
+    rank[order] = np.arange(n)
+    deltas = np.zeros(n)
+    nneigh = np.full(n, -1, dtype=int)
+    top = order[0]
+    deltas[top] = float(np.sqrt(((data - data[top]) ** 2).sum(1)).max())
+    for idx in range(n):
+        if idx == top:
+            continue
+        denser = rank[index_knn[idx]] < rank[idx]
+        if denser.any():
+            cand = np.flatnonzero(denser)
+            # Ties in distance go to the denser point, as argmin over the
+            # density-ordered list does in _get_delta.
+            best = cand[np.lexsort((rank[index_knn[idx][cand]], k_dist[idx][cand]))[0]]
+            deltas[idx] = float(k_dist[idx][best])
+            nneigh[idx] = int(index_knn[idx][best])
+        else:
+            higher = order[: rank[idx]]
+            d = np.sqrt(((data[higher] - data[idx]) ** 2).sum(1))
+            j = int(np.argmin(d))
+            deltas[idx] = float(d[j])
+            nneigh[idx] = int(higher[j])
+    return deltas, nneigh
+
+
 def _get_delta(dist_matrix: np.ndarray, rhos):
     """Compute decision distances (δ) and nearest higher-density neighbors.
 
@@ -181,6 +227,7 @@ def k_r_dpc(
     kpca_scaling: str = "eigenvalue",
     density: str = "rknn",
     landmarks: int | None = None,
+    neighbour_index: bool = False,
 ):
     """Run K-r-DPC on *data* and return cluster assignments.
 
@@ -203,6 +250,15 @@ def k_r_dpc(
         None computes KPCA exactly (the original). An integer m uses a Nystrom
         approximation with m landmarks (`k_pca_nystrom`), O(n m^2) instead of
         O(n^3), for fleets of thousands of units (README (Experiments) E4).
+    neighbour_index : bool
+        False (the original) builds the n x n distance matrix. True finds the
+        kNN graph with a tree index and each point's nearest denser point from
+        its own neighbours (FastDPeak's observation, Chen et al., KBS 2020): if
+        any of a point's k nearest neighbours is denser, the nearest denser
+        point in the whole set is among them, because every point closer than
+        the k-th neighbour is one of the k. Only the few points with no denser
+        neighbour - local peaks - are searched against everything. Same
+        partition up to exact distance ties, in O(n k) memory instead of O(n^2).
     density : {"rknn", "relative"}
         "rknn" is the original reverse-kNN density. "relative" divides each
         point's density by the highest in its kNN neighbourhood (RECOME, Geng
@@ -230,9 +286,13 @@ def k_r_dpc(
     else:
         reduced = k_pca(data, sigma, kernel_type, target_dim, scaling=kpca_scaling)
 
-    # --- Pairwise distances, and the KNN graph read from them ---
-    dist_mat = _pairwise_distances(reduced)
-    index_knn, k_dist = _knn_from_distances(dist_mat, k)
+    # --- The KNN graph: from the full distance matrix, or from a tree index ---
+    if neighbour_index:
+        dist_mat = None
+        index_knn, k_dist = _knn_from_index(reduced, k)
+    else:
+        dist_mat = _pairwise_distances(reduced)
+        index_knn, k_dist = _knn_from_distances(dist_mat, k)
 
     # --- Local density via rKNN ---
     rhos = get_rknn_density(index_knn, k_dist)
@@ -248,7 +308,10 @@ def k_r_dpc(
 
 
     # --- Decision distances ---
-    deltas, nneigh = _get_delta(dist_mat, rhos)
+    if neighbour_index:
+        deltas, nneigh = _delta_from_neighbours(reduced, rhos, index_knn, k_dist)
+    else:
+        deltas, nneigh = _get_delta(dist_mat, rhos)
 
     # --- Optionally save the decision graph ---
     if image_dir is not None:

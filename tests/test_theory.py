@@ -98,3 +98,14 @@ def test_nystrom_with_all_points_as_landmarks_matches_exact_kpca_distances():
     exact = k_pca(x, 6.0, 1, 20)
     approx = k_pca_nystrom(x, 6.0, 1, 20, landmarks=60)
     assert np.allclose(pdist(exact), pdist(approx), rtol=1e-6, atol=1e-9)
+
+
+def test_the_neighbour_index_gives_the_same_partition_as_the_distance_matrix():
+    from cedfs.algorithm.k_r_dpc import k_r_dpc
+    rng = np.random.default_rng(31)
+    for seed in range(5):
+        x = rng.random((120, 30))
+        x[: 40 + seed * 5] += 0.8
+        a = k_r_dpc(x, None, 1, 6.0, 0.05)
+        b = k_r_dpc(x, None, 1, 6.0, 0.05, neighbour_index=True)
+        assert (np.asarray(a[0]) == np.asarray(b[0])).all() and a[2] == b[2]

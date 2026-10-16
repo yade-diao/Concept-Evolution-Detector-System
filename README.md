@@ -282,8 +282,15 @@ kernel components); `k_r_dpc(..., landmarks=m)` uses a Nyström approximation
 | 8 000 | — | 34 s | 35 s |
 
 with identical ARI; with every point a landmark it reproduces the exact
-distances. Past ten thousand units the bottleneck is the n × n distances
-density peaks needs, not the eigensolver.
+distances. What is left after Nyström is the n × n distance matrix density
+peaks uses for δ. `k_r_dpc(..., neighbour_index=True)` removes it, after
+FastDPeak (Chen et al., KBS 2020): the kNN graph comes from a tree index, and
+a point's nearest denser point is among its own k neighbours whenever any of
+them is denser — every point closer than the k-th neighbour is one of the k —
+so only local peaks are searched against everything. Same partitions (every
+window tried on glioma and eog), O(n k) memory: with m = 200 landmarks, 8 000
+units take 8.2 s instead of 34 s, and 16 000 units, whose distance matrix
+alone would be 2 GB, take 43 s.
 
 ## The industrial fleets in detail
 
@@ -691,8 +698,6 @@ Every image is tagged with its commit, so `CED_IMAGE_TAG=<sha> docker compose
   redistribution. Build it from the raw files (`experiments/matr_prepare.py`)
   and run it with `experiments/matr_fleet.py`, or export a long-format CSV and
   open it on the Fleets page.
-- A neighbour index in place of the n × n distances, for fleets past ten
-  thousand units.
 
 ## Copyright
 
