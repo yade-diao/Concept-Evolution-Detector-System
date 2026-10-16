@@ -160,3 +160,62 @@ export function accumulate(p: number[][], m = 5, level = 0.01): boolean[][] {
       return (mean - 0.5) / Math.sqrt(1 / (12 * m)) < cut
     }))
 }
+
+/** `fleet.own_change(units, window, baseline, statistic)`: one-sided conformal p-values. */
+export function ownChange(
+  fleet: Fleet,
+  windowLength: number,
+  baseline: number,
+  statistic: 'magnitude' | 'shape' = 'magnitude',
+): number[][] {
+  const { units: n, samples: T, variables: V, data } = fleet
+  const base = new Float64Array(n * V)
+  for (let u = 0; u < n; u++)
+    for (let v = 0; v < V; v++) {
+      let s = 0
+      for (let t = 0; t < baseline; t++) s += data[(u * T + t) * V + v]
+      base[u * V + v] = s / baseline
+    }
+  // The fleet's spread at baseline, population standard deviation, as numpy's std.
+  const scale = new Float64Array(V)
+  for (let v = 0; v < V; v++) {
+    let mean = 0
+    for (let u = 0; u < n; u++) mean += base[u * V + v]
+    mean /= n
+    let ss = 0
+    for (let u = 0; u < n; u++) ss += (base[u * V + v] - mean) ** 2
+    scale[v] = Math.sqrt(ss / n) || 1
+  }
+  const total = Math.floor(T / windowLength)
+  const p: number[][] = Array.from({ length: n }, () => [])
+  const tiny = 2.2250738585072014e-308
+  for (let w = 0; w < total; w++) {
+    const s = new Float64Array(n)
+    for (let u = 0; u < n; u++) {
+      const change = new Float64Array(V)
+      for (let v = 0; v < V; v++) {
+        let acc = 0
+        for (let t = w * windowLength; t < (w + 1) * windowLength; t++) acc += data[(u * T + t) * V + v]
+        change[v] = acc / windowLength - base[u * V + v]
+      }
+      if (statistic === 'magnitude') {
+        let acc = 0
+        for (let v = 0; v < V; v++) acc += (change[v] / scale[v]) ** 2
+        s[u] = acc
+      } else {
+        let mean = 0
+        for (const c of change) mean += c
+        mean /= V
+        let ss = 0
+        for (const c of change) ss += (c - mean) ** 2
+        s[u] = Math.log10(ss / V + tiny)
+      }
+    }
+    for (let u = 0; u < n; u++) {
+      let atLeast = 0
+      for (let j = 0; j < n; j++) if (s[j] >= s[u]) atLeast++
+      p[u].push(atLeast / n)
+    }
+  }
+  return p
+}

@@ -11,7 +11,7 @@ import { readFileSync } from 'node:fs'
 
 import { describe, expect, it } from 'vitest'
 
-import { accumulate, deviation, monitorFleet } from '../src/cedfs/fleet'
+import { accumulate, deviation, monitorFleet, ownChange } from '../src/cedfs/fleet'
 import { decodeFleet, type FleetInfo } from '../src/datasets/fleets'
 
 const ROOT = new URL('../../datasets/bundled/fleets/', import.meta.url)
@@ -30,6 +30,8 @@ interface FleetAnswer {
   transitions: unknown[]
   pCounts: number[][]
   alarms: number[][]
+  ownChangeCounts: number[][]
+  ownShapeCounts: number[][]
 }
 
 const answers: FleetAnswer[] = JSON.parse(
@@ -56,5 +58,12 @@ describe.each(answers)('$slug', (answer: FleetAnswer) => {
     const alarms = accumulate(p, answer.m, answer.level)
     const byWindow = alarms[0].map((_, w) => alarms.flatMap((row, u) => (row[w] ? [u] : [])))
     expect(byWindow).toEqual(answer.alarms)
+  })
+
+  it('the own-change monitor gives the same p-values', () => {
+    const p = ownChange(fleet, answer.window, answer.baseline)
+    expect(p.map((row) => row.map((x) => Math.round(x * fleet.units)))).toEqual(answer.ownChangeCounts)
+    const shape = ownChange(fleet, answer.window, answer.baseline, 'shape')
+    expect(shape.map((row) => row.map((x) => Math.round(x * fleet.units)))).toEqual(answer.ownShapeCounts)
   })
 })

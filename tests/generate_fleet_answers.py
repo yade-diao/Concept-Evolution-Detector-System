@@ -17,7 +17,7 @@ from pathlib import Path
 
 import numpy as np
 
-from cedfs.fleet import accumulate, deviation, monitor
+from cedfs.fleet import accumulate, deviation, monitor, own_change
 from cedfs.fleets import load, manifest
 from cedfs.transitions import boundary_transitions
 
@@ -47,6 +47,10 @@ def main() -> None:
             # p-values are k / n exactly; stored as the integer k.
             "pCounts": np.rint(p * cube.shape[0]).astype(int).tolist(),
             "alarms": [np.flatnonzero(a).tolist() for a in accumulate(p, m, level).T],
+            "ownChangeCounts": np.rint(own_change(cube, window, baseline) * cube.shape[0])
+                                .astype(int).tolist(),
+            "ownShapeCounts": np.rint(own_change(cube, window, baseline, "shape") * cube.shape[0])
+                               .astype(int).tolist(),
         })
     OUT.write_text(json.dumps(answers))
     print(f"{OUT}: {len(answers)} fleets")
