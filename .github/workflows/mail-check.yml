@@ -40,7 +40,7 @@ jobs:
       - if: steps.draw.outputs.go == 'true'
         run: node .github/scripts/mail-check.mjs
         env:
-          CED_URL: https://ced-stream.denmarkeast.cloudapp.azure.com
+          CED_URL: https://evolve.daokui.fr
           TEST_MAILBOX: cedtest@catstu.onmicrosoft.com
           MONITOR_TENANT_ID: ${{ secrets.MONITOR_TENANT_ID }}
           MONITOR_CLIENT_ID: ${{ secrets.MONITOR_CLIENT_ID }}

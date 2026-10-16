@@ -117,10 +117,11 @@ The stream runs along the feature axis, so the industrial case must be a
 
 ## O — Operations
 
-- [!] O1 Move the site to `evolve.daokui.fr`. Needs a DNS A record
-      `evolve` → `9.205.159.213` (DNS only, grey cloud) in Cloudflare, and the
-      redirect URI `https://evolve.daokui.fr/api/v1/auth/microsoft/callback`
-      added to the `ced-stream` app in Entra. Then: `CED_DOMAIN` lists both
-      names (Caddy serves both, the old one stays working), `CED_PUBLIC_URL`
-      switches, README / mail-check follow.
+- [~] O1 Move the site to `evolve.daokui.fr`. *Done*: Cloudflare A record
+      `evolve` → `9.205.159.213` (DNS only); Caddy serves both names
+      (`CED_DOMAIN="evolve.daokui.fr, ced-stream…"`), Let's Encrypt certificate
+      for the new one; README and mail-check point at it. *Open*: add
+      `https://evolve.daokui.fr/api/v1/auth/microsoft/callback` to the
+      `ced-stream` app in Entra, then switch `CED_PUBLIC_URL` — until then
+      Microsoft sign-in keeps returning to the old name, which still works.
 - [x] O2 README rewrite once T/E/I have results (7cf992a).

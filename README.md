@@ -10,7 +10,7 @@ a fixed set of objects whose measurements arrive over time — and turns that
 into a monitor for **fleets of machines**: which units left their peers, when,
 and through which variables, with no fault-free history and no labels.
 
-**→ [ced-stream.denmarkeast.cloudapp.azure.com](https://ced-stream.denmarkeast.cloudapp.azure.com)**
+**→ [evolve.daokui.fr](https://evolve.daokui.fr)**
 — "Continue as guest" needs no account. Everything is computed in your browser.
 
 ![The Fleets page on a Tennessee Eastman fleet: no unit flagged before the
