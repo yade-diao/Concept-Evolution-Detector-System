@@ -123,4 +123,4 @@ The stream runs along the feature axis, so the industrial case must be a
       added to the `ced-stream` app in Entra. Then: `CED_DOMAIN` lists both
       names (Caddy serves both, the old one stays working), `CED_PUBLIC_URL`
       switches, README / mail-check follow.
-- [ ] O2 README rewrite once T/E/I have results.
+- [x] O2 README rewrite once T/E/I have results (7cf992a).
