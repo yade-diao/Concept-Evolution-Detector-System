@@ -686,10 +686,6 @@ Every image is tagged with its commit, so `CED_IMAGE_TAG=<sha> docker compose
 
 ## Open
 
-- Register `https://evolve.daokui.fr/api/v1/auth/microsoft/callback` on the
-  `ced-stream` Entra app and switch `CED_PUBLIC_URL` to the new name; until
-  then Microsoft sign-in returns to `ced-stream.denmarkeast.cloudapp.azure.com`,
-  which still serves the site.
 - The battery fleet in the browser (its licence to be confirmed before bundling).
 - A neighbour index in place of the n × n distances, for fleets past ten
   thousand units.
