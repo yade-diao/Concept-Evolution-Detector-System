@@ -29,8 +29,16 @@ def test_a_small_breakaway_is_survival_plus_emergence():
     assert t["survive"] == 1 and t["emerge"] == 1
 
 
-def test_scattering_is_disappearance():
+def test_an_even_scatter_into_three_is_still_a_split():
+    # Each part takes 1/3 >= tau_split and together all of it >= tau.
     past = np.r_[np.ones(9), np.full(9, 2)]
     curr = np.tile([1, 2, 3], 6)
+    assert transitions(past, curr)["split"] == 2
+
+
+def test_scattering_into_small_pieces_is_disappearance():
+    # Every piece takes 1/6 < tau_split, so no transition explains it.
+    past = np.ones(18)
+    curr = np.tile(np.arange(1, 7), 3)
     t = transitions(past, curr)
-    assert t["disappear"] == 2 and t["emerge"] == 3
+    assert t["disappear"] == 1 and t["emerge"] == 6
