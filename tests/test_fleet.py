@@ -53,3 +53,22 @@ def test_a_variance_fault_needs_the_summary_representation():
     assert 5 in summaries.variables[2]
     assert summaries.flags[:12, 2:].mean() > 0.9 and not summaries.flags[12:].any()
     assert columns.flags[:12, 2:].mean() < summaries.flags[:12, 2:].mean()
+
+
+def test_deviation_p_values_are_conformal_and_find_a_drifting_unit():
+    from cedfs.fleet import accumulate, deviation
+    rng = np.random.default_rng(11)
+    units = rng.standard_normal((50, 80, 6)) + rng.standard_normal((50, 1, 6)) * 3
+    units[0, 30:, :] += np.linspace(0, 4, 50)[:, None]   # one unit drifts away
+    p = deviation(units, window=5, baseline=20)
+    assert p.min() >= 1 / 50 and p.max() == 1.0
+    alarms = accumulate(p, m=5, level=0.01)
+    assert alarms[0, -1] and alarms[1:].mean() < 0.05
+
+
+def test_accumulate_cannot_alarm_when_the_floor_is_above_the_threshold():
+    from cedfs.fleet import accumulate
+    p = np.full((3, 10), 1 / 100)                          # the smallest p for n = 100
+    assert not accumulate(p, m=3, level=0.001).any()
+    alarms = accumulate(p, m=5, level=0.001)
+    assert not alarms[:, :4].any() and alarms[:, 4:].all()

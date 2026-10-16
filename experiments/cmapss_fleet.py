@@ -25,7 +25,10 @@ false-alarm rate on healthy):
   beyond a Bonferroni normal quantile in median/MAD units of the fleet — the
   simplest fleet comparison, no history either;
 * **PCA T²/SPE** fitted on every engine's first 30 cycles, the usual "the
-  start of life is healthy" reference.
+  start of life is healthy" reference;
+* **deviation, accumulated** (`cedfs.fleet.deviation` + `accumulate`): each
+  engine minus its own first 30 cycles, a conformal p-value against the fleet
+  per window, alarm when the mean of its last m p-values is too small.
 
     python -m experiments.cmapss_fleet --subset FD001
 """
@@ -40,7 +43,7 @@ import numpy as np
 from scipy import stats
 
 from cedfs.algorithm.screening import testable
-from cedfs.fleet import monitor, persistent
+from cedfs.fleet import accumulate, deviation, monitor, persistent
 from experiments.tep_fleet import pca_monitor
 
 DATA = Path.home() / "data" / "cmapss"
@@ -93,6 +96,10 @@ def main() -> None:
     parser.add_argument("--window", type=int, default=10, help="cycles per window")
     parser.add_argument("--alpha", type=float, default=0.001)
     parser.add_argument("--density", choices=["rknn", "relative"], default="rknn")
+    parser.add_argument("--baseline", type=int, default=30,
+                        help="samples of each unit's own start removed before the deviation score")
+    parser.add_argument("--m", type=int, default=8, help="windows a deviation is accumulated over")
+    parser.add_argument("--level", type=float, default=0.01)
     parser.add_argument("--represent", choices=["columns", "summaries"], default="columns")
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
@@ -109,6 +116,8 @@ def main() -> None:
         "variables": [[int(v) + 1 for v in w] for w in watched.variables],
         "ced_fs_screened": score(watched.flags, lives, args.window),
         "ced_fs_persistent": score(persistent(watched.flags, args.alpha), lives, args.window),
+        "deviation_accumulated": score(accumulate(deviation(cube, args.window, args.baseline),
+                                                  args.m, args.level), lives, args.window),
         "peer_z": score(peer_z(cube, args.window, args.alpha), lives, args.window),
         "pca_first_30_cycles": score(pca, lives, args.window),
     }
@@ -116,7 +125,7 @@ def main() -> None:
           f"window {args.window} cycles, PCA keeps {n_pc} components")
     print("clusters per window:", watched.cluster_counts)
     print("sensors selected   :", [",".join(map(str, w)) or "-" for w in results["variables"]])
-    for name in ("ced_fs_screened", "ced_fs_persistent", "peer_z", "pca_first_30_cycles"):
+    for name in ("ced_fs_screened", "ced_fs_persistent", "deviation_accumulated", "peer_z", "pca_first_30_cycles"):
         r = results[name]
         print(f"  {name:20s} detection {r['detection']:.2f}  FAR {r['far']:.3f}  "
               f"caught {r['engines_caught']}/{r['engines_degraded']}  "

@@ -133,3 +133,91 @@ def persistent(flags: np.ndarray, alpha: float, m: int = 5, level: float = 0.001
     for w in range(flags.shape[1]):
         counts[:, w] = flags[:, max(0, w - m + 1):w + 1].sum(1)
     return np.maximum.accumulate(counts >= k, axis=1)
+
+
+def deviation(units: np.ndarray, window: int, baseline: int | None = None,
+              groups: np.ndarray | None = None, min_group: int = 10) -> np.ndarray:
+    """How unusual each unit is within the fleet, per window, as a p-value.
+
+    The clustering of `monitor` sees a fleet that splits into groups. A fleet
+    that degrades gradually does not split: its units spread out along a
+    continuum, and "outside the largest cluster" then cuts that continuum at an
+    arbitrary place (INDUSTRIAL.md I2). This is the graded counterpart.
+
+    Per window, each unit is summarised by its window mean per variable; each
+    variable is put in fleet units by median and MAD; a unit's strangeness is
+    the sum of its squared robust z-scores over the variables that are
+    continuous enough to scale (`screening.testable`). Its p-value is the
+    conformal one — the share of the fleet at least as strange, itself
+    included — which is uniform on {1/n, ..., 1} when the units are
+    exchangeable (Vovk, Gammerman & Shafer, *Algorithmic Learning in a Random
+    World*, 2005). COSMO (Rögnvaldsson et al., DMKD 2018) scores vehicles
+    against their fleet in the same way.
+
+    `baseline` removes each unit's own mean over its first `baseline` samples
+    first, so that what is compared is how each unit has *changed*, not how it
+    was built: in C-MAPSS the engine-to-engine spread at the start is nearly as
+    large as the drift a failing engine accumulates.
+
+    `groups` assigns each unit a peer group (e.g. the partition `monitor`
+    found in the first window): each unit is then scored only against its own
+    group, as Hendrickx et al. (MSSP 2020) compare a machine with the cluster of
+    machines like it. A fleet that holds two kinds of unit otherwise reports
+    the minority kind as deviating, whatever its health. Groups smaller than
+    `min_group` are scored against the whole fleet.
+
+    Returns (units, windows) p-values; small means unusual.
+    """
+    from cedfs.algorithm.screening import testable
+
+    x = np.asarray(units, dtype=float)
+    if baseline:
+        x = x - x[:, :baseline].mean(1, keepdims=True)
+    n = x.shape[0]
+    if groups is not None:
+        groups = np.asarray(groups)
+        sizes = {g: int(np.sum(groups == g)) for g in np.unique(groups)}
+        if sum(size >= min_group for size in sizes.values()) >= 2:
+            p = np.ones((n, x.shape[1] // window))
+            rest = np.ones(n, bool)
+            for g, size in sizes.items():
+                if size >= min_group:
+                    member = groups == g
+                    p[member] = deviation(x[member], window)
+                    rest &= ~member
+            if rest.any():
+                p[rest] = deviation(x, window)[rest]
+            return p
+    out = []
+    for start in range(0, x.shape[1] - window + 1, window):
+        m = x[:, start:start + window].mean(1)
+        med = np.median(m, 0)
+        mad = 1.4826 * np.median(np.abs(m - med), 0)
+        use = testable(m) & (mad > 0)
+        if not use.any():
+            out.append(np.ones(n))
+            continue
+        strangeness = (((m[:, use] - med[use]) / mad[use]) ** 2).sum(1)
+        out.append((strangeness[None, :] >= strangeness[:, None]).sum(1) / n)
+    return np.array(out).T
+
+
+def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001) -> np.ndarray:
+    """Alarm when a unit's recent p-values are too small on average to be chance.
+
+    Under exchangeability each p-value is (close to) uniform, so the mean of a
+    unit's last `m` is approximately normal with mean 1/2 and variance
+    1/(12 m). An alarm is raised when it falls below the `level` quantile of
+    that law, i.e. when the unit has been consistently among the strangest of
+    the fleet. Alarms latch. This is the accumulation over time that turns a
+    deviation score into a decision, as in COSMO; the threshold follows from
+    the null rather than being tuned.
+    """
+    from scipy import stats
+
+    out = np.zeros_like(p, dtype=bool)
+    for w in range(m - 1, p.shape[1]):
+        mean = p[:, w - m + 1:w + 1].mean(1)
+        z = (mean - 0.5) / np.sqrt(1 / (12 * m))
+        out[:, w] = z < stats.norm.ppf(level)
+    return np.maximum.accumulate(out, axis=1)

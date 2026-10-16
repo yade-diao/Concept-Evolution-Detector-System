@@ -82,7 +82,10 @@ The stream runs along the feature axis, so the industrial case must be a
       *Done so far* (INDUSTRIAL.md I2): FD001 catches 16/23 degrading engines at
       median RUL 55 vs PCA 6/23 at 32 — *corrected*: all from one window's
       48/52 split (AUC 0.75 vs life), exposed by the persistence rule; PCA is
-      the better detector there. FD003's window-1 split predicts life (310 vs
+      the better detector there. *Optimised*: `fleet.deviation` + `accumulate`
+      (own baseline, conformal p-values, COSMO-style accumulation) — FD001
+      detection 0.72, FAR 0 vs PCA 0.22; FD003 still behind PCA (a slow-changing
+      subpopulation reads as deviant). FD003's window-1 split predicts life (310 vs
       206 cycles, p = 3e-4). Quantised sensors excluded from screening;
       `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Open*: FD003 fault
       mode; a graded per-unit deviation score.

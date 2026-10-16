@@ -200,3 +200,71 @@ subset publishes no per-engine mode, so this needs a proxy, e.g. which sensors
 trend at end of life); a per-unit deviation score rather than a binary flag,
 so that persistence can accumulate evidence below the flag threshold, as COSMO
 does with its conformal z-values.
+
+### Optimising for gradual degradation
+
+**Why the clustering monitor fails here — two causes, measured.**
+
+1. *The fleet is as varied as the fault.* On the eight informative FD001
+   sensors, the drift an engine accumulates by RUL 50 (relative to its own
+   first 10 cycles) is only 1.2–1.5 × the engine-to-engine spread at the start.
+   A failing engine is still inside the fleet's normal range, so comparing it
+   with its peers cannot single it out. PCA compares each engine with *its own*
+   start, which removes that spread — the data, not the method, decides this.
+2. *Degradation is a continuum, not a group.* With each engine's own baseline
+   removed, the clustering monitor's detection rises from 0.06 to 0.49 — and its
+   false-alarm rate from 1% to 32%. Engines degrading at different rates spread
+   along a line; "outside the largest cluster" cuts that line somewhere
+   arbitrary. That one is the method's.
+
+**The change.** `cedfs.fleet.deviation` + `cedfs.fleet.accumulate`:
+
+- subtract each unit's mean over its first `baseline` samples;
+- per window, score each unit by its summed squared robust z-scores against the
+  fleet (median/MAD, continuous variables only), and turn the score into a
+  conformal p-value — the share of the fleet at least as strange — which is
+  uniform when the units are exchangeable (Vovk, Gammerman & Shafer 2005);
+- alarm when the mean of a unit's last m p-values falls below the `level`
+  quantile of its null law, N(1/2, 1/(12m)) — COSMO's way of turning a
+  per-window deviation into a decision (Rögnvaldsson et al. 2018). Note the
+  floor this implies: with n = 100 units no p-value is below 0.01, and the
+  mean of three can never reach the 0.001 quantile, so m ≥ 5.
+
+**Results** (window 5 cycles, baseline 30, m = 8, level 0.01;
+`experiments/results/cmapss_*_w5.json`):
+
+| | monitor | detection | FAR (healthy) | engines caught | median RUL at first alarm |
+|---|---|---:|---:|---:|---:|
+| FD001 | clustering, screened (summaries) | 0.07 | 0.041 | 18 / 25 | 111 |
+| | **deviation, accumulated** | **0.72** | **0.000** | 17 / 25 | 52 |
+| | PCA, first 30 cycles | 0.22 | 0.005 | 10 / 25 | 45 |
+| FD003 | clustering, screened (summaries) | 0.12 | 0.121 | 32 / 34 | 48 |
+| | deviation, accumulated | 0.29 | 0.160 | 12 / 34 | 38 |
+| | PCA, first 30 cycles | **0.36** | **0.011** | 21 / 34 | 49 |
+
+1. **On FD001 the optimised monitor is the best of the three**: detection
+   0.72 against PCA's 0.22, no false alarm, the first alarm about 52 cycles
+   before failure — with the same "first 30 cycles are healthy" assumption PCA
+   makes and no model fitted to it.
+2. **On FD003 it loses to PCA, and the false alarms are one group.** The 20
+   engines alarmed while "healthy" are the long-lived, low-fan-speed engines of
+   point 2 above (median life 298 against 220; initial fan-speed rank ≈ 12 of
+   100): they change differently from the majority, so against the fleet they
+   look deviant. Scoring each engine only within the peer group the first
+   window's clustering finds (`deviation(..., groups=...)`, after Hendrickx et
+   al.'s per-cluster comparison) does not help — that group comes out as two
+   groups of 10 and 11, too small for a conformal p-value to reach the
+   threshold (0.22 detection, 0.14 FAR). What separates those engines is how
+   fast they change, not where they start.
+3. **On Tennessee Eastman the same score is worse than the clustering
+   monitor**: detection 0.85 but 5% false alarms before the fault and 21% on
+   normal runs after it, against 0.81 with none. TEP runs carry persistent
+   idiosyncrasies, so a unit's p-values are not independent over windows and
+   accumulation over-counts them.
+
+**So the system has two monitors, for two kinds of change.** The clustering
+monitor (`monitor`, screened, summaries) is for a subset of units *leaving*
+the fleet — abrupt faults, new operating modes — and reads out events and the
+variables behind them. The deviation monitor (`deviation` + `accumulate`) is
+for units *drifting* — wear, degradation — and needs each unit's own baseline.
+Neither wins on both datasets; each wins on the one shaped like its question.
