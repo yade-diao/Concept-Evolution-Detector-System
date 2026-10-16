@@ -68,16 +68,21 @@ def dallal_wilkinson(stat: np.ndarray, n: int) -> np.ndarray:
 
 
 def p_values(stat: np.ndarray, n: int) -> np.ndarray:
-    """Lilliefors p-values: simulated where the simulation has resolution, the
-    Dallal-Wilkinson tail below 1e-3. A simulated p cannot go below
+    """Lilliefors p-values: the Dallal-Wilkinson tail below 0.01, simulated above. A simulated p cannot go below
     1 / (sims + 1), and a Bonferroni level of 1e-4 over a hundred summaries
     asks for 1e-6 — without the analytic tail nothing could ever be selected.
     The two agree to within a few percent from 0.1 down to 1e-4."""
+    stat = np.asarray(stat, dtype=float)
     null = lilliefors_null(n)
     above = null.size - np.searchsorted(null, stat, side="left")
     p = (1 + above) / (1 + null.size)
-    tail = p < 1e-3
-    p[tail] = np.minimum(p[tail], dallal_wilkinson(stat[tail], n))
+    # Wherever the analytic tail is in its range it is used alone, so that a
+    # selection at any level below 0.01 is decided by a closed form — which is
+    # what lets the TypeScript port make the same decisions without
+    # reproducing this simulation.
+    analytic = dallal_wilkinson(stat, n)
+    tail = analytic < 0.01
+    p[tail] = analytic[tail]
     return p
 
 
