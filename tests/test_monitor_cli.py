@@ -35,3 +35,21 @@ def test_cli_reports_who_left_and_through_what(tmp_path, capsys):
     assert windows[2]["groups"] == 2 and windows[2]["through"] == ["c"]
     assert sorted(windows[2]["left_the_fleet"]) == sorted(f"m{u}" for u in range(8))
     assert windows[2]["transitions"].get("emerge") == 1
+
+
+def test_cli_own_change_names_the_unit_that_drifts(tmp_path, capsys):
+    rng = np.random.default_rng(9)
+    units, steps = 30, 60
+    x = rng.standard_normal((units, steps, 3)) * 0.1
+    x[0, 20:, :] += np.linspace(0, 3, 40)[:, None]          # m0 drifts after its baseline
+    path = tmp_path / "fleet.csv"
+    with open(path, "w") as f:
+        f.write("unit,t,a,b,c\n")
+        for u in range(units):
+            for t in range(steps):
+                f.write(f"m{u},{t}," + ",".join(f"{v:.5f}" for v in x[u, t]) + "\n")
+    assert main([str(path), "--unit", "unit", "--time", "t", "--window", "5", "--baseline", "15",
+                 "--m", "5", "--against", "own", "--json"]) == 0
+    windows = [json.loads(line) for line in capsys.readouterr().out.splitlines()]
+    assert not any(w["deviating"] for w in windows[:3])          # inside the baseline
+    assert windows[-1]["deviating"] == ["m0"]

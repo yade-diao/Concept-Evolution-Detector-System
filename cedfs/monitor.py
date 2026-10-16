@@ -16,7 +16,9 @@ Two monitors run (README (industrial fleets) explains when each is the right one
   group and through which variables;
 * deviation — `cedfs.fleet.deviation` + `accumulate`: which units have been
   consistently unlike the fleet over the last `--m` windows, each measured
-  against its own first `--baseline` time steps.
+  against its own first `--baseline` time steps; with `--against own`,
+  `cedfs.fleet.own_change` instead: which units changed most from their own
+  start, one-sided, for fleets used differently or ageing at different rates.
 
 Output is a readable report, or JSON lines with `--json` (one object per
 window) for another program to consume.
@@ -32,7 +34,7 @@ from pathlib import Path
 
 import numpy as np
 
-from cedfs.fleet import accumulate, deviation, monitor
+from cedfs.fleet import accumulate, deviation, monitor, own_change
 from cedfs.transitions import boundary_transitions
 
 
@@ -63,13 +65,15 @@ def read_fleet(path: Path, unit: str, time: str, variables: list[str] | None = N
     return cube, ids, times, names
 
 
-def report(cube, ids, times, names, window, alpha=0.001, baseline=None, m=5, level=0.01):
+def report(cube, ids, times, names, window, alpha=0.001, baseline=None, m=5, level=0.01,
+           against="fleet"):
     """One dict per window: what each monitor says about it."""
     watched = monitor(cube, window, screen_alpha=alpha, represent="summaries")
     monic = boundary_transitions(watched.clusterings)
     alarms = None
     if baseline is not None:
-        alarms = accumulate(deviation(cube, window, baseline), m, level)
+        score = own_change if against == "own" else deviation
+        alarms = accumulate(score(cube, window, baseline), m, level)
         # A window inside a unit's own baseline is compared with itself; it
         # cannot say the unit changed.
         alarms[:, : -(-baseline // window)] = False
@@ -124,6 +128,10 @@ def main(argv=None) -> int:
                         help="time steps of each unit's own start for the deviation monitor "
                              "(omit to run the clustering monitor only)")
     parser.add_argument("--m", type=int, default=5, help="windows a deviation must persist over")
+    parser.add_argument("--against", choices=["fleet", "own"], default="fleet",
+                        help="fleet: two-sided, unlike the fleet (cedfs.fleet.deviation); own: one-sided, "
+                             "changed most from its own start (cedfs.fleet.own_change) - for fleets used "
+                             "differently or ageing at different rates")
     parser.add_argument("--level", type=float, default=0.01)
     parser.add_argument("--delimiter")
     parser.add_argument("--json", action="store_true", help="JSON lines, one per window")
@@ -132,7 +140,7 @@ def main(argv=None) -> int:
     cube, ids, times, names = read_fleet(args.csv, args.unit, args.time, args.variables,
                                          args.delimiter)
     entries = report(cube, ids, times, names, args.window, args.alpha, args.baseline,
-                     args.m, args.level)
+                     args.m, args.level, args.against)
     if args.json:
         for e in entries:
             print(json.dumps(e, default=str))

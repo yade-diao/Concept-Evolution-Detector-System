@@ -48,8 +48,8 @@ alarm keeps much less than the score behind it.
 python -m cedfs.monitor fleet.csv --unit engine --time cycle --window 5 --baseline 30
 ```
 
-reads a long-format CSV and runs the first two; the **Fleets** page runs all
-three in the browser, on the bundled fleets or on a CSV you choose — read in
+reads a long-format CSV and runs all three (`--against own` for the
+one-sided monitor); the **Fleets** page runs them in the browser, on the bundled fleets or on a CSV you choose — read in
 the page, never uploaded.
 
 ### What changed from the published method, and why
