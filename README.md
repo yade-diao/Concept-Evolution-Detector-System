@@ -25,6 +25,24 @@ Every run is read back in the units of the data it came from — the panel above
 is `eog`, where a window is fifty milliseconds of eye movement, so the reading
 says so rather than saying "window 8".
 
+**What it is for.** A fleet of like units — process runs, engines, machines —
+observed together is a feature stream in exactly the method's sense: the units
+are fixed, the measurements arrive. On a Tennessee Eastman fleet, with no
+fault-free history at all, the detector (with the variable screening and
+summary clustering added here) finds faults with mean detection **0.83 against
+0.77** for the textbook PCA T²/SPE monitor fitted on 100 clean runs, raises
+**no alarm before any fault**, and names the variable each fault moved. On
+NASA's C-MAPSS turbofans a second, graded monitor flags degrading engines at
+0.71 detection against PCA's 0.22. Where it loses, the documents say so.
+
+| | |
+|---|---|
+| [docs/INDUSTRIAL.md](docs/INDUSTRIAL.md) | Tennessee Eastman and C-MAPSS fleets, baselines, failures, how to run it on your own CSV |
+| [docs/THEORY.md](docs/THEORY.md) | what the event rules imply before any data is run (P1–P6) |
+| [docs/EXPERIMENTS.md](docs/EXPERIMENTS.md) | evaluation protocol, ablations, other clusterers, running time |
+| [docs/RELATED_WORK.md](docs/RELATED_WORK.md) | where the method sits, organised by which axis each stream runs along |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | what is done and what is open |
+
 ## The premise: the stream runs along the feature axis
 
 This is the least obvious thing about the method, and everything else follows
@@ -115,6 +133,9 @@ pip install -r requirements.txt
 python -m pytest tests/ -q
 python -m experiments.synthetic_drift              # the run reported below
 
+# A fleet in a CSV file: unit column, time column, one column per variable
+python -m cedfs.monitor fleet.csv --unit engine --time cycle --window 5 --baseline 30
+
 # The application: detector, datasets and all, in a browser
 cd frontend && npm ci && npm run dev
 
@@ -141,11 +162,11 @@ guest has no address and no password, so the token in that tab is the only thing
 that could ever reach those runs again. Claiming the session turns it into an
 account and keeps the runs already in it.
 
-The deployment has no mail relay — sending mail needs a domain and a provider,
-and a `*.cloudapp.azure.com` name can carry neither the DKIM records nor an MX
-record. So registration is one step with an address nothing verifies, and what
-would have been email — a new account, feedback from a visitor — goes to the
-administrator's inbox in the application, counted in the sidebar.
+Registration sends a verification code by email through Microsoft Graph
+(`ced.mail.via=graph`), and accounts can also sign in with a Microsoft
+account. What would otherwise be email to the operator — a new account,
+feedback from a visitor — goes to the administrator's inbox in the
+application, counted in the sidebar.
 
 ## Results
 
@@ -211,7 +232,14 @@ See [datasets/README.md](datasets/README.md).
 ## Layout
 
     cedfs/                    the reference implementation
-      algorithm/              ced_fs, k_r_dpc, k_pca, kernel, knn, density
+      algorithm/              ced_fs, k_r_dpc, k_pca, kernel, knn, density,
+                              screening (is there structure, and in which
+                              variables), significance (SigClust gate)
+      fleet.py                the detector as a fleet monitor, and the graded
+                              deviation monitor
+      monitor.py              python -m cedfs.monitor: a fleet from a CSV
+      transitions.py          MONIC's survive / split / absorb / emerge
+      baselines.py            k-means, HDBSCAN, evolutionary k-means
       metrics/                Rand Index, NMI
       utils/                  normalisation, Dice similarity, plots
       datasets.py             the bundled benchmarks, addressable by name
@@ -231,7 +259,9 @@ See [datasets/README.md](datasets/README.md).
                               the administrator's inbox, PostgreSQL + Flyway
     deploy/                   what the server runs; see deploy/README.md
     datasets/bundled/         the ten benchmarks, and their manifest
-    experiments/              synthetic_drift, run_experiment
+    experiments/              synthetic_drift, protocol, baselines, transitions,
+                              tep_* (Tennessee Eastman), cmapss_fleet; results/
+    docs/                     theory, experiments, industrial, related work
 
 ## Deploying
 

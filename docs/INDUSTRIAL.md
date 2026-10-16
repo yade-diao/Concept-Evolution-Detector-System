@@ -29,6 +29,7 @@ changes, which units moved, and through which variable?
   CED-FS does not: a clean reference.
 
 ```
+pip install pyreadr                        # reads the R workspaces
 python -m experiments.tep_prepare          # after the R step it documents
 python -m experiments.tep_fleet --screen 0.001
 ```
