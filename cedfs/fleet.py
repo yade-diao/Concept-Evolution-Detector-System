@@ -58,7 +58,7 @@ def as_stream(units: np.ndarray) -> np.ndarray:
 def monitor(units: np.ndarray, window: int, params: dict | None = None,
             screen_alpha: float | None = None, gate: float | None = None,
             threshold: float = 0.5, represent: str = "columns",
-            roughness: bool | str = False) -> FleetResult:
+            roughness: bool | str = "fallback", roughness_weight: float = 0.25) -> FleetResult:
     """Watch a fleet window by window.
 
     `units` is (units, samples, variables). Trailing samples that do not fill a
@@ -74,6 +74,13 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
     "summaries", the selected per-unit window means and spreads (s^(2/3)). A fault
     that adds variance spreads its units out in the raw columns instead of
     gathering them, and only the summaries make them a group.
+
+    `roughness` (default "fallback") also screens each variable's spread of
+    first differences - how much it moves between samples - and clusters on it,
+    at `roughness_weight` (default 0.25), only for variables that neither level
+    nor spread selected. On Tennessee Eastman this raises detection from 0.827
+    to 0.855 and changes no fault for the worse (README, Tennessee Eastman).
+    `roughness=False` is the screening without it.
     """
     units = np.asarray(units)
     n_units, n_samples, n_vars = units.shape
@@ -88,7 +95,7 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
         variables = np.arange(n_vars)
         if screen_alpha is not None:
             variables, _, summary = screen_summaries(units[:, start:start + window], screen_alpha,
-                                                     roughness)
+                                                     roughness, roughness_weight)
         if screen_alpha is not None and represent == "summaries":
             x = summary
         else:

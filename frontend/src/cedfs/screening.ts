@@ -182,11 +182,16 @@ export function spreadScale(sd: Float64Array, n: number, m: number): Float64Arra
   return out
 }
 
-/** (objects, 2V): window means, then spreads on the scale `spreadScale` picks. */
-export function summaries({ data, objects, samples, variables }: Window): Float64Array {
+/**
+ * (objects, kV): window means, then spreads on the scale `spreadScale` picks,
+ * then - with `roughness` - the spreads of the first differences on the same
+ * kind of scale. Ported from `summaries` in screening.py.
+ */
+export function summaries({ data, objects, samples, variables }: Window, roughness = false): Float64Array {
   const V = variables
   const means = new Float64Array(objects * V)
   const sds = new Float64Array(objects * V)
+  const rough = new Float64Array(objects * V)
   for (let o = 0; o < objects; o++) {
     for (let v = 0; v < V; v++) {
       let mean = 0
@@ -196,15 +201,26 @@ export function summaries({ data, objects, samples, variables }: Window): Float6
       for (let t = 0; t < samples; t++) ss += (data[(o * samples + t) * V + v] - mean) ** 2
       means[o * V + v] = mean
       sds[o * V + v] = Math.sqrt(ss / samples)
+      if (roughness && samples > 1) {
+        let dm = 0
+        for (let t = 1; t < samples; t++) dm += data[(o * samples + t) * V + v] - data[(o * samples + t - 1) * V + v]
+        dm /= samples - 1
+        let dss = 0
+        for (let t = 1; t < samples; t++) {
+          dss += (data[(o * samples + t) * V + v] - data[(o * samples + t - 1) * V + v] - dm) ** 2
+        }
+        rough[o * V + v] = Math.sqrt(dss / (samples - 1))
+      }
     }
   }
-  const spreads = spreadScale(sds, objects, V)
-  const out = new Float64Array(objects * 2 * V)
+  const blocks = [means, spreadScale(sds, objects, V)]
+  if (roughness) blocks.push(spreadScale(rough, objects, V))
+  const k = blocks.length
+  const out = new Float64Array(objects * k * V)
   for (let o = 0; o < objects; o++) {
-    for (let v = 0; v < V; v++) {
-      out[o * 2 * V + v] = means[o * V + v]
-      out[o * 2 * V + V + v] = spreads[o * V + v]
-    }
+    blocks.forEach((b, bi) => {
+      for (let v = 0; v < V; v++) out[o * k * V + bi * V + v] = b[o * V + v]
+    })
   }
   return out
 }
@@ -219,12 +235,22 @@ export interface Screened {
   width: number
 }
 
-/** `screen_summaries`: Bonferroni over 2V tests at family-wise level alpha. */
-export function screenSummaries(window: Window, alpha: number): Screened {
+/**
+ * `screen_summaries`: Bonferroni over every summary tested, at family-wise
+ * level alpha. `roughness` false, true or "fallback", and `roughnessWeight`,
+ * as in screening.py.
+ */
+export function screenSummaries(
+  window: Window,
+  alpha: number,
+  roughness: boolean | 'fallback' = false,
+  roughnessWeight = 1,
+): Screened {
   const n = window.objects
   const V = window.variables
-  const m = 2 * V
-  const s = summaries(window)
+  const s = summaries(window, roughness !== false)
+  const m = s.length / n
+  const blocks = m / V
   const z = standardise(s, n, m)
   const stats = ksNormal(z, n, m)
   const ok = testable(s, n, m)
@@ -232,16 +258,32 @@ export function screenSummaries(window: Window, alpha: number): Screened {
   const hit: boolean[] = []
   const p: number[] = []
   for (let j = 0; j < m; j++) {
-    const untested = !ok[j] || (j >= V && hold[j - V])
+    const untested = !ok[j] || (j >= V && hold[j % V])
     p.push(untested ? 1 : pValue(stats[j], n))
     hit.push(!untested && p[j] <= alpha / m)
   }
   const selected: number[] = []
-  for (let v = 0; v < V; v++) if (hit[v] || hit[V + v]) selected.push(v)
-  const strength = (v: number) => Math.min(p[v], p[V + v])
+  for (let v = 0; v < V; v++) {
+    let any = false
+    for (let b = 0; b < blocks; b++) any = any || hit[b * V + v]
+    if (any) selected.push(v)
+  }
+  const strength = (v: number) => {
+    let best = 1
+    for (let b = 0; b < blocks; b++) best = Math.min(best, p[b * V + v])
+    return best
+  }
   const ranked = [...selected].sort((a, b) => strength(a) - strength(b) || a - b)
-  const columns = hit.flatMap((h, j) => (h ? [j] : []))
+  const use = [...hit]
+  if (roughness === 'fallback') {
+    for (let v = 0; v < V; v++) if (hit[v] || hit[V + v]) use[2 * V + v] = false
+  }
+  const columns = use.flatMap((h, j) => (h ? [j] : []))
   const summary = new Float64Array(n * columns.length)
-  for (let i = 0; i < n; i++) columns.forEach((j, k) => (summary[i * columns.length + k] = z[i * m + j]))
+  for (let i = 0; i < n; i++) {
+    columns.forEach((j, k) => {
+      summary[i * columns.length + k] = z[i * m + j] * (j >= 2 * V ? roughnessWeight : 1)
+    })
+  }
   return { selected, ranked, summary, width: columns.length }
 }

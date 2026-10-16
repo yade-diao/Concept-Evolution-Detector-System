@@ -56,7 +56,8 @@ export function monitorFleet(
   const out: FleetWindow[] = []
   let past: FleetWindow | null = null
   for (let w = 0; w < total; w++) {
-    const screened = screenSummaries(windowOf(fleet, w * windowLength, windowLength), alpha)
+    // The defaults of fleet.monitor: roughness as a fallback, at weight 0.25.
+    const screened = screenSummaries(windowOf(fleet, w * windowLength, windowLength), alpha, 'fallback', 0.25)
     let cluster: Int32Array
     let clusterCount: number
     if (screened.selected.length === 0) {

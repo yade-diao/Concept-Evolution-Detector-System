@@ -168,7 +168,8 @@ def screen(window: np.ndarray, alpha: float = 0.01):
     return selected, per_var
 
 
-def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool | str = False):
+def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool | str = False,
+                     roughness_weight: float = 1.0):
     """`screen`, plus the standardised summaries that were selected.
 
     The third value is (objects, s): the summary columns, standardised across
@@ -178,6 +179,10 @@ def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool | 
     series data", DMKD 2006). Bonferroni is over every summary tested.
     `roughness=True` adds the spread of first differences; "fallback" tests it
     too but clusters on it only for variables nothing else selected.
+    `roughness_weight` scales the roughness columns in the returned summaries
+    (not the test): a variable that only moves faster is weaker evidence of a
+    group than one whose level or spread moved, and at weight 1 those columns
+    can outvote the others in the clustering.
     """
     window = np.asarray(window, dtype=float)
     s = summaries(window, roughness)
@@ -198,4 +203,6 @@ def screen_summaries(window: np.ndarray, alpha: float = 0.01, roughness: bool | 
         # clustering of what was caught already.
         level_or_spread = hit[:n_vars] | hit[n_vars:2 * n_vars]
         use[2 * n_vars:] &= ~level_or_spread
-    return selected, per_var, standardise(s)[:, use]
+    weight = np.ones(m)
+    weight[2 * n_vars:] = roughness_weight
+    return selected, per_var, (standardise(s) * weight)[:, use]

@@ -89,11 +89,12 @@ def rates(flags, faulty, onset_window):
 
 
 def run(fault, data, n_normal, n_faulty, hour, params, monitor, gate=None, screen_alpha=None,
-        represent="columns", roughness=False):
+        represent="columns", roughness=False, roughness_weight=1.0):
     runs, faulty = fleet(data, fault, n_normal, n_faulty)
     onset_w = ONSET // hour
     watched = fleet_monitor(runs, hour, params, screen_alpha=screen_alpha, gate=gate,
-                            represent=represent, roughness=roughness)
+                            represent=represent, roughness=roughness,
+                            roughness_weight=roughness_weight)
     clusterings, counts, flags, chosen = (watched.clusterings, watched.cluster_counts,
                                           watched.flags, watched.variables)
     picked = np.bincount([v for w in chosen[onset_w:] for v in w], minlength=runs.shape[-1])
@@ -126,7 +127,7 @@ def _run_one(job):
     data = np.load(args.data)
     monitor, _ = pca_monitor(data["normal"][400:500])
     return run(fault, data, args.normal, args.faulty, args.hour, params, monitor, args.gate,
-               args.screen, args.represent, args.roughness)
+               args.screen, args.represent, args.roughness, args.roughness_weight)
 
 
 def main() -> None:
@@ -144,6 +145,7 @@ def main() -> None:
     parser.add_argument("--roughness", nargs="?", const=True, default=False,
                         help="also screen the spread of first differences; 'fallback' clusters on "
                              "it only where nothing else selected the variable")
+    parser.add_argument("--roughness-weight", type=float, default=1.0)
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()

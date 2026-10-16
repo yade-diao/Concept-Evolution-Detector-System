@@ -26,14 +26,14 @@ its field would normally use:
 
 | fleet | question | this project | reference monitor |
 |---|---|---|---|
-| **Tennessee Eastman** process, 100 runs, 17 detectable faults ([Rieth et al. 2017](https://doi.org/10.7910/DVN/6C3JR1)) | which runs became faulty, and through what? | detection **0.83**, **no alarm before any fault**, names the variable (fault 5: xmv_11, condenser cooling water) | PCA T²/SPE on 100 clean runs: 0.77 |
+| **Tennessee Eastman** process, 100 runs, 17 detectable faults ([Rieth et al. 2017](https://doi.org/10.7910/DVN/6C3JR1)) | which runs became faulty, and through what? | detection **0.86**, **no alarm before any fault**, names the variable (fault 5: xmv_11, condenser cooling water) | PCA T²/SPE on 100 clean runs: 0.77 |
 | **C-MAPSS** turbofans, 100 engines, run to failure (NASA) | which engines are degrading? | FD001: **0.71** detection, 0 false alarms; FD003: **0.68**; and its first-window split *is* the fault mode (p = 10⁻¹⁶) | PCA on each engine's first 30 cycles: 0.22 / 0.36 |
 | **Lithium-ion cells**, 128 real cells, 70 charging protocols ([Severson et al. 2019](https://doi.org/10.1038/s41560-019-0356-8)) | which cells will die young, by cycle 100? | names **69%** of the shortest-lived quarter at **55%** precision (chance 25%), unsupervised | the paper's best feature, ranked: ρ = −0.90 with life (reproduced) |
 
 The numbers, the baselines, and every case where it loses are
 [below](#the-industrial-fleets-in-detail). In one line each: the clustering
 monitor needs a group (one faulty unit in a hundred is seen 29% of the time);
-it is behind PCA on TEP faults 10, 16 and 17; and on the battery fleet the
+it is behind PCA on TEP faults 8, 10, 13 and 17; and on the battery fleet the
 alarm keeps much less than the score behind it.
 
 ### Three monitors, for three shapes of change
@@ -66,7 +66,8 @@ What was added, each because a measurement showed the need:
   is selected, and clusters only what was selected. Pre-fault alarms: 31% → 0.
 - **Clustering on summaries.** A fault that adds variance scatters its units
   in raw columns; their window means and spreads gather them. TEP detection
-  0.63 → 0.83.
+  0.63 → 0.83; adding each variable's roughness (the spread of its first
+  differences) where nothing else selected it, at a quarter weight, 0.86.
 - **Relative density** (RECOME, Geng et al. 2018), an option: the original
   absorbs a group under a third of its neighbour's size — exactly the groups
   emerging and forgetting depend on (P2).
@@ -308,7 +309,8 @@ fitted on 100 *separate* fault-free runs. Means over the 17 detectable faults
 | CED-FS, unchanged | none | 0.52 | 0.315 | 0.197 |
 | + SigClust gate (Liu et al. 2008) | none | 0.18 | 0.000 | 0.005 |
 | + variable screening | none | 0.62 | 0.000 | 0.023 |
-| **+ screening, clustered on summaries** | none | **0.83** | **0.000** | 0.006 |
+| + screening, clustered on summaries | none | 0.83 | 0.000 | 0.006 |
+| **+ roughness as a fallback, weight 0.25 (the default)** | none | **0.86** | **0.000** | 0.005 |
 | PCA T²/SPE | 100 clean runs | 0.77 | 0.000 | 0.000 |
 
 - *It names the variable*: fault 1 → xmv_3 (A feed), 4 and 14 → xmv_10
@@ -317,22 +319,22 @@ fitted on 100 *separate* fault-free runs. Means over the 17 detectable faults
   control loop compensates and the operating point returns near normal, but
   the faulty runs still group apart through the compensating valve; fault 19,
   0.99 against 0.01.
-- *It loses* on faults 10, 16 and 17, and fault 19 costs 9% alarms on normal
-  runs after it.
-- *Roughness* (`monitor(..., roughness=True)`, an option): screening and
-  clustering also on the spread of first differences — how much a signal
-  moves between samples, a serial-correlation feature in the sense of Wang,
-  Smith & Hyndman. Fault 16 goes 0.02 → 0.43 (PCA: 0.19) and 12 0.98 → 1.00,
-  but 17 drops 0.73 → 0.62 and 20 0.62 → 0.45; mean detection 0.827 → 0.839,
-  still no pre-fault alarm. Holding the per-test threshold equal changes
-  nothing, so the losses come from clustering on the extra dimensions, not
-  from the stricter Bonferroni level. `roughness="fallback"` tests it the
-  same way but clusters on it only for variables nothing else selected: 17
-  comes back to 0.72, 16 keeps 0.43, 20 stays at 0.47, and mean detection is
-  0.845 — the best of the three, but not a free gain, so both stay off by
-  default.
+- *Against PCA*: ahead on faults 5, 11, 16, 19 and 20, behind on 8, 10, 13
+  and 17; fault 19 costs 9% alarms on normal runs after it.
+- *Roughness*: screening also each variable's spread of first differences —
+  how much it moves between samples, a serial-correlation feature in the
+  sense of Wang, Smith & Hyndman. Clustered on everywhere (`roughness=True`)
+  it lifts fault 16 from 0.02 to 0.43 (PCA: 0.19) but costs faults 17 and 20
+  (0.73 → 0.62, 0.62 → 0.45). Holding the per-test threshold equal changes
+  nothing, so the cost is the extra clustering dimensions, not the stricter
+  Bonferroni level. Clustering on it only for variables nothing else selected
+  (`"fallback"`) recovers 17 but not 20 (0.47); weighting those columns by a
+  quarter recovers 20 as well (0.63). The result — fallback at weight 0.25,
+  now `fleet.monitor`'s default and the browser's — changes no fault for the
+  worse: only 10 (0.01 → 0.05) and 16 (0.02 → 0.45) move, and mean detection
+  goes 0.827 → 0.855 with no pre-fault alarm.
 - *Faulty share*: with k faulty runs in 100, the clustering monitor needs a
-  group (k = 1: 0.29; k = 20: 0.83) while the deviation monitor ranks units one
+  group (k = 1: 0.29; k = 20: 0.85) while the deviation monitor ranks units one
   by one (k = 1: 0.77, with a 4% pre-fault rate from runs' persistent
   idiosyncrasies). Confirming a cluster flag with the unit's deviation p-value
   cuts single-unit false alarms from 17% to 1%.
