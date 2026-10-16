@@ -59,3 +59,20 @@ def test_p3_two_halvings_of_one_group_are_drift_not_forgetting():
         curr = np.where(rng.permutation(n) < n // 2, 1, 2)
         e = _events(past, curr)
         assert e["forgetting"] == 0 and e["stable"] == 0
+
+
+def test_event_scores_match_by_type_and_boundary():
+    from cedfs.evaluation import event_scores
+    exp = [{"stable": 1, "drift": 1, "emerging": 1, "forgetting": 0}]
+    found = [{"stable": 1, "drift": 2, "emerging": 0, "forgetting": 0}]
+    s = event_scores(found, exp)
+    assert s["precision"] == 2 / 3 and s["recall"] == 2 / 3
+    assert s["f1_emerging_forgetting"] == 0.0 and s["exact_boundaries"] == 0.0
+    assert event_scores(exp, exp)["exact_boundaries"] == 1.0
+
+
+def test_window_labels_merge_classes_that_share_a_centre():
+    from cedfs.synthetic import UNEVEN_PLACEMENTS, UNEVEN_SIZES, make_stream
+    s = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES, seed=0)
+    assert len(np.unique(s.window_labels(0))) == 2
+    assert len(np.unique(s.window_labels(1))) == 3

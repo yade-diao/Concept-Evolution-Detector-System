@@ -64,6 +64,15 @@ class SyntheticStream:
         """How many groups are distinguishable in each window."""
         return [len(groups) for groups in self.groups_per_window]
 
+    def window_labels(self, window: int) -> np.ndarray:
+        """The partition a perfect detector finds in `window`: classes that share
+        a centre there are one group. Scoring a window against this, rather
+        than against the class labels, scores what the window can show."""
+        out = np.zeros(len(self.labels), dtype=int)
+        for g, group in enumerate(self.groups_per_window[window], start=1):
+            out[np.isin(self.labels, sorted(group))] = g
+        return out
+
 
 def _groups(placement: dict[int, float]) -> list[frozenset[int]]:
     """Classes sharing a centre are one group: in that window they cannot be told

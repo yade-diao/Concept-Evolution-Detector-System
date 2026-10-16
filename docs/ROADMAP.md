@@ -32,9 +32,10 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 
 ## E — Experiments
 
-- [ ] E1 Evaluation protocol: ARI and NMI alongside the Rand Index, event-level
+- [x] E1 Evaluation protocol: ARI and NMI alongside the Rand Index, event-level
       precision/recall against placed events, mean ± std over seeds instead of
-      best-of-runs.
+      best-of-runs. *Done* (`experiments/protocol.py`, `docs/EXPERIMENTS.md`):
+      max RI hides total failure of the event output (0.96 with rare-event F1 0).
 - [ ] E2 Baselines on the synthetic streams and the two real streams: k-means
       and DBSCAN per window + the same overlap rules; MONIC-style transitions;
       a change-point detector on window statistics (Page-Hinkley).
@@ -42,6 +43,11 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       KPCA scaling. Sensitivity curves, not single numbers.
 - [ ] E4 Scalability: time vs. samples and features; Nyström / top-k
       eigenpairs for large n.
+
+- [ ] E5 Small-cluster recovery: K-R-DPC absorbs a 6-object group at spread
+      0.5–0.7 though it is trivially separable (EXPERIMENTS.md E1, point 2), and
+      small groups are exactly where emerging/forgetting live (THEORY P2). Look
+      at relative-density / adaptive-k DPC variants, keep the original as default.
 
 ## I — Industrial data
 

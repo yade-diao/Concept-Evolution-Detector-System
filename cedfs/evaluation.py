@@ -212,3 +212,59 @@ def feature_order_sensitivity(features: np.ndarray, labels: np.ndarray, winsize:
         "permuted_max_ri_mean": float(np.mean(permuted_max_ri)),
         "permuted_max_ri_range": (float(np.min(permuted_max_ri)), float(np.max(permuted_max_ri))),
     }
+
+
+def partition_scores(found: np.ndarray, truth: np.ndarray) -> dict[str, float]:
+    """Rand Index, adjusted Rand Index and NMI of one window's clustering.
+
+    RI is reported because the method always has; ARI and NMI are what to read,
+    because RI rises when a correct cluster is split (THEORY.md, P5).
+    """
+    from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
+    return {"ri": float(rand_index(found, truth)),
+            "ari": float(adjusted_rand_score(truth, found)),
+            "nmi": float(normalized_mutual_info_score(truth, found))}
+
+
+def boundary_events(clusterings: list[np.ndarray], threshold: float = 0.5) -> list[dict[str, int]]:
+    """Events per boundary, as CED_FS reports them, from per-window clusterings."""
+    out = []
+    for past, curr in zip(clusterings, clusterings[1:]):
+        out.append(event_counts([past, curr], [int(np.max(past)), int(np.max(curr))], threshold))
+    return out
+
+
+EVENT_TYPES = ("stable", "drift", "emerging", "forgetting")
+
+
+def event_scores(found: list[dict[str, int]], expected: list[dict[str, int]]) -> dict[str, float]:
+    """Event detection against placed events, boundary by boundary.
+
+    Events carry no identity beyond their type and boundary, so a detected
+    event of a type is matched to an expected one of the same type at the same
+    boundary: true positives are min(found, expected) per type per boundary.
+    Reported: precision, recall and F1 over all events, F1 for the two rare
+    types (emerging, forgetting) on their own, and the fraction of boundaries
+    whose four counts are exactly right.
+    """
+    tp = fp = fn = 0
+    rare = {"tp": 0, "fp": 0, "fn": 0}
+    exact = 0
+    for f, e in zip(found, expected):
+        exact += all(f[k] == e[k] for k in EVENT_TYPES)
+        for k in EVENT_TYPES:
+            hit = min(f[k], e[k])
+            tp, fp, fn = tp + hit, fp + f[k] - hit, fn + e[k] - hit
+            if k in ("emerging", "forgetting"):
+                rare["tp"] += hit
+                rare["fp"] += f[k] - hit
+                rare["fn"] += e[k] - hit
+
+    def f1(t, p, n):
+        return 2 * t / (2 * t + p + n) if (t + p + n) else 1.0
+
+    return {"precision": tp / (tp + fp) if tp + fp else 1.0,
+            "recall": tp / (tp + fn) if tp + fn else 1.0,
+            "f1": f1(tp, fp, fn),
+            "f1_emerging_forgetting": f1(rare["tp"], rare["fp"], rare["fn"]),
+            "exact_boundaries": exact / len(expected) if expected else 1.0}
