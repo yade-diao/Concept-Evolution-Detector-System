@@ -72,3 +72,12 @@ def test_accumulate_cannot_alarm_when_the_floor_is_above_the_threshold():
     assert not accumulate(p, m=3, level=0.001).any()
     alarms = accumulate(p, m=5, level=0.001)
     assert not alarms[:, :4].any() and alarms[:, 4:].all()
+
+
+def test_accumulate_clears_unless_latched():
+    from cedfs.fleet import accumulate
+    p = np.full((1, 12), 0.6)
+    p[0, 2:7] = 0.01                                  # five unusual windows, then normal
+    free, held = accumulate(p, 5, 0.001), accumulate(p, 5, 0.001, latch=True)
+    assert free[0, 6] and not free[0, 11]
+    assert held[0, 6:].all()

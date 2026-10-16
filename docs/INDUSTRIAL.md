@@ -107,6 +107,56 @@ sensitivity (detection delay is quantised to the window, THEORY.md P4); fleets
 with a smaller faulty fraction; C-MAPSS (I2) where there is no switch-on time
 and degradation is gradual.
 
+### How small a faulty share can be seen
+
+A fifth of a fleet failing at once is a lot. `experiments/tep_fraction.py`
+keeps the fleet at 100 runs and varies the faulty ones, k = 1 … 20, over the
+17 detectable faults (`experiments/results/tep_fraction.json`):
+
+| faulty runs | clustering: detection | FAR before | FAR on normals after | deviation: detection | FAR before | FAR on normals after |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 0.28 | 0.000 | 0.169 | **0.77** | 0.040 | 0.065 |
+| 2 | 0.45 | 0.000 | 0.125 | **0.71** | 0.043 | 0.061 |
+| 5 | **0.77** | 0.000 | 0.028 | 0.72 | 0.037 | 0.050 |
+| 10 | **0.83** | 0.000 | 0.005 | 0.72 | 0.041 | 0.034 |
+| 20 | **0.81** | 0.000 | 0.008 | 0.66 | 0.041 | 0.019 |
+
+(clustering: screened at α = 0.001, clustered on summaries; deviation: own
+baseline over the first 100 samples, m = 5, level 0.01, not latched.)
+
+1. **The two monitors cross at about 5% of the fleet.** Screening asks whether
+   a variable is one Gaussian across the fleet; one deviant among a hundred
+   moves the empirical distribution by 1/100, which the KS distance barely
+   sees, so the clustering monitor needs a group. The deviation score ranks
+   units one by one and sees a single faulty run 77% of the time.
+2. **The clustering monitor's alarms on normals at small k have one cause.**
+   When screening does fire on a single deviant, K-R-DPC still returns at
+   least two clusters, and the cut takes normal runs with it (17% FAR at k = 1).
+   Confirming each cluster flag with the unit's own deviation p-value in that
+   window (p ≤ 0.05) removes nearly all of it — FAR 0.169 → 0.010 at k = 1,
+   0.125 → 0.006 at k = 2 — for little detection (0.28 → 0.25, 0.45 → 0.38).
+   It cannot be used at large k: twenty deviants cannot all rank in the top 5%,
+   and detection at k = 20 falls to 0.19.
+3. **Combining the monitors trades, it does not add.** Alarming on either
+   reaches 0.81–0.89 detection but carries the deviation monitor's 4%
+   pre-fault rate; alarming on both is clean (FAR ≤ 1.4%) and detects less
+   than either alone.
+4. **The deviation monitor's floor is its 4% pre-fault rate**, in every
+   column: TEP runs differ persistently, so a run's p-values are not
+   independent over windows (see the C-MAPSS section). It is a property of
+   the fleet, not of k.
+5. *A measurement correction made on the way*: `accumulate` first latched its
+   alarms, which suits run-to-failure engines and turned every passing
+   alarm on a normal TEP run into forty windows of false alarm (FAR 0.45 at
+   k = 1). It no longer latches by default; the C-MAPSS figures are unchanged
+   by it (FD001 0.71 / 0.000, FD003 0.29 / 0.119).
+
+**Operating guidance.** If a fault is expected to hit a handful of units,
+use the deviation monitor; if it hits a group, or the question is which
+group and through which variables, use the clustering monitor; to keep the
+clustering monitor's zero-FAR behaviour down to single units, confirm its
+flags with the deviation p-value.
+
 ## I2 — A fleet of turbofan engines (NASA C-MAPSS)
 
 **Question.** The same monitor, on a fleet that degrades gradually and has no

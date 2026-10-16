@@ -75,7 +75,9 @@ The stream runs along the feature axis, so the industrial case must be a
       history, beats PCA on fault 5, names the faulty variable.
       *Then*: clustering on the selected summaries (`represent="summaries"`)
       fixes the variance faults — mean detection 0.81 vs PCA 0.77, FAR 0.
-      *Open*: window size, smaller faulty fraction.
+      *Faulty share* (`tep_fraction.py`): clustering and deviation monitors
+      cross at ~5% of the fleet; confirming cluster flags with the deviation
+      p-value cuts single-unit FAR 17% → 1%. *Open*: window size.
 - [~] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.

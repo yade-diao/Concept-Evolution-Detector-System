@@ -220,7 +220,7 @@
  },
  "deviation_accumulated": {
   "detection": 0.2903225806451613,
-  "far": 0.16031746031746033,
+  "far": 0.11851851851851852,
   "engines_degraded": 34,
   "engines_caught": 12,
   "median_rul_at_first_flag": 38.0

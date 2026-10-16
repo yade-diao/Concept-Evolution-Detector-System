@@ -1,0 +1,1362 @@
+[
+ {
+  "fault": 1,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.65,
+   "far_post_normal": 0.27045454545454545,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06388888888888888,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 1,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.8,
+   "far_post_normal": 0.1086734693877551,
+   "median_delay_windows": 4.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.05739795918367347,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 1,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.0431578947368421,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 1,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.935,
+   "far_post_normal": 0.020555555555555556,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 1,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.925,
+   "far_post_normal": 0.001875,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 2,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.55,
+   "far_post_normal": 0.2820707070707071,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06287878787878788,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 2,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.85,
+   "far_post_normal": 0.06224489795918367,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.05663265306122449,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 2,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.04289473684210526,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 2,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.94,
+   "far_post_normal": 0.023333333333333334,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 2,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.92125,
+   "far_post_normal": 0.0021875,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 4,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.55,
+   "far_post_normal": 0.24419191919191918,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06338383838383839,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 4,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.004846938775510204,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.058418367346938775,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 4,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.975,
+   "far_post_normal": 0.005,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.0431578947368421,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 4,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9375,
+   "far_post_normal": 0.022222222222222223,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 4,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9225,
+   "far_post_normal": 0.0021875,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 5,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.004545454545454545,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06414141414141414,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 5,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.35,
+   "far_post_normal": 0.0778061224489796,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.925,
+   "far_post_normal": 0.06020408163265306,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 5,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.022894736842105263,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.86,
+   "far_post_normal": 0.049210526315789475,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 5,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0033333333333333335,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.7975,
+   "far_post_normal": 0.0325,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 5,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.4875,
+   "far_post_normal": 0.025625,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 6,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.4,
+   "far_post_normal": 0.29924242424242425,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06414141414141414,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 6,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.45,
+   "far_post_normal": 0.2895408163265306,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.05790816326530612,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 6,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.005,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.04394736842105263,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 6,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9375,
+   "far_post_normal": 0.021666666666666667,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 6,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.89625,
+   "far_post_normal": 0.0015625,
+   "median_delay_windows": 3.5
+  }
+ },
+ {
+  "fault": 7,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.525,
+   "far_post_normal": 0.24898989898989898,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06338383838383839,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 7,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.9,
+   "far_post_normal": 0.06198979591836735,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.05892857142857143,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 7,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.042105263157894736,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 7,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9375,
+   "far_post_normal": 0.021666666666666667,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 7,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.000625,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.92125,
+   "far_post_normal": 0.001875,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 8,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.275,
+   "far_post_normal": 0.2553030303030303,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06287878787878788,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 8,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.375,
+   "far_post_normal": 0.29948979591836733,
+   "median_delay_windows": 4.5
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.9375,
+   "far_post_normal": 0.05612244897959184,
+   "median_delay_windows": 2.5
+  }
+ },
+ {
+  "fault": 8,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.765,
+   "far_post_normal": 0.08578947368421053,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.91,
+   "far_post_normal": 0.0431578947368421,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 8,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.925,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.5
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.905,
+   "far_post_normal": 0.023333333333333334,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 8,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.92875,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.89,
+   "far_post_normal": 0.0028125,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 10,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.55,
+   "far_post_normal": 0.06565656565656566,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 10,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.375,
+   "far_post_normal": 0.06607142857142857,
+   "median_delay_windows": 14.0
+  }
+ },
+ {
+  "fault": 10,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.485,
+   "far_post_normal": 0.05789473684210526,
+   "median_delay_windows": 10.0
+  }
+ },
+ {
+  "fault": 10,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.535,
+   "far_post_normal": 0.04527777777777778,
+   "median_delay_windows": 8.0
+  }
+ },
+ {
+  "fault": 10,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.00375,
+   "far_post_normal": 0.003125,
+   "median_delay_windows": 30.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.4225,
+   "far_post_normal": 0.0309375,
+   "median_delay_windows": 8.5
+  }
+ },
+ {
+  "fault": 11,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.2,
+   "far_post_normal": 0.07525252525252525,
+   "median_delay_windows": 5.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.875,
+   "far_post_normal": 0.06464646464646465,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 11,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.375,
+   "far_post_normal": 0.16683673469387755,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.6875,
+   "far_post_normal": 0.061479591836734696,
+   "median_delay_windows": 3.5
+  }
+ },
+ {
+  "fault": 11,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.97,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.725,
+   "far_post_normal": 0.05263157894736842,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 11,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.9675,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.755,
+   "far_post_normal": 0.035277777777777776,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 11,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.96125,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.55,
+   "far_post_normal": 0.0153125,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 12,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.2,
+   "far_post_normal": 0.18409090909090908,
+   "median_delay_windows": 7.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.975,
+   "far_post_normal": 0.06313131313131314,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 12,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.325,
+   "far_post_normal": 0.2701530612244898,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.95,
+   "far_post_normal": 0.05969387755102041,
+   "median_delay_windows": 2.0
+  }
+ },
+ {
+  "fault": 12,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.845,
+   "far_post_normal": 0.06894736842105263,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.94,
+   "far_post_normal": 0.045,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 12,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.8975,
+   "far_post_normal": 0.01,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9175,
+   "far_post_normal": 0.02361111111111111,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 12,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.71375,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9,
+   "far_post_normal": 0.0021875,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 13,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.2,
+   "far_post_normal": 0.20707070707070707,
+   "median_delay_windows": 10.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.925,
+   "far_post_normal": 0.06313131313131314,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 13,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.2375,
+   "far_post_normal": 0.2543367346938776,
+   "median_delay_windows": 7.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.925,
+   "far_post_normal": 0.05739795918367347,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 13,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.785,
+   "far_post_normal": 0.07421052631578948,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.91,
+   "far_post_normal": 0.04447368421052632,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 13,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.9075,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.9075,
+   "far_post_normal": 0.024444444444444446,
+   "median_delay_windows": 3.0
+  }
+ },
+ {
+  "fault": 13,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.89625,
+   "far_post_normal": 0.0046875,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.88625,
+   "far_post_normal": 0.0040625,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 14,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.6,
+   "far_post_normal": 0.302020202020202,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.025,
+   "far_post_normal": 0.06944444444444445,
+   "median_delay_windows": 10.0
+  }
+ },
+ {
+  "fault": 14,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.95,
+   "far_post_normal": 0.02576530612244898,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.0125,
+   "far_post_normal": 0.07066326530612245,
+   "median_delay_windows": 10.0
+  }
+ },
+ {
+  "fault": 14,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0036842105263157894,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.02,
+   "far_post_normal": 0.07,
+   "median_delay_windows": 6.5
+  }
+ },
+ {
+  "fault": 14,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.055,
+   "far_post_normal": 0.06861111111111111,
+   "median_delay_windows": 14.5
+  }
+ },
+ {
+  "fault": 14,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 1.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.0725,
+   "far_post_normal": 0.0721875,
+   "median_delay_windows": 14.5
+  }
+ },
+ {
+  "fault": 16,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.004545454545454545,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.575,
+   "far_post_normal": 0.06666666666666667,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 16,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.325,
+   "far_post_normal": 0.06683673469387755,
+   "median_delay_windows": 9.0
+  }
+ },
+ {
+  "fault": 16,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.225,
+   "far_post_normal": 0.06421052631578947,
+   "median_delay_windows": 8.0
+  }
+ },
+ {
+  "fault": 16,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0,
+   "far_post_normal": 0.0,
+   "median_delay_windows": null
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.2425,
+   "far_post_normal": 0.05722222222222222,
+   "median_delay_windows": 8.5
+  }
+ },
+ {
+  "fault": 16,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.0075,
+   "far_post_normal": 0.011875,
+   "median_delay_windows": 26.5
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.21,
+   "far_post_normal": 0.05125,
+   "median_delay_windows": 9.5
+  }
+ },
+ {
+  "fault": 17,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.475,
+   "far_post_normal": 0.20479797979797978,
+   "median_delay_windows": 4.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.9,
+   "far_post_normal": 0.06388888888888888,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 17,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.5625,
+   "far_post_normal": 0.2181122448979592,
+   "median_delay_windows": 3.5
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.9,
+   "far_post_normal": 0.058673469387755105,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 17,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.795,
+   "far_post_normal": 0.017105263157894738,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.91,
+   "far_post_normal": 0.045,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 17,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.8025,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.91,
+   "far_post_normal": 0.024444444444444446,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 17,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.72125,
+   "far_post_normal": 0.0065625,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.89125,
+   "far_post_normal": 0.0028125,
+   "median_delay_windows": 4.5
+  }
+ },
+ {
+  "fault": 18,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.125,
+   "far_post_normal": 0.26616161616161615,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.9,
+   "far_post_normal": 0.06414141414141414,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 18,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.45,
+   "far_post_normal": 0.2566326530612245,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.8875,
+   "far_post_normal": 0.05918367346938776,
+   "median_delay_windows": 4.5
+  }
+ },
+ {
+  "fault": 18,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.875,
+   "far_post_normal": 0.04473684210526316,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.9,
+   "far_post_normal": 0.04394736842105263,
+   "median_delay_windows": 4.0
+  }
+ },
+ {
+  "fault": 18,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.9125,
+   "far_post_normal": 0.009166666666666667,
+   "median_delay_windows": 1.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.895,
+   "far_post_normal": 0.024444444444444446,
+   "median_delay_windows": 4.5
+  }
+ },
+ {
+  "fault": 18,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.87625,
+   "far_post_normal": 0.0,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.86125,
+   "far_post_normal": 0.00375,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 19,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.025,
+   "far_post_normal": 0.004545454545454545,
+   "median_delay_windows": 31.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.1,
+   "far_post_normal": 0.06868686868686869,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 19,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.025,
+   "far_post_normal": 0.004591836734693878,
+   "median_delay_windows": 31.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.05,
+   "far_post_normal": 0.07015306122448979,
+   "median_delay_windows": 1.0
+  }
+ },
+ {
+  "fault": 19,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.55,
+   "far_post_normal": 0.06368421052631579,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.05,
+   "far_post_normal": 0.06842105263157895,
+   "median_delay_windows": 3.5
+  }
+ },
+ {
+  "fault": 19,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.9675,
+   "far_post_normal": 0.04055555555555555,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.09,
+   "far_post_normal": 0.06527777777777778,
+   "median_delay_windows": 12.0
+  }
+ },
+ {
+  "fault": 19,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.99125,
+   "far_post_normal": 0.0959375,
+   "median_delay_windows": 0.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.09375,
+   "far_post_normal": 0.0684375,
+   "median_delay_windows": 14.0
+  }
+ },
+ {
+  "fault": 20,
+  "k": 1,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.025,
+   "far_post_normal": 0.012878787878787878,
+   "median_delay_windows": 31.0
+  },
+  "deviation": {
+   "far_pre": 0.04,
+   "detection": 0.5,
+   "far_post_normal": 0.06616161616161616,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 20,
+  "k": 2,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.1,
+   "far_post_normal": 0.03214285714285714,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.0425,
+   "detection": 0.4125,
+   "far_post_normal": 0.06454081632653061,
+   "median_delay_windows": 9.5
+  }
+ },
+ {
+  "fault": 20,
+  "k": 5,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.525,
+   "far_post_normal": 0.09289473684210527,
+   "median_delay_windows": 3.0
+  },
+  "deviation": {
+   "far_pre": 0.0375,
+   "detection": 0.58,
+   "far_post_normal": 0.053421052631578946,
+   "median_delay_windows": 5.0
+  }
+ },
+ {
+  "fault": 20,
+  "k": 10,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.675,
+   "far_post_normal": 0.028333333333333332,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.5,
+   "far_post_normal": 0.04388888888888889,
+   "median_delay_windows": 8.0
+  }
+ },
+ {
+  "fault": 20,
+  "k": 20,
+  "clustering": {
+   "far_pre": 0.0,
+   "detection": 0.63375,
+   "far_post_normal": 0.0096875,
+   "median_delay_windows": 2.0
+  },
+  "deviation": {
+   "far_pre": 0.04125,
+   "detection": 0.30875,
+   "far_post_normal": 0.029375,
+   "median_delay_windows": 10.0
+  }
+ }
+]

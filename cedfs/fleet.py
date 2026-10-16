@@ -202,7 +202,8 @@ def deviation(units: np.ndarray, window: int, baseline: int | None = None,
     return np.array(out).T
 
 
-def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001) -> np.ndarray:
+def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001,
+               latch: bool = False) -> np.ndarray:
     """Alarm when a unit's recent p-values are too small on average to be chance.
 
     Under exchangeability each p-value is (close to) uniform, so the mean of a
@@ -212,6 +213,10 @@ def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001) -> np.ndarray:
     the fleet. Alarms latch. This is the accumulation over time that turns a
     deviation score into a decision, as in COSMO; the threshold follows from
     the null rather than being tuned.
+
+    The alarm is the state of the last m windows, so it clears when the unit
+    stops deviating; `latch=True` keeps it on from the first alarm, which
+    suits run-to-failure data and overstates false alarms anywhere else.
     """
     from scipy import stats
 
@@ -220,4 +225,4 @@ def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001) -> np.ndarray:
         mean = p[:, w - m + 1:w + 1].mean(1)
         z = (mean - 0.5) / np.sqrt(1 / (12 * m))
         out[:, w] = z < stats.norm.ppf(level)
-    return np.maximum.accumulate(out, axis=1)
+    return np.maximum.accumulate(out, axis=1) if latch else out

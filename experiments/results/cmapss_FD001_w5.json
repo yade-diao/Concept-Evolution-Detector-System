@@ -84,7 +84,7 @@
   "median_rul_at_first_flag": 50.0
  },
  "deviation_accumulated": {
-  "detection": 0.7232142857142857,
+  "detection": 0.7053571428571429,
   "far": 0.0,
   "engines_degraded": 25,
   "engines_caught": 17,
