@@ -100,7 +100,12 @@ The stream runs along the feature axis, so the industrial case must be a
       `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Done*: the FD003
       window-1 split is 32 of 44 engines of one end-of-life mode and none of
       the other (Fisher p = 1.5e-16, `cmapss_modes.py`); graded score added.
-- [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
+- [x] I3 Real data. Bearings (XJTU-SY: 15 units) are too small a fleet for
+      conformal ranking; replaced by the Severson et al. (2019) battery fleet,
+      128 real cells (INDUSTRIAL.md I3). The two-sided peer monitor fails
+      there (70 charging protocols); `fleet.own_change` (one-sided, each cell
+      against its own start, discharge-curve shape) names 69% of the
+      shortest-lived quarter by cycle 100 at 55% precision (chance 25%).
 - [x] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web
       app with their readings in plant units. *Done (CLI)*: `cedfs.fleet`

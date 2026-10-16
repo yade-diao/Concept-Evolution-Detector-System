@@ -1,0 +1,42 @@
+{
+ "deviation": {
+  "spearman_with_life": 0.21136462133512712,
+  "named_by_100": 35,
+  "precision_short_quarter": 0.42857142857142855,
+  "recall_short_quarter": 0.46875
+ },
+ "own_change": {
+  "spearman_with_life": 0.282840572379322,
+  "named_by_100": 40,
+  "precision_short_quarter": 0.425,
+  "recall_short_quarter": 0.53125
+ },
+ "deviation_on_curves": {
+  "spearman_with_life": 0.07608135567401997,
+  "named_by_100": 36,
+  "precision_short_quarter": 0.3333333333333333,
+  "recall_short_quarter": 0.375
+ },
+ "own_change_on_curves": {
+  "spearman_with_life": 0.5538650937356525,
+  "named_by_100": 40,
+  "precision_short_quarter": 0.55,
+  "recall_short_quarter": 0.6875
+ },
+ "own_fade": {
+  "spearman_with_life": 0.1753509131543331,
+  "named_by_100": 18,
+  "precision_short_quarter": 0.2777777777777778,
+  "recall_short_quarter": 0.15625
+ },
+ "pca_first_20_cycles": {
+  "spearman_with_life": 0.23287396663483592,
+  "named_by_100": 8,
+  "precision_short_quarter": 0.625,
+  "recall_short_quarter": 0.15625
+ },
+ "delta_q_variance_at_100": {
+  "spearman_with_life": -0.8955311428642805,
+  "pearson_log_life": -0.895423352012358
+ }
+}

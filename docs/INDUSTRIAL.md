@@ -320,9 +320,11 @@ groups (10 + 11 at α = 0.01 with columns), too small for conformal p-values.
 |---|---|---:|---:|---:|---:|
 | FD001 | clustering, screened (summaries) | 0.00 | 0.025 | 8 / 25 | 126 |
 | | **deviation, accumulated** | **0.71** | **0.000** | 17 / 25 | 52 |
+| | own change, accumulated (one-sided; see I3) | 0.82 | 0.064 | 19 / 25 | 57 |
 | | PCA, first 30 cycles | 0.22 | 0.005 | 10 / 25 | 45 |
 | FD003 | clustering, screened (summaries) | 0.13 | 0.151 | 32 / 34 | 48 |
 | | deviation, accumulated | 0.29 | 0.119 | 12 / 34 | 38 |
+| | **own change, accumulated (one-sided; see I3)** | **0.68** | 0.062 | 20 / 34 | 54 |
 | | PCA, first 30 cycles | **0.36** | **0.011** | 21 / 34 | 49 |
 
 1. **On FD001 the optimised monitor is the best of the three**: detection
@@ -351,6 +353,86 @@ the fleet — abrupt faults, new operating modes — and reads out events and th
 variables behind them. The deviation monitor (`deviation` + `accumulate`) is
 for units *drifting* — wear, degradation — and needs each unit's own baseline.
 Neither wins on both datasets; each wins on the one shaped like its question.
+
+## I3 — A fleet of real lithium-ion cells
+
+Tennessee Eastman and C-MAPSS are simulations. This one is not: the 124-cell
+dataset of Severson et al. ("Data-driven prediction of battery cycle life
+before capacity degradation", *Nature Energy* 4, 2019; Toyota Research
+Institute, data.matr.io) — commercial LFP/graphite cells (A123 APR18650M1A,
+1.1 Ah) cycled to 80% capacity under 72 fast-charging protocols. Its famous
+question is exactly a fleet question: can the cells that will die young be
+told apart in the first hundred cycles, before their capacity visibly fades?
+
+**Data.** `experiments/matr_prepare.py` reads the per-cycle summaries
+(resistance, charge and discharge capacity, three temperatures, charge time)
+from the raw HDF5 files and derives lives and continuations from the data
+instead of copying a list of cell names: life is the first cycle at 0.88 Ah
+(batches 1 and 3 stop on it; cells that stop a hair above take the authors'
+`cycle_life`, cells whose test ended far above it are dropped, as in the
+paper); a batch-2 cell continues a batch-1 cell when their capacities meet
+within 1%. Result: 128 cells (the paper keeps 124 — it also removes a few
+noisy batch-3 channels), 4 continuations found (the paper has 5), derived life
+within 2 cycles of the authors' for 124 of 128. Lives 147–2157 cycles, median
+749; every cell is observed over cycles 2–147. `experiments/matr_curves.py`
+also extracts each cycle's discharge curve Q(V), averaged into 25 voltage
+bands.
+
+**Scoring** (`experiments/matr_fleet.py`, `experiments/results/matr_fleet.json`):
+Spearman correlation of *when a cell is first named* with its life (higher =
+earlier naming for shorter lives); and of the cells named by cycle 100, how
+many are in the shortest-lived quarter (precision; chance 0.25) and how much
+of that quarter is named (recall). No lifetime is used before scoring.
+
+| monitor (window 5 cycles, m = 8, level 0.01) | ρ(naming, life) | named by 100 | precision | recall |
+|---|---:|---:|---:|---:|
+| deviation on summaries (two-sided, `deviation`) | 0.21 | 35 | 0.43 | 0.47 |
+| own change on summaries (`own_change`, magnitude) | 0.28 | 40 | 0.43 | 0.53 |
+| deviation on discharge curves | 0.08 | 36 | 0.33 | 0.38 |
+| **own change on discharge curves (`own_change`, shape)** | **0.55** | 40 | **0.55** | **0.69** |
+| own capacity fade, ranked | 0.18 | 18 | 0.28 | 0.16 |
+| PCA T²/SPE, first 20 cycles | 0.23 | 8 | 0.63 | 0.16 |
+| *the paper's feature, log var ΔQ₁₀₀₋₁₀(V), as a ranking at cycle 100* | *ρ(feature, life) = −0.90* | | | |
+
+**What it shows.**
+
+1. **The pipeline reproduces the paper.** The authors' single best feature,
+   computed here from the raw curves of cycles 10 and 100, correlates with
+   life at −0.90 (Pearson with log life −0.895; the paper reports |ρ| = 0.93
+   on its 124 cells). The data are being read right.
+2. **The two-sided peer monitor fails on this fleet, and the reason is the
+   fleet.** The cells run 70 different charging protocols, so "unlike its
+   peers" is mostly "charged differently"; and a cell that degrades *less*
+   than typical is as strange as one that degrades more. On summaries it
+   barely beats chance (precision 0.43, ρ 0.21); on curves it is at chance.
+3. **One-sided own change is the fix, and the discharge-curve shape is the
+   variable.** `cedfs.fleet.own_change` compares each cell only with its own
+   first cycles and uses the fleet only to rank *how much* it changed — so
+   protocol differences and slow agers stop counting. With the curve's
+   voltage bands as variables and the "shape" statistic (the online form of
+   the paper's ΔQ(V) variance), the monitor names 40 cells by cycle 100, 55%
+   of them from the shortest-lived quarter (chance 25%), and covers 69% of
+   that quarter; naming time correlates with life at 0.55. It is the
+   paper's insight turned into an unsupervised alarm: no lifetime, no model.
+4. **The alarm keeps less than the score.** The underlying shape-change score
+   already correlates with life at −0.84 by cycle 51 and −0.88 by cycle 101;
+   reducing it to "named / not named" loses most of that. For prognostics the
+   graded score is the output to use; the alarm is for "look at these now".
+
+**The same one-sided monitor on the other fleets.** On C-MAPSS it is the best
+detector on FD003 (0.68 detection against PCA's 0.36, 6% false alarms — the
+slow-ageing fan-mode engines no longer count as deviant) and trades a few
+false alarms for detection on FD001 (0.82 / 6% against 0.71 / 0% for the
+two-sided score). On Tennessee Eastman it is the weakest of the three monitors
+(0.67 detection, 4.6% pre-fault alarms against the clustering monitor's
+0.83 / 0%). Three fleets, three shapes of change, and each monitor wins where
+its question is the right one:
+
+| change | example | monitor |
+|---|---|---|
+| some units leave the fleet, abruptly | TEP faults | `monitor` (clustering, screened, summaries) |
+| units drift, fleet otherwise alike | C-MAPSS FD001 | `deviation` + `accumulate` |
+| units drift, fleet heterogeneous in use or ageing rate | C-MAPSS FD003, battery cells | `own_change` + `accumulate` |
 
 ## Sensitivity of the clustering monitor (E3, Tennessee Eastman)
 

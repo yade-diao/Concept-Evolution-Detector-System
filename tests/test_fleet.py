@@ -92,3 +92,25 @@ def test_ced_fs_options_default_to_the_original_and_screening_can_say_one_cluste
     assert min(counts) >= 2
     _, events, counts, _ = CED_FS(X, 100, 50, {"screenAlpha": 0.001}, image_dir=str(tmp_path))
     assert counts == [1, 1] and events["stable"] == [1]
+
+
+def test_own_change_is_one_sided_where_deviation_is_not():
+    from cedfs.fleet import deviation, own_change
+    rng = np.random.default_rng(13)
+    units = rng.standard_normal((40, 60, 5)) * 0.1
+    units[:, 20:, :] += np.linspace(0, 1, 40)[None, :, None]    # the whole fleet ages
+    units[0, 20:, :] += np.linspace(0, 3, 40)[:, None]          # unit 0 ages fast
+    units[1, 20:, :] -= np.linspace(0, 1, 40)[:, None]          # unit 1 barely ages
+    two, one = deviation(units, 5, 20)[:, -1], own_change(units, 5, 20)[:, -1]
+    assert two[0] <= 0.05 and two[1] <= 0.05       # both look strange to the peers
+    assert one[0] <= 0.05 and one[1] == 1.0        # only the fast one changed most
+
+
+def test_own_change_shape_ignores_a_uniform_shift():
+    from cedfs.fleet import own_change
+    rng = np.random.default_rng(14)
+    curves = rng.standard_normal((30, 40, 10)) * 0.01
+    curves[0, 20:, :] += 1.0                                 # shifted, same shape
+    curves[1, 20:, :] += np.linspace(-1, 1, 10)              # shape changed
+    p = own_change(curves, 5, 10, statistic="shape")[:, -1]
+    assert p[1] <= 0.05 and p[0] > 0.1

@@ -226,3 +226,47 @@ def accumulate(p: np.ndarray, m: int = 5, level: float = 0.001,
         z = (mean - 0.5) / np.sqrt(1 / (12 * m))
         out[:, w] = z < stats.norm.ppf(level)
     return np.maximum.accumulate(out, axis=1) if latch else out
+
+
+def own_change(units: np.ndarray, window: int, baseline: int,
+               statistic: str = "magnitude") -> np.ndarray:
+    """How much each unit has changed from its own start, ranked in the fleet.
+
+    `deviation` asks how unlike the fleet a unit is, which is two-sided: a unit
+    that changes *less* than its peers is as strange as one that changes more.
+    In a fleet whose units are used differently - the Severson battery cells
+    run 70 charging protocols - and in one where some units simply wear more
+    slowly (C-MAPSS FD003), the slow ones are then flagged with the failing
+    ones. This is one-sided: each unit is compared only with itself, and the
+    fleet is used only to rank how much.
+
+    Per window, the change is the window mean minus the unit's mean over its
+    first `baseline` samples. The statistic is
+      "magnitude" - the sum of squared changes, each variable scaled by the
+                    fleet's spread at baseline (variables in different units);
+      "shape"     - the log variance of the change across the variables, for
+                    variables on one scale such as the bands of a curve: a
+                    uniform shift scores nothing, a change of shape scores.
+                    On a discharge curve binned by voltage this is the online
+                    form of Severson et al.'s ΔQ(V) variance feature.
+    The p-value is the share of the fleet that changed at least as much,
+    itself included: small means the unit is among those that changed most.
+
+    Returns (units, windows) p-values for `accumulate`.
+    """
+    x = np.asarray(units, dtype=float)
+    n = x.shape[0]
+    base = x[:, :baseline].mean(1)
+    scale = np.std(base, axis=0)
+    scale = np.where(scale > 0, scale, 1.0)
+    out = []
+    for start in range(0, x.shape[1] - window + 1, window):
+        change = x[:, start:start + window].mean(1) - base
+        if statistic == "magnitude":
+            s = ((change / scale) ** 2).sum(1)
+        elif statistic == "shape":
+            s = np.log10(np.var(change, axis=1) + np.finfo(float).tiny)
+        else:
+            raise ValueError(f"statistic must be 'magnitude' or 'shape', not {statistic!r}")
+        out.append((s[None, :] >= s[:, None]).sum(1) / n)
+    return np.array(out).T

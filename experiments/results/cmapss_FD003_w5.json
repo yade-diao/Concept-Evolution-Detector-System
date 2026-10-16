@@ -213,6 +213,13 @@
   "engines_caught": 12,
   "median_rul_at_first_flag": 38.0
  },
+ "own_change_accumulated": {
+  "detection": 0.6774193548387096,
+  "far": 0.06190476190476191,
+  "engines_degraded": 34,
+  "engines_caught": 20,
+  "median_rul_at_first_flag": 54.5
+ },
  "peer_z": {
   "detection": 0.06451612903225806,
   "far": 0.19788359788359788,
