@@ -4,7 +4,7 @@
  * events - so nothing large crosses back.
  */
 
-import { accumulate, deviation, monitorFleet, type Fleet } from '../cedfs/fleet'
+import { accumulate, deviation, monitorFleet, ownChange, type Fleet } from '../cedfs/fleet'
 import type { TransitionName } from '../cedfs/transitions'
 import type { EventName } from '../cedfs/cedFs'
 
@@ -12,8 +12,10 @@ export interface FleetRequest {
   fleet: { data: ArrayBuffer; units: number; samples: number; variables: number }
   window: number
   alpha: number
-  /** Set for the deviation monitor. */
+  /** Set for the deviation monitors. */
   baseline?: number
+  /** "fleet": two-sided, against the fleet (`deviation`); "own": one-sided, against the unit's own start (`ownChange`). */
+  against?: 'fleet' | 'own'
   m?: number
   level?: number
 }
@@ -42,7 +44,7 @@ export interface FleetFailed {
 }
 
 self.onmessage = (event: MessageEvent<FleetRequest>) => {
-  const { fleet: raw, window, alpha, baseline, m, level } = event.data
+  const { fleet: raw, window, alpha, baseline, m, level, against } = event.data
   const started = performance.now()
   try {
     const fleet: Fleet = { ...raw, data: new Float64Array(raw.data) }
@@ -60,7 +62,8 @@ self.onmessage = (event: MessageEvent<FleetRequest>) => {
         }
       })
     const alarms = baseline !== undefined
-      ? accumulate(deviation(fleet, window, baseline), m ?? 5, level ?? 0.01)
+      ? accumulate(against === 'own' ? ownChange(fleet, window, baseline) : deviation(fleet, window, baseline),
+        m ?? 5, level ?? 0.01)
       : null
     const done: FleetDone = { type: 'done', windows, alarms, elapsedMs: performance.now() - started }
     self.postMessage(done)

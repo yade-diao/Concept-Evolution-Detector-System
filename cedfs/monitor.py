@@ -70,6 +70,9 @@ def report(cube, ids, times, names, window, alpha=0.001, baseline=None, m=5, lev
     alarms = None
     if baseline is not None:
         alarms = accumulate(deviation(cube, window, baseline), m, level)
+        # A window inside a unit's own baseline is compared with itself; it
+        # cannot say the unit changed.
+        alarms[:, : -(-baseline // window)] = False
     out = []
     for w, labels in enumerate(watched.clusterings):
         start, end = w * window, (w + 1) * window - 1

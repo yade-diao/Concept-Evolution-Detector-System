@@ -22,7 +22,7 @@ export interface FleetInfo {
   sampleMinutes: number | null
   sampleUnit?: string
   window: number
-  monitor: 'clustering' | 'deviation'
+  monitor: 'clustering' | 'deviation' | 'ownChange'
   alpha?: number
   baseline?: number
   m?: number

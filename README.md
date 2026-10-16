@@ -49,7 +49,8 @@ python -m cedfs.monitor fleet.csv --unit engine --time cycle --window 5 --baseli
 ```
 
 reads a long-format CSV and runs the first two; the **Fleets** page runs all
-three in the browser on the bundled fleets.
+three in the browser, on the bundled fleets or on a CSV you choose — read in
+the page, never uploaded.
 
 ### What changed from the published method, and why
 
@@ -686,7 +687,10 @@ Every image is tagged with its commit, so `CED_IMAGE_TAG=<sha> docker compose
 
 ## Open
 
-- The battery fleet in the browser (its licence to be confirmed before bundling).
+- The battery fleet is not bundled: data.matr.io states no licence for
+  redistribution. Build it from the raw files (`experiments/matr_prepare.py`)
+  and run it with `experiments/matr_fleet.py`, or export a long-format CSV and
+  open it on the Fleets page.
 - A neighbour index in place of the n × n distances, for fleets past ten
   thousand units.
 
