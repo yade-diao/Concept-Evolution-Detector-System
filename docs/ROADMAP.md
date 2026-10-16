@@ -23,8 +23,9 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 - [ ] T3 Extend the taxonomy to MONIC's external transitions: split and merge,
       and stable that does not require Dice == 1. Keep the original rule as the
       default so the port stays faithful; the extension is an option.
-- [ ] T4 KPCA scaling (`K_c v` vs. `sqrt(lambda) v`, inherited from the MATLAB
-      original): state it, then ablate it in E3.
+- [x] T4 KPCA scaling (`K_c v` vs. `sqrt(lambda) v`, inherited from the MATLAB
+      original): state it, then ablate it in E3. *Done*: `kpca_scaling="sqrt"`
+      is worse everywhere it differs; the original's λ weighting stays.
 
 - [~] T5 One-cluster decision (P3, P6): `screening.py` and `significance.py`
       exist; screening is the useful one. Open: make it an option of `CED_FS`
@@ -44,10 +45,12 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
 - [ ] E4 Scalability: time vs. samples and features; Nyström / top-k
       eigenpairs for large n.
 
-- [ ] E5 Small-cluster recovery: K-R-DPC absorbs a 6-object group at spread
+- [x] E5 Small-cluster recovery: K-R-DPC absorbs a 6-object group at spread
       0.5–0.7 though it is trivially separable (EXPERIMENTS.md E1, point 2), and
       small groups are exactly where emerging/forgetting live (THEORY P2). Look
       at relative-density / adaptive-k DPC variants, keep the original as default.
+      *Done*: `density="relative"` (RECOME) fixes it up to moderate noise and
+      loses at high noise; option, not default (EXPERIMENTS.md E5).
 
 ## I — Industrial data
 

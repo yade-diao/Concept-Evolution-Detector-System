@@ -124,5 +124,6 @@ every pre-fault alarm and most of the detections with them.
 - The method's KPCA projection uses `K_c v` (eigenvalue-scaled) where the
   textbook uses `√λ v`. Both give the same subspace; they weight the axes
   differently before density estimation. This is inherited from the MATLAB
-  original and is ablated rather than changed (T4, E3).
+  original; ablated in EXPERIMENTS.md E5, where `√λ` is worse everywhere it
+  differs, so the original stays for a measured reason.
 - Nothing above depends on labels. Labels are used only to score.

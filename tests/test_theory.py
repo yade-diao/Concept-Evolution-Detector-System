@@ -76,3 +76,15 @@ def test_window_labels_merge_classes_that_share_a_centre():
     s = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES, seed=0)
     assert len(np.unique(s.window_labels(0))) == 2
     assert len(np.unique(s.window_labels(1))) == 3
+
+
+def test_relative_density_keeps_a_small_separated_group():
+    # EXPERIMENTS.md E5: a 6-object group the original density absorbs.
+    from cedfs.evaluation import run_windows
+    from cedfs.synthetic import UNEVEN_PLACEMENTS, UNEVEN_SIZES, make_stream
+    s = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES, spread=0.7, seed=0)
+    base = {"kernel_type": 1, "sigma": 6.0, "p": 0.05}
+    original = run_windows(s.features, s.labels, 60, base)
+    relative = run_windows(s.features, s.labels, 60, {**base, "density": "relative"})
+    assert original.cluster_counts[1] == 2
+    assert relative.cluster_counts == s.expected_cluster_counts()

@@ -16,8 +16,7 @@ def k_pca(
     data: np.ndarray,
     sigma: float,
     kernel_choice: int,
-    target_dim: int,
-) -> np.ndarray:
+    target_dim: int, scaling: str = "eigenvalue") -> np.ndarray:
     """Apply Kernel PCA to *data* and return the low-dimensional representation.
 
     Parameters
@@ -69,7 +68,18 @@ def k_pca(
 
     # Project onto top components
     V = eigenvectors[:, :target_dim]
-    transformed = K_centered @ V
+    if scaling == "eigenvalue":
+        # K_c v = lambda v: each axis weighted by its eigenvalue. This is what
+        # the MATLAB original does (k_pca.m, Y = kI * X_KPCA) and the default.
+        transformed = K_centered @ V
+    elif scaling == "sqrt":
+        # The textbook projection (Schoelkopf et al. 1998): sqrt(lambda) v.
+        # An eigenvalue grows with the size of the group its axis separates,
+        # so eigenvalue weighting shrinks the axes of small groups twice over.
+        lam = np.clip(eigenvalues[order][:target_dim].real, 0.0, None)
+        transformed = V * np.sqrt(lam)[np.newaxis, :]
+    else:
+        raise ValueError(f"scaling must be 'eigenvalue' or 'sqrt', not {scaling!r}")
 
     # Guarantee real output
     if np.iscomplexobj(transformed):

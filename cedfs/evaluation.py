@@ -83,8 +83,7 @@ def run_windows(features: np.ndarray, labels: np.ndarray, winsize: int,
     ris, counts, clusterings = [], [], []
 
     for start, end in window_bounds(features.shape[1], winsize):
-        clustering, _, k = k_r_dpc(features[:, start:end], image_dir=None,
-                                   kernel_type=p["kernel_type"], sigma=p["sigma"], p=p["p"])
+        clustering, _, k = k_r_dpc(features[:, start:end], image_dir=None, **p)
         ris.append(rand_index(clustering, labels))
         counts.append(int(k))
         if keep_clusterings:

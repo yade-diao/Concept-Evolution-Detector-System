@@ -36,11 +36,11 @@ PARAMS = {"kernel_type": 1, "sigma": 6.0, "p": 0.05}
 
 
 def one(job):
-    name, spread, seed, threshold = job
+    name, spread, seed, threshold, params = job
     placements, sizes = STREAMS[name]
     s = make_stream(placements, samples_per_class=sizes, spread=spread, seed=seed,
                     threshold=threshold)
-    run = run_windows(s.features, s.labels, s.features_per_window, PARAMS, keep_clusterings=True)
+    run = run_windows(s.features, s.labels, s.features_per_window, params, keep_clusterings=True)
     windows = [partition_scores(c, s.window_labels(i)) for i, c in enumerate(run.clusterings)]
     expected = [b.as_dict() for b in s.boundaries]
     events = event_scores(boundary_events(run.clusterings, threshold), expected)
@@ -58,11 +58,14 @@ def main() -> None:
     parser.add_argument("--seeds", type=int, default=20)
     parser.add_argument("--spreads", type=float, nargs="+", default=[0.35, 0.7, 1.0, 1.4, 2.0])
     parser.add_argument("--threshold", type=float, default=0.5)
+    parser.add_argument("--density", choices=["rknn", "relative"], default="rknn")
+    parser.add_argument("--kpca-scaling", choices=["eigenvalue", "sqrt"], default="eigenvalue")
     parser.add_argument("--jobs", type=int, default=8)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
-    jobs = [(n, sp, seed, args.threshold) for n in STREAMS for sp in args.spreads
+    params = {**PARAMS, "density": args.density, "kpca_scaling": args.kpca_scaling}
+    jobs = [(n, sp, seed, args.threshold, params) for n in STREAMS for sp in args.spreads
             for seed in range(args.seeds)]
     with ProcessPoolExecutor(args.jobs) as pool:
         rows = list(pool.map(one, jobs, chunksize=4))

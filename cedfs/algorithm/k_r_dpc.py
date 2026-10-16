@@ -168,6 +168,8 @@ def k_r_dpc(
     kernel_type: int = 1,
     sigma: float = 5.0,
     p: float = 0.005,
+    kpca_scaling: str = "eigenvalue",
+    density: str = "rknn",
 ):
     """Run K-r-DPC on *data* and return cluster assignments.
 
@@ -184,6 +186,14 @@ def k_r_dpc(
         Kernel bandwidth parameter.  Default: 5.0.
     p : float
         Fraction of *n* used as the KNN count *k*.  Default: 0.005.
+    kpca_scaling : {"eigenvalue", "sqrt"}
+        How KPCA weights its axes; see `k_pca`. "eigenvalue" is the original.
+    density : {"rknn", "relative"}
+        "rknn" is the original reverse-kNN density. "relative" divides each
+        point's density by the highest in its kNN neighbourhood (RECOME, Geng
+        et al., Information Sciences 2018), so that every local peak scores 1
+        however sparse its group: a small or sparse group then competes for a
+        centre on its separation (delta) alone instead of losing on density.
 
     Returns
     -------
@@ -199,13 +209,22 @@ def k_r_dpc(
 
     # --- K-PCA dimensionality reduction ---
     target_dim = round(n / 3)
-    reduced = k_pca(data, sigma, kernel_type, target_dim)
+    reduced = k_pca(data, sigma, kernel_type, target_dim, scaling=kpca_scaling)
 
     # --- KNN graph ---
     index_knn, k_dist = search_knn(reduced, k)
 
     # --- Local density via rKNN ---
     rhos = get_rknn_density(index_knn, k_dist)
+    if density == "relative":
+        raw = np.asarray(rhos, dtype=float)
+        neighbourhood = np.maximum(raw[index_knn].max(1), raw)
+        # Ties at 1 are broken by the absolute density, so within one group the
+        # densest of its local peaks is still the one the others point to.
+        rhos = list(raw / np.where(neighbourhood > 0, neighbourhood, 1.0)
+                    + 1e-9 * raw / max(raw.max(), 1e-300))
+    elif density != "rknn":
+        raise ValueError(f"density must be 'rknn' or 'relative', not {density!r}")
 
     # --- Pairwise distance matrix ---
     dist_mat = _pairwise_distances(reduced)
