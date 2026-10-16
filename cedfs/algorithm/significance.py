@@ -3,7 +3,7 @@
 K-R-DPC never returns fewer than two clusters (see `_select_centers`), so on a
 window where the objects form a single group it still returns a partition —
 one decided by noise — and the event rules then read noise as evolution
-(THEORY.md, P3). This module decides first whether the partition is stronger
+(README (Theory), P3). This module decides first whether the partition is stronger
 than what the same procedure finds on data with no clusters in it.
 
 The null is SigClust's (Liu, Hayes, Nobel & Marron, "Statistical significance

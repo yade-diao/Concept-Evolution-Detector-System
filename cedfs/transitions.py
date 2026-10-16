@@ -1,7 +1,7 @@
 """MONIC's external transitions, as an alternative reading of the overlap.
 
 CED-FS reads the overlap between consecutive partitions through one symmetric
-number, Dice, and four thresholds on it. THEORY.md P2 shows what that loses: a
+number, Dice, and four thresholds on it. README (Theory) P2 shows what that loses: a
 split is always "drift", an absorption into a much larger group is
 "forgetting", and nothing says *split* or *merge*. MONIC (Spiliopoulou,
 Ntoutsi, Theodoridis & Schult, "MONIC: modeling and monitoring cluster

@@ -1,10 +1,10 @@
 """Sensitivity of the clustering monitor on the Tennessee Eastman fleet.
 
-One parameter at a time around the configuration of INDUSTRIAL.md (window 20
+One parameter at a time around the configuration of README (industrial fleets) (window 20
 samples, alpha 0.001, summaries, sigma 6, p 0.05), over the 17 detectable
 faults, 80 normal + 20 faulty runs. Reported: detection, false alarms before
 the fault and on normal runs after it, and the median detection delay in
-minutes — the window quantises delay (THEORY.md P4), so window size trades
+minutes — the window quantises delay (README (Theory) P4), so window size trades
 delay against how much each window sees.
 
     python -m experiments.tep_sensitivity

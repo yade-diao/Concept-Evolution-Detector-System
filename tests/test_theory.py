@@ -1,4 +1,4 @@
-"""The propositions in docs/THEORY.md that follow from the definitions alone.
+"""The propositions in README (Theory) that follow from the definitions alone.
 
 Each test builds two partitions by hand and reads the events the way CED-FS
 reads them, so a change to the event rules that breaks a documented
@@ -79,7 +79,7 @@ def test_window_labels_merge_classes_that_share_a_centre():
 
 
 def test_relative_density_keeps_a_small_separated_group():
-    # EXPERIMENTS.md E5: a 6-object group the original density absorbs.
+    # README (Experiments) E5: a 6-object group the original density absorbs.
     from cedfs.evaluation import run_windows
     from cedfs.synthetic import UNEVEN_PLACEMENTS, UNEVEN_SIZES, make_stream
     s = make_stream(UNEVEN_PLACEMENTS, samples_per_class=UNEVEN_SIZES, spread=0.7, seed=0)

@@ -1,4 +1,4 @@
-"""The bundled fleets load, and say what INDUSTRIAL.md says they say."""
+"""The bundled fleets load, and say what README (industrial fleets) says they say."""
 
 import numpy as np
 

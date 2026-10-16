@@ -2,7 +2,7 @@
  * A fleet of like units, watched as a feature stream.
  *
  * The units stay, the measurements arrive - the method's own setting, with the
- * units as the samples. Two monitors (docs/INDUSTRIAL.md): the clustering one
+ * units as the samples. Two monitors (README (industrial fleets)): the clustering one
  * reads each window as one group or "these units left, through these
  * variables"; the deviation one scores each unit against the fleet and its own
  * start, for fleets that wear out rather than break. Each bundled fleet names

@@ -2,7 +2,7 @@
  * Which variables, if any, split the fleet in this window?
  *
  * Ported from `cedfs/algorithm/screening.py`; the reasoning is there and in
- * docs/THEORY.md (P6). A window is (objects, samples, variables), stored
+ * README (Theory) (P6). A window is (objects, samples, variables), stored
  * object-major: value (o, t, v) at `(o * samples + t) * variables + v`.
  *
  * One difference from the reference, by design: Python computes Lilliefors

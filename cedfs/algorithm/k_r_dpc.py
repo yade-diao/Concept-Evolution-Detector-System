@@ -202,7 +202,7 @@ def k_r_dpc(
     landmarks : int or None
         None computes KPCA exactly (the original). An integer m uses a Nystrom
         approximation with m landmarks (`k_pca_nystrom`), O(n m^2) instead of
-        O(n^3), for fleets of thousands of units (docs/EXPERIMENTS.md E4).
+        O(n^3), for fleets of thousands of units (README (Experiments) E4).
     density : {"rknn", "relative"}
         "rknn" is the original reverse-kNN density. "relative" divides each
         point's density by the highest in its kNN neighbourhood (RECOME, Geng

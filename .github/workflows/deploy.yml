@@ -70,7 +70,7 @@ jobs:
               echo
               echo "They must be **repository** secrets - Settings -> Secrets and"
               echo "variables -> Actions -> *Secrets* tab. Values under *Variables*,"
-              echo "or under an environment, are not visible here. See deploy/README.md."
+              echo "or under an environment, are not visible here. See README (Deploying)."
             } >> "$GITHUB_STEP_SUMMARY"
           fi
 

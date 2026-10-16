@@ -2,7 +2,7 @@
 
 A fleet is a fixed set of like units — machines, engines, process runs —
 observed together, sample by sample, on the same variables. Laid out as a
-feature stream (THEORY.md §1) a row is a unit and a column is one variable at
+feature stream (README (Theory) §1) a row is a unit and a column is one variable at
 one sample time, in time order, so a window of `window` samples is the next
 stretch of the fleet's life. That is the case the method was built for: the
 objects do not change, the features describing them arrive.
@@ -112,7 +112,7 @@ def persistent(flags: np.ndarray, alpha: float, m: int = 5, level: float = 0.001
     """Alarms that need a unit to keep leaving the fleet, not to leave it once.
 
     Screening bounds the chance that a window selects anything when the fleet
-    has no structure by `alpha` (THEORY.md P6), so under that null a unit is
+    has no structure by `alpha` (README (Theory) P6), so under that null a unit is
     flagged in a window with probability at most `alpha`, and its count of
     flags in the last `m` windows is at most Binomial(m, alpha). An alarm is
     raised when that count reaches the smallest k whose binomial tail is below
@@ -142,7 +142,7 @@ def deviation(units: np.ndarray, window: int, baseline: int | None = None,
     The clustering of `monitor` sees a fleet that splits into groups. A fleet
     that degrades gradually does not split: its units spread out along a
     continuum, and "outside the largest cluster" then cuts that continuum at an
-    arbitrary place (INDUSTRIAL.md I2). This is the graded counterpart.
+    arbitrary place (README (industrial fleets) I2). This is the graded counterpart.
 
     Per window, each unit is summarised by its window mean per variable; each
     variable is put in fleet units by median and MAD; a unit's strangeness is

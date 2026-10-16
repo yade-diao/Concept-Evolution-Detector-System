@@ -70,14 +70,14 @@ def CED_FS(
         * ``p``                   (float, default 0.05) – KNN fraction.
         * ``similarityThreshold`` (float, default 0.5) – concept-drift threshold τ.
         * ``density``             ("rknn" | "relative", default "rknn") – see
-          `k_r_dpc`; "relative" keeps small groups (docs/EXPERIMENTS.md E5).
+          `k_r_dpc`; "relative" keeps small groups (README (Experiments) E5).
         * ``screenAlpha``         (float or None, default None) – screen the
           window's columns first and cluster only those that are not one
           Gaussian across the samples; a window with none is one cluster
           (`cedfs.algorithm.screening`). Meant for fleets of like units, where
           "no structure" means Gaussian columns; on gene-expression benchmarks,
           whose columns are skewed regardless, it selects skewed noise and
-          lowers ARI (docs/EXPERIMENTS.md T5). Off by default.
+          lowers ARI (README (Experiments) T5). Off by default.
 
     image_dir : str, optional
         Directory where similarity-graph PNG files are saved.  When *None*,

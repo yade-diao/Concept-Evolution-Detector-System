@@ -1,7 +1,7 @@
 /**
  * CED-FS as a fleet monitor, and the graded deviation monitor.
  *
- * Ported from `cedfs/fleet.py`; docs/INDUSTRIAL.md says what each is for. A
+ * Ported from `cedfs/fleet.py`; README (industrial fleets) says what each is for. A
  * fleet is (units, samples, variables), unit-major: value (u, t, v) at
  * `(u * samples + t) * variables + v`.
  */

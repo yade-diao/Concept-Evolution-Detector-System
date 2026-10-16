@@ -18,10 +18,10 @@ simulation. IF-PCA thresholds by Higher Criticism, which is tuned for rare and
 weak signals; this module uses Bonferroni instead, because what a monitor needs
 is a stated false-alarm rate: if no variable carries structure and the objects
 are independent, the probability that a window selects anything is at most
-`alpha` (THEORY.md, P6).
+`alpha` (README (Theory), P6).
 
 A window that selects nothing is one cluster, which is also the answer to
-THEORY.md P3.
+README (Theory) P3.
 """
 
 from __future__ import annotations

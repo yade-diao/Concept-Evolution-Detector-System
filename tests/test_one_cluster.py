@@ -1,4 +1,4 @@
-"""The two answers to "is there more than one cluster here?" (THEORY.md P3, P6)."""
+"""The two answers to "is there more than one cluster here?" (README (Theory) P3, P6)."""
 
 import numpy as np
 

@@ -217,7 +217,7 @@ def partition_scores(found: np.ndarray, truth: np.ndarray) -> dict[str, float]:
     """Rand Index, adjusted Rand Index and NMI of one window's clustering.
 
     RI is reported because the method always has; ARI and NMI are what to read,
-    because RI rises when a correct cluster is split (THEORY.md, P5).
+    because RI rises when a correct cluster is split (README (Theory), P5).
     """
     from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
     return {"ri": float(rand_index(found, truth)),

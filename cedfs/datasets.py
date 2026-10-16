@@ -53,7 +53,7 @@ def _read_manifest() -> list[DatasetInfo]:
     if not MANIFEST.exists():
         raise FileNotFoundError(
             f"No dataset manifest at {MANIFEST}. The bundled benchmarks are part "
-            "of the repository; see datasets/README.md."
+            "of the repository; see README (benchmarks)."
         )
     entries = json.loads(MANIFEST.read_text(encoding="utf-8"))
     return [
@@ -123,7 +123,7 @@ def load(slug: str, normalise: bool = True) -> tuple[np.ndarray, np.ndarray]:
     info = describe(slug)
     for path in (info.data_path, info.label_path):
         if not path.exists():
-            raise FileNotFoundError(f"{path} is missing; see datasets/README.md.")
+            raise FileNotFoundError(f"{path} is missing; see README (benchmarks).")
 
     labels = _single_array(info.label_path).ravel()
     features = _orient(_single_array(info.data_path), labels.size, info.data_file)

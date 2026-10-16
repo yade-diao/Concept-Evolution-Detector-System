@@ -8,7 +8,7 @@ have the same time steps (a feature stream has a fixed set of objects); the
 longest common prefix is used if they do not. Columns other than the unit and
 time ones are variables, unless `--variables` lists which to use.
 
-Two monitors run (docs/INDUSTRIAL.md explains when each is the right one):
+Two monitors run (README (industrial fleets) explains when each is the right one):
 
 * clustering — `cedfs.fleet.monitor`, screened, clustered on summaries: per
   window, whether the fleet is one group or has split, the events between
