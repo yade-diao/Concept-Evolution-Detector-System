@@ -286,14 +286,14 @@ does with its conformal z-values.
 | | monitor | detection | FAR (healthy) | engines caught | median RUL at first alarm |
 |---|---|---:|---:|---:|---:|
 | FD001 | clustering, screened (summaries) | 0.07 | 0.041 | 18 / 25 | 111 |
-| | **deviation, accumulated** | **0.72** | **0.000** | 17 / 25 | 52 |
+| | **deviation, accumulated** | **0.71** | **0.000** | 17 / 25 | 52 |
 | | PCA, first 30 cycles | 0.22 | 0.005 | 10 / 25 | 45 |
 | FD003 | clustering, screened (summaries) | 0.12 | 0.121 | 32 / 34 | 48 |
-| | deviation, accumulated | 0.29 | 0.160 | 12 / 34 | 38 |
+| | deviation, accumulated | 0.29 | 0.119 | 12 / 34 | 38 |
 | | PCA, first 30 cycles | **0.36** | **0.011** | 21 / 34 | 49 |
 
 1. **On FD001 the optimised monitor is the best of the three**: detection
-   0.72 against PCA's 0.22, no false alarm, the first alarm about 52 cycles
+   0.71 against PCA's 0.22, no false alarm, the first alarm about 52 cycles
    before failure — with the same "first 30 cycles are healthy" assumption PCA
    makes and no model fitted to it.
 2. **On FD003 it loses to PCA, and the false alarms are one group.** The 20
