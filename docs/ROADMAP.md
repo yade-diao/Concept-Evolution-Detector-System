@@ -97,8 +97,9 @@ The stream runs along the feature axis, so the industrial case must be a
 - [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
 - [~] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web
-      app with their readings in plant units. *Started*: `cedfs.fleet.monitor`
-      is the library entry point both industrial experiments use.
+      app with their readings in plant units. *Done (CLI)*: `cedfs.fleet`
+      is the library entry point; `python -m cedfs.monitor fleet.csv` runs
+      both monitors on a long-format CSV. *Open*: the web app.
 
 ## O — Operations
 

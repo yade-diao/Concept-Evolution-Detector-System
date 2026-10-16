@@ -366,3 +366,27 @@ faults detected above 0.5, from onset to the end of the first flagged window.
    kernel nearly diagonal on standardised summaries and the clustering
    fragments (10% FAR on normals after the fault); σ = 12 smooths the faulty
    group into the normals.
+
+## Using it on your own fleet
+
+`python -m cedfs.monitor` reads a long-format CSV — one row per unit per time
+step, a unit column, a time column, one column per variable — and prints, per
+window, whether the fleet is one group, which units left it and through which
+variables, MONIC's name for the change, and (with `--baseline`) which units
+have been consistently unlike the fleet:
+
+```
+$ python -m cedfs.monitor fd001.csv --unit engine --time cycle --window 5 --baseline 30 --m 8
+100 units, 128 time steps, 21 variables, window 5
+window   1  [1 .. 5]  one group
+...
+window   8  [36 .. 40]  one group  | deviating: 39
+...
+window  15  [71 .. 75]  one group  | deviating: 39, 90
+window  17  [81 .. 85]  one group  | deviating: 39, 57, 63, 90, 91, 97, 98
+```
+
+On C-MAPSS FD001 the first engine it names, at cycle 40, is engine 39 — the
+shortest-lived of the hundred (128 cycles), 88 cycles before it fails; the
+next are 90, 91 and 57, of which 91 and 57 are the second- and third-shortest.
+`--json` gives one object per window for another program.
