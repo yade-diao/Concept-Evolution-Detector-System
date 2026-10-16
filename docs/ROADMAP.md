@@ -73,8 +73,9 @@ The stream runs along the feature axis, so the industrial case must be a
       pre-fault run-windows (P3); variable screening (IF-PCA-style, Bonferroni)
       takes that to 0 and detection 0.52 → 0.63 vs PCA 0.77 with no clean
       history, beats PCA on fault 5, names the faulty variable.
-      *Open*: variance faults (8, 10–13, 16, 17, 20), window size, smaller
-      faulty fraction, two-in-a-row rule results.
+      *Then*: clustering on the selected summaries (`represent="summaries"`)
+      fixes the variance faults — mean detection 0.81 vs PCA 0.77, FAR 0.
+      *Open*: window size, smaller faulty fraction.
 - [~] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.

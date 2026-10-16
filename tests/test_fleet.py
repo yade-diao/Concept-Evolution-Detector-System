@@ -42,3 +42,14 @@ def test_persistence_needs_two_flags_in_five_windows_at_alpha_one_percent():
     assert not alarms[0].any()
     assert alarms[1].tolist() == [False] * 5 + [True] * 3
     assert not alarms[2].any()
+
+
+def test_a_variance_fault_needs_the_summary_representation():
+    rng = np.random.default_rng(7)
+    units = rng.standard_normal((60, 40, 8))
+    units[:12, 20:, 5] *= 3.0                  # a fifth of the fleet gets noisier
+    columns = monitor(units, window=10, screen_alpha=0.001)
+    summaries = monitor(units, window=10, screen_alpha=0.001, represent="summaries")
+    assert 5 in summaries.variables[2]
+    assert summaries.flags[:12, 2:].mean() > 0.9 and not summaries.flags[12:].any()
+    assert columns.flags[:12, 2:].mean() < summaries.flags[:12, 2:].mean()

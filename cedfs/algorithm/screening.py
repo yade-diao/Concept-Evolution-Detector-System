@@ -111,6 +111,19 @@ def screen(window: np.ndarray, alpha: float = 0.01):
     spread is not tested (see `held`), nor is any summary with too few distinct
     values (see `testable`); both still count towards the correction.
     """
+    selected, per_var, _ = screen_summaries(window, alpha)
+    return selected, per_var
+
+
+def screen_summaries(window: np.ndarray, alpha: float = 0.01):
+    """`screen`, plus the standardised summaries that were selected.
+
+    The third value is (objects, s): the window-mean and log-spread columns,
+    standardised across the objects, of every summary that passed the
+    threshold — the representation to cluster on when a fault shows in spread
+    rather than level (Wang, Smith & Hyndman, "Characteristic-based clustering
+    for time series data", DMKD 2006).
+    """
     s = summaries(np.asarray(window, dtype=float))
     n, m = s.shape
     p = p_values(ks_normal(standardise(s)), n)
@@ -118,5 +131,6 @@ def screen(window: np.ndarray, alpha: float = 0.01):
     n_vars = m // 2
     p[n_vars:][held(window)] = 1.0
     per_var = np.minimum(p[:n_vars], p[n_vars:])
-    selected = np.flatnonzero(per_var <= alpha / m)
-    return selected, per_var
+    hit = p <= alpha / m
+    selected = np.flatnonzero(hit[:n_vars] | hit[n_vars:])
+    return selected, per_var, standardise(s)[:, hit]

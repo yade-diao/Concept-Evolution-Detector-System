@@ -93,12 +93,13 @@ def main() -> None:
     parser.add_argument("--window", type=int, default=10, help="cycles per window")
     parser.add_argument("--alpha", type=float, default=0.001)
     parser.add_argument("--density", choices=["rknn", "relative"], default="rknn")
+    parser.add_argument("--represent", choices=["columns", "summaries"], default="columns")
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
     cube, lives = load(args.subset)
     params = {"density": args.density}
-    watched = monitor(cube, args.window, params, screen_alpha=args.alpha)
+    watched = monitor(cube, args.window, params, screen_alpha=args.alpha, represent=args.represent)
     alarms, n_pc = pca_monitor(cube[:, :30])
     n_w = watched.flags.shape[1]
     pca = alarms(cube)[:, :n_w * args.window].reshape(len(cube), n_w, args.window).mean(-1) > 0.5

@@ -26,7 +26,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from cedfs.algorithm.k_r_dpc import k_r_dpc
-from cedfs.algorithm.screening import screen
+from cedfs.algorithm.screening import screen_summaries
 from cedfs.algorithm.significance import significance
 from cedfs.evaluation import boundary_events
 
@@ -57,7 +57,7 @@ def as_stream(units: np.ndarray) -> np.ndarray:
 
 def monitor(units: np.ndarray, window: int, params: dict | None = None,
             screen_alpha: float | None = None, gate: float | None = None,
-            threshold: float = 0.5) -> FleetResult:
+            threshold: float = 0.5, represent: str = "columns") -> FleetResult:
     """Watch a fleet window by window.
 
     `units` is (units, samples, variables). Trailing samples that do not fill a
@@ -67,6 +67,12 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
     are clustered. `gate` is the SigClust alternative
     (`cedfs.algorithm.significance`). Without either, every window is
     clustered on every variable, as the original method does.
+
+    `represent` chooses what a screened window is clustered on: "columns",
+    the raw stream columns of the selected variables (the original's view), or
+    "summaries", the selected per-unit window means and log-spreads. A fault
+    that adds variance spreads its units out in the raw columns instead of
+    gathering them, and only the summaries make them a group.
     """
     units = np.asarray(units)
     n_units, n_samples, n_vars = units.shape
@@ -80,9 +86,12 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
     for start in range(0, n_samples - window + 1, window):
         variables = np.arange(n_vars)
         if screen_alpha is not None:
-            variables, _ = screen(units[:, start:start + window], screen_alpha)
-        cols = (start + np.arange(window))[:, None] * n_vars + variables[None, :]
-        x = stream[:, cols.ravel()]
+            variables, _, summary = screen_summaries(units[:, start:start + window], screen_alpha)
+        if screen_alpha is not None and represent == "summaries":
+            x = summary
+        else:
+            cols = (start + np.arange(window))[:, None] * n_vars + variables[None, :]
+            x = stream[:, cols.ravel()]
         if variables.size == 0:
             labels, k = np.ones(n_units, dtype=int), 1
         else:

@@ -42,7 +42,8 @@ method here scores zero on them):
 | CED-FS, unchanged | none | 0.52 | 0.315 | 0.197 |
 | + SigClust one-cluster gate (α 0.05) | none | 0.18 | 0.000 | 0.005 |
 | + variable screening (α 0.01) | none | 0.62 | 0.106 | 0.035 |
-| **+ variable screening (α 0.001)** | none | **0.63** | **0.000** | 0.024 |
+| + variable screening (α 0.001) | none | 0.63 | 0.000 | 0.024 |
+| **+ screening, clustered on the selected summaries** | none | **0.81** | **0.000** | 0.008 |
 | PCA T² / SPE | 100 clean runs | 0.77 | 0.000 | 0.000 |
 
 Raw per-fault numbers: `experiments/results/tep_fleet_*.json`.
@@ -72,21 +73,36 @@ Raw per-fault numbers: `experiments/results/tep_fleet_*.json`.
    plant's operating point returns close to normal, and PCA's limits — set on
    the normal operating point — stop firing; the faulty units still group
    apart from their peers because the compensating valve sits elsewhere.
-6. *It loses on random-variation and sticking faults.* Faults 8, 10–13, 16, 17
-   and 20 change variability rather than level; an hour's mean and spread per
-   variable do not separate them as well as a per-sample T²/SPE against a
-   clean reference. Fault 19 is detected (0.32) but with 31% FAR on normal runs
-   after it: the screened variable splits the fleet along a line other than
-   the fault.
+6. *Random-variation faults needed a different representation, not a
+   different test.* With screening alone (row 4) the method lost on faults 8,
+   10–13, 16, 17 and 20, which change variability rather than level. The
+   screening already picked the right variables — fault 11 (reactor cooling
+   water inlet temperature, random variation) selects `xmv_10` — but the
+   selected variable's raw columns were then clustered, and units whose signal
+   has more variance do not gather in raw space, they scatter. Clustering on
+   the selected *summaries* instead — each unit's window mean and log-spread
+   of the variables that failed the test, the characteristic-based clustering
+   of Wang, Smith & Hyndman (DMKD 2006) — makes them a group
+   (`cedfs.fleet.monitor(..., represent="summaries")`). Fault 8 goes 0.49 →
+   0.93, 11 0.29 → 0.96, 13 0.56 → 0.90, 14 0.78 → 1.00, 19 0.32 → 0.99,
+   20 0.50 → 0.63, with no pre-fault alarm anywhere.
+7. *With it, the fleet monitor out-detects the reference monitor.* Mean
+   detection 0.81 against PCA's 0.77, without the 100 clean runs PCA is fitted
+   on. Per fault it is ahead on 4 (5, 11, 19, 20 — fault 19 by 0.99 to 0.01),
+   behind on 7 (10, 12, 16, 17 most), level on the rest. The cost is fault 19's
+   9.6% alarm rate on normal runs after the fault, the only one above 2%.
 
 **Where that leaves the method.** As a *peer-comparison* monitor for a fleet —
 no clean history required, every window read as "one group" or "these units
 left the group, through these variables" — it is competitive with the textbook
 reference-based monitor on step faults and better on a compensated one, and
-it explains its alarms. It is not a replacement for PCA when a clean reference
-exists and the faults are subtle changes in variance.
+it explains its alarms. Clustered on the selected summaries it detects more
+than the reference-based monitor on average, with no reference. It is still
+behind PCA on faults 10, 12, 16 and 17, so where a clean reference exists the
+two are complements: one says a unit changed, the other that it is unlike its
+peers and through which variable.
 
-**Next** (ROADMAP): variance-sensitive summaries for faults 8–20; window-size
+**Next** (ROADMAP): window-size
 sensitivity (detection delay is quantised to the window, THEORY.md P4); fleets
 with a smaller faulty fraction; C-MAPSS (I2) where there is no switch-on time
 and degradation is gradual.

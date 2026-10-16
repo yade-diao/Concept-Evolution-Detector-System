@@ -88,10 +88,12 @@ def rates(flags, faulty, onset_window):
             "median_delay_windows": float(np.median(delays)) if delays else None}
 
 
-def run(fault, data, n_normal, n_faulty, hour, params, monitor, gate=None, screen_alpha=None):
+def run(fault, data, n_normal, n_faulty, hour, params, monitor, gate=None, screen_alpha=None,
+        represent="columns"):
     runs, faulty = fleet(data, fault, n_normal, n_faulty)
     onset_w = ONSET // hour
-    watched = fleet_monitor(runs, hour, params, screen_alpha=screen_alpha, gate=gate)
+    watched = fleet_monitor(runs, hour, params, screen_alpha=screen_alpha, gate=gate,
+                            represent=represent)
     clusterings, counts, flags, chosen = (watched.clusterings, watched.cluster_counts,
                                           watched.flags, watched.variables)
     picked = np.bincount([v for w in chosen[onset_w:] for v in w], minlength=runs.shape[-1])
@@ -124,7 +126,7 @@ def _run_one(job):
     data = np.load(args.data)
     monitor, _ = pca_monitor(data["normal"][400:500])
     return run(fault, data, args.normal, args.faulty, args.hour, params, monitor, args.gate,
-               args.screen)
+               args.screen, args.represent)
 
 
 def main() -> None:
@@ -138,6 +140,7 @@ def main() -> None:
     parser.add_argument("--p", type=float, default=0.05)
     parser.add_argument("--gate", type=float, help="significance level for the one-cluster test")
     parser.add_argument("--screen", type=float, help="family-wise level for variable screening")
+    parser.add_argument("--represent", choices=["columns", "summaries"], default="columns")
     parser.add_argument("--jobs", type=int, default=4)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
