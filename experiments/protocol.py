@@ -59,12 +59,15 @@ def main() -> None:
     parser.add_argument("--spreads", type=float, nargs="+", default=[0.35, 0.7, 1.0, 1.4, 2.0])
     parser.add_argument("--threshold", type=float, default=0.5)
     parser.add_argument("--density", choices=["rknn", "relative"], default="rknn")
+    parser.add_argument("--kernel", type=int, default=1)
+    parser.add_argument("--sigma", type=float, default=6.0)
     parser.add_argument("--kpca-scaling", choices=["eigenvalue", "sqrt"], default="eigenvalue")
     parser.add_argument("--jobs", type=int, default=8)
     parser.add_argument("--out", type=Path)
     args = parser.parse_args()
 
-    params = {**PARAMS, "density": args.density, "kpca_scaling": args.kpca_scaling}
+    params = {**PARAMS, "density": args.density, "kpca_scaling": args.kpca_scaling,
+              "kernel_type": args.kernel, "sigma": args.sigma}
     jobs = [(n, sp, seed, args.threshold, params) for n in STREAMS for sp in args.spreads
             for seed in range(args.seeds)]
     with ProcessPoolExecutor(args.jobs) as pool:

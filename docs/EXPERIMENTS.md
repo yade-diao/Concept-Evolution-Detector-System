@@ -302,3 +302,34 @@ informative columns. IF-PCA itself works on such data because it standardises
 and thresholds by Higher Criticism for rare, weak signals, a regime these
 min-max-normalised windows of 50 are not in. The option is documented as
 meant for fleets, and stays off for the benchmarks.
+
+## E3 — Threshold and kernel (synthetic streams)
+
+Protocol of E1, relative density, 20 seeds, spreads 0.7 and 1.0
+(`experiments/results/protocol_tau*.json`, `protocol_kernel*.json`). Exact
+boundaries:
+
+| | canonical 0.7 | canonical 1.0 | uneven 0.7 | uneven 1.0 |
+|---|---:|---:|---:|---:|
+| τ = 0.3 | 1.00 | 1.00 | 1.00 | 0.85 |
+| τ = 0.5 | 1.00 | 1.00 | 1.00 | 0.85 |
+| τ = 0.7 | 1.00 | 1.00 | 1.00 | 0.85 |
+| kernel 1, Gaussian | **1.00** | **1.00** | **1.00** | 0.85 |
+| kernel 2, polynomial (degree σ = 6) | 0.00 | 0.00 | 0.00 | 0.00 |
+| kernel 3, linear | 0.00 | 0.00 | 0.00 | 0.00 |
+| kernel 4, exponential | 0.50 | 0.50 | 1.00 | **1.00** |
+| kernel 5, Laplacian | 0.95 | 0.57 | 1.00 | 0.95 |
+
+1. **τ does not matter here, and THEORY.md P2 says why.** The overlaps that
+   occur at these boundaries are 1 (stable), 2/3 (a split of equals), and
+   2·6/66 ≈ 0.17 (the small class leaving); no value of τ between 0.3 and 0.7
+   reclassifies any of them. τ matters only for overlaps near it, i.e. for
+   partial reassignments of a few objects, and then it decides drift against
+   forgetting — the threshold is a naming convention more than a parameter.
+2. **The kernel matters most.** Linear and polynomial kernels lose every event
+   (the polynomial with σ read as the degree, 6, is badly conditioned on
+   min-max data). The exponential kernel keeps the small class and loses the
+   near pair; the Laplacian is between. The Gaussian is the default for a
+   reason, and the one to keep.
+
+TEP-side sensitivity (window, α, σ, p) is in INDUSTRIAL.md.

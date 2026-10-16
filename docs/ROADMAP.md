@@ -46,11 +46,13 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       *Done* (EXPERIMENTS.md E2; MONIC in T3, change-point not added — the PCA
       and peer-z monitors of I1/I2 play that role): no clusterer wins
       everywhere; smoothing suppresses emergence; on TEP screening decides.
-- [~] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
+- [x] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
       KPCA scaling. Sensitivity curves, not single numbers.
       *TEP done* (`tep_sensitivity.py`, INDUSTRIAL.md): after the spread-scale
       fix the monitor is flat in alpha (1e-2..1e-4) and p, sigma 3–6 best,
       window trades delay (15 min at 5 samples) against detection (0.68 → 0.86).
+      *Synthetic done* (EXPERIMENTS.md E3): τ 0.3–0.7 changes nothing (P2);
+      Gaussian kernel best, linear/polynomial lose every event.
 - [~] E4 Scalability: time vs. samples and features; Nyström / top-k
       eigenpairs for large n. *Done so far*: vectorised kernel, centring and
       kNN with identical partitions — eog window 0.98 s → 0.034 s. Partial
