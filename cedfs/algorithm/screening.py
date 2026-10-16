@@ -86,19 +86,35 @@ def summaries(window: np.ndarray) -> np.ndarray:
     return np.concatenate([window.mean(1), spread], axis=1)
 
 
+def testable(s: np.ndarray) -> np.ndarray:
+    """Summaries continuous enough for a test against a continuous law.
+
+    A sensor recorded at a coarse resolution, or one that barely moves, takes a
+    handful of distinct values across the fleet; the KS distance of a handful
+    of values to N(0, 1) is large whatever the fleet is doing, so such a
+    summary is not tested. Constant summaries are the extreme case. The cut —
+    at least a quarter of the objects, and at least ten, have distinct values
+    — keeps every window mean of a continuous variable and drops the step
+    functions.
+    """
+    n = s.shape[0]
+    distinct = np.array([np.unique(col).size for col in s.T])
+    return distinct >= max(10, n // 4)
+
+
 def screen(window: np.ndarray, alpha: float = 0.01):
     """Variables whose window mean or spread is not one Gaussian across objects.
 
     `window` is (objects, samples, variables). Returns the selected variable
     indices (sorted) and the per-variable p-value, the smaller of its two
     summaries' — Bonferroni over all 2 * variables tests. A held variable's
-    spread is not tested (see `held`) but still counts towards the correction.
+    spread is not tested (see `held`), nor is any summary with too few distinct
+    values (see `testable`); both still count towards the correction.
     """
     s = summaries(np.asarray(window, dtype=float))
     n, m = s.shape
-    constant = s.std(0) == 0
     p = p_values(ks_normal(standardise(s)), n)
-    p[constant] = 1.0
+    p[~testable(s)] = 1.0
     n_vars = m // 2
     p[n_vars:][held(window)] = 1.0
     per_var = np.minimum(p[:n_vars], p[n_vars:])

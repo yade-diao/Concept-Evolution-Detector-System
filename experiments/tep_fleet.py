@@ -34,10 +34,8 @@ import numpy as np
 from scipy import stats
 from sklearn.metrics import adjusted_rand_score
 
-from cedfs.algorithm.k_r_dpc import k_r_dpc
-from cedfs.algorithm.screening import screen
-from cedfs.algorithm.significance import significance
 from cedfs.evaluation import event_counts
+from cedfs.fleet import monitor as fleet_monitor
 
 ONSET = 160
 SAMPLES = 960
@@ -48,57 +46,6 @@ def fleet(data, fault: int, n_normal: int, n_faulty: int):
     """(runs, samples, variables) and a mask of which runs carry the fault."""
     runs = np.concatenate([data["normal"][:n_normal], data["faulty"][fault - 1, :n_faulty]])
     return runs, np.r_[np.zeros(n_normal, bool), np.ones(n_faulty, bool)]
-
-
-def as_stream(runs: np.ndarray) -> np.ndarray:
-    """Rows are runs, columns are (sample, variable) in time order.
-
-    Each column is min-max scaled across the fleet at that instant — the only
-    normalisation available to a monitor that has nothing but the current
-    column — and constant columns become zero.
-    """
-    flat = runs.reshape(runs.shape[0], -1).astype(float)
-    lo, hi = flat.min(0), flat.max(0)
-    span = np.where(hi > lo, hi - lo, 1.0)
-    return (flat - lo) / span
-
-
-def ced_fs_flags(stream, runs, hour, params, gate=None, screen_alpha=None):
-    """Cluster every window, optionally behind one of two one-cluster tests.
-
-    `gate` is a level alpha: a window whose partition is not tighter than the
-    one-cluster Gaussian null at that level is read as a single cluster.
-    `screen_alpha` screens variables first (`cedfs.algorithm.screening`): a
-    window in which no variable splits the fleet is a single cluster, and
-    otherwise only the selected variables' columns are clustered.
-    Returns clusterings, cluster counts, per-run flags and, per window, the
-    variables that were selected (all of them when not screening).
-    """
-    n_vars = runs.shape[-1]
-
-    def cluster(x):
-        return np.asarray(k_r_dpc(x, image_dir=None, **params)[0])
-
-    clusterings, counts, flags, chosen = [], [], [], []
-    for start in range(0, SAMPLES, hour):
-        variables = np.arange(n_vars)
-        if screen_alpha is not None:
-            variables, _ = screen(runs[:, start:start + hour], screen_alpha)
-        cols = (start + np.arange(hour))[:, None] * n_vars + variables[None, :]
-        window = stream[:, cols.ravel()]
-        if variables.size == 0:
-            labels, k = np.ones(len(runs), dtype=int), 1
-        else:
-            labels, _, k = k_r_dpc(window, image_dir=None, **params)
-            labels = np.asarray(labels)
-        if gate is not None and k > 1 and significance(window, labels, cluster, seed=start) > gate:
-            labels, k = np.ones_like(labels), 1
-        clusterings.append(labels)
-        counts.append(int(k))
-        largest = np.bincount(labels).argmax()
-        flags.append(labels != largest)
-        chosen.append(variables.tolist())
-    return clusterings, counts, np.array(flags).T, chosen   # flags: (runs, windows)
 
 
 def pca_monitor(reference: np.ndarray, alpha: float = 0.01, variance: float = 0.9):
@@ -144,8 +91,9 @@ def rates(flags, faulty, onset_window):
 def run(fault, data, n_normal, n_faulty, hour, params, monitor, gate=None, screen_alpha=None):
     runs, faulty = fleet(data, fault, n_normal, n_faulty)
     onset_w = ONSET // hour
-    clusterings, counts, flags, chosen = ced_fs_flags(as_stream(runs), runs, hour, params,
-                                                      gate, screen_alpha)
+    watched = fleet_monitor(runs, hour, params, screen_alpha=screen_alpha, gate=gate)
+    clusterings, counts, flags, chosen = (watched.clusterings, watched.cluster_counts,
+                                          watched.flags, watched.variables)
     picked = np.bincount([v for w in chosen[onset_w:] for v in w], minlength=runs.shape[-1])
     truth = [np.zeros_like(faulty) if w < onset_w else faulty for w in range(len(counts))]
     ari = [adjusted_rand_score(t, c) for t, c in zip(truth, clusterings)]

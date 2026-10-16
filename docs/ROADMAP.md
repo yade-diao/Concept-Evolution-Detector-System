@@ -68,13 +68,18 @@ The stream runs along the feature axis, so the industrial case must be a
       history, beats PCA on fault 5, names the faulty variable.
       *Open*: variance faults (8, 10–13, 16, 17, 20), window size, smaller
       faulty fraction, two-in-a-row rule results.
-- [ ] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
+- [~] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.
+      *Done so far* (INDUSTRIAL.md I2): FD001 catches 16/23 degrading engines at
+      median RUL 55 vs PCA 6/23 at 32, but intermittently; FD003's window-1
+      split predicts life (310 vs 206 cycles, p = 3e-4). Quantised sensors are
+      now excluded from screening. *Open*: persistence rule; FD003 fault mode.
 - [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
-- [ ] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
+- [~] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web
-      app with their readings in plant units.
+      app with their readings in plant units. *Started*: `cedfs.fleet.monitor`
+      is the library entry point both industrial experiments use.
 
 ## O — Operations
 

@@ -1,0 +1,58 @@
+{
+ "subset": "FD001",
+ "engines": 100,
+ "cycles": 128,
+ "window": 10,
+ "cluster_counts": [
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  2,
+  1,
+  1
+ ],
+ "variables": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   3,
+   17
+  ],
+  [],
+  []
+ ],
+ "ced_fs_screened": {
+  "detection": 0.13725490196078433,
+  "far": 0.008670520231213872,
+  "engines_degraded": 23,
+  "engines_caught": 16,
+  "median_rul_at_first_flag": 55.0
+ },
+ "peer_z": {
+  "detection": 0.0,
+  "far": 0.0,
+  "engines_degraded": 23,
+  "engines_caught": 0,
+  "median_rul_at_first_flag": null
+ },
+ "pca_first_30_cycles": {
+  "detection": 0.1568627450980392,
+  "far": 0.0,
+  "engines_degraded": 23,
+  "engines_caught": 6,
+  "median_rul_at_first_flag": 32.5
+ }
+}

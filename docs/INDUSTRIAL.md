@@ -90,3 +90,76 @@ exists and the faults are subtle changes in variance.
 sensitivity (detection delay is quantised to the window, THEORY.md P4); fleets
 with a smaller faulty fraction; C-MAPSS (I2) where there is no switch-on time
 and degradation is gradual.
+
+## I2 — A fleet of turbofan engines (NASA C-MAPSS)
+
+**Question.** The same monitor, on a fleet that degrades gradually and has no
+switch-on time: does a group of engines leave its peers as they approach
+failure, and how early?
+
+**Data.** C-MAPSS run-to-failure simulations (Saxena, Goebel, Simon & Eklund,
+"Damage propagation modeling for aircraft engine run-to-failure simulation",
+PHM 2008), training sets FD001 (100 engines, one operating condition, HPC
+degradation) and FD003 (100 engines, one condition, HPC *or* fan degradation).
+Engines are aligned at cycle 1 and cut at the shortest life (128 / 145 cycles)
+so every engine is in every window; 21 sensors.
+
+**Truth.** From remaining useful life at a window's last cycle: degraded if
+RUL ≤ 50, healthy if RUL > 125 (the cap below which the PHM literature treats
+an engine as degrading; Heimes 2008), unscored in between. In FD001, 23
+engines become degraded inside the 128 cycles.
+
+**Monitors** (`experiments/cmapss_fleet.py`), all scored per engine per window:
+CED-FS with screening (`cedfs.fleet.monitor`, no history); peer robust z — an
+engine flagged when any sensor's window mean is beyond a Bonferroni quantile in
+fleet median/MAD units, no history; and PCA T²/SPE fitted on every engine's
+first 30 cycles.
+
+**A correction found on the way.** Five FD001 sensors are constant or take two
+or three values (e.g. sensor 6 is 21.60 or 21.61). The KS test against a
+continuous law rejects such a summary whatever the fleet does, so the
+screening selected them in every window and the monitor alarmed on 27% of
+healthy engine-windows. Summaries with fewer than max(10, n/4) distinct values
+across the fleet are now not tested (`screening.testable`); the Tennessee
+Eastman results are unchanged by it.
+
+**Results** (window 10 cycles, α = 0.01; `experiments/results/cmapss_*.json`):
+
+| | monitor | detection (degraded engine-windows) | FAR (healthy) | engines caught | median RUL at first flag |
+|---|---|---:|---:|---:|---:|
+| FD001 | CED-FS + screening | 0.14 | 0.009 | **16 / 23** | **55** |
+| | peer robust z | 0.00 | 0.000 | 0 / 23 | — |
+| | PCA, first 30 cycles | 0.16 | 0.000 | 6 / 23 | 32 |
+| FD003 | CED-FS + screening | 0.01 | 0.399 | 1 / 27 | — |
+| | peer robust z | 0.06 | 0.463 | 3 / 27 | — |
+| | PCA, first 30 cycles | 0.27 | 0.003 | 12 / 27 | 32 |
+
+**What it shows.**
+
+1. *On FD001 the peer monitor sees more engines, earlier, but not steadily.*
+   It flags 16 of the 23 degrading engines at least once, typically 55 cycles
+   before failure, against PCA's 6 at 32; but it flags them intermittently
+   (14% of their degraded windows) where a fixed-reference monitor, once past
+   its limit, stays past it. The result is also fragile: with 16-cycle windows
+   it catches none. Gradual degradation in a fifth of the fleet is close to
+   the screening's detection floor.
+2. *On FD003 the fleet is not one group to begin with.* From the very first
+   window the screening selects the two fan-speed sensors (8 and 13), whose
+   window means are strongly skewed across engines (skewness −2.3), and splits
+   off about 20 engines. By the RUL truth those are false alarms. But they are
+   not noise: **the engines split off in window 1 have a median life of 310
+   cycles against 206 for the rest** (Mann–Whitney p = 0.0003), and initial fan
+   speed correlates with life at Spearman −0.46 (p = 2·10⁻⁶). The monitor has
+   found a real, life-relevant subpopulation of the fleet at cycle 10 — which
+   is exactly what "compare a unit with its peers" should do, and exactly what
+   a degradation-only score cannot credit.
+3. *The fixed reference wins on persistence, the peer comparison on reach.*
+   PCA fitted on each engine's own early life measures *change in that
+   engine*; the fleet monitor measures *difference from the others*, which
+   includes differences that were there from the start. For prognostics the
+   two answer different questions, and FD003 shows the second is not empty.
+
+**Next.** Persistence (flag an engine once it has left in k of the last m
+windows) for the intermittency in point 1; testing whether the FD003 split is
+the fan-vs-HPC fault mode (the subset publishes no per-engine mode, so this
+needs a proxy, e.g. which sensors trend at end of life).
