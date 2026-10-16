@@ -258,6 +258,32 @@ trend at end of life); a per-unit deviation score rather than a binary flag,
 so that persistence can accumulate evidence below the flag threshold, as COSMO
 does with its conformal z-values.
 
+### FD003: the early split is the fault mode
+
+FD003 engines fail by one of two fault modes, and the release does not say
+which engine has which. `experiments/cmapss_modes.py` builds a proxy from the
+data: each engine's change from its first 30 to its last 30 cycles,
+standardised, split in two by k-means. The two groups (44 and 56 engines,
+median lives 286 and 193 cycles) differ in the *direction* sensors 7, 10, 12,
+20 and 21 move at end of life (and 15, the other way) — the signature of
+different degradation, not of more or less of it.
+
+Against that proxy, the screened clustering monitor's split in **cycles 1–10**:
+
+| | end-of-life group A (44) | group B (56) |
+|---|---:|---:|
+| split off in window 1 | **32** | **0** |
+| stayed in the fleet | 12 | 56 |
+
+Fisher exact p = 1.5·10⁻¹⁶. Every engine the monitor separates at cycle 10 —
+long before anything degrades — ends its life in the same mode, and none of
+the other mode is among them. What the RUL-based score counted as 30–40%
+false alarms on healthy engines is the monitor telling the fleet's two kinds
+of engine apart at the start. It also explains why scoring each engine within
+its peer group was the right idea and why the first-window groups were the
+wrong ones to use for it: the split catches 32 of the 44, not all, and as two
+groups (10 + 11 at α = 0.01 with columns), too small for conformal p-values.
+
 ### Optimising for gradual degradation
 
 **Why the clustering monitor fails here — two causes, measured.**

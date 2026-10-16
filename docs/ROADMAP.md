@@ -86,7 +86,7 @@ The stream runs along the feature axis, so the industrial case must be a
       *Faulty share* (`tep_fraction.py`): clustering and deviation monitors
       cross at ~5% of the fleet; confirming cluster flags with the deviation
       p-value cuts single-unit FAR 17% → 1%. *Open*: window size.
-- [~] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
+- [x] I2 NASA C-MAPSS turbofan degradation: rows = engines, columns = cycles
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.
       *Done so far* (INDUSTRIAL.md I2): FD001 catches 16/23 degrading engines at
@@ -97,8 +97,9 @@ The stream runs along the feature axis, so the industrial case must be a
       detection 0.72, FAR 0 vs PCA 0.22; FD003 still behind PCA (a slow-changing
       subpopulation reads as deviant). FD003's window-1 split predicts life (310 vs
       206 cycles, p = 3e-4). Quantised sensors excluded from screening;
-      `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Open*: FD003 fault
-      mode; a graded per-unit deviation score.
+      `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Done*: the FD003
+      window-1 split is 32 of 44 engines of one end-of-life mode and none of
+      the other (Fisher p = 1.5e-16, `cmapss_modes.py`); graded score added.
 - [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
 - [x] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web
