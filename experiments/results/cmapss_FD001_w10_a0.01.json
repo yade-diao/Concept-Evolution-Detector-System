@@ -41,6 +41,13 @@
   "engines_caught": 16,
   "median_rul_at_first_flag": 55.0
  },
+ "ced_fs_persistent": {
+  "detection": 0.0,
+  "far": 0.0,
+  "engines_degraded": 23,
+  "engines_caught": 0,
+  "median_rul_at_first_flag": null
+ },
  "peer_z": {
   "detection": 0.0,
   "far": 0.0,

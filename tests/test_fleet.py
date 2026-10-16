@@ -30,3 +30,15 @@ def test_units_that_leave_the_fleet_are_flagged_through_the_right_variable():
 def test_without_screening_the_original_always_splits():
     r = monitor(_fleet(), window=10)
     assert min(r.cluster_counts) >= 2
+
+
+def test_persistence_needs_two_flags_in_five_windows_at_alpha_one_percent():
+    from cedfs.fleet import persistent
+    flags = np.zeros((3, 8), bool)
+    flags[0, 2] = True                    # once: never an alarm
+    flags[1, [2, 5]] = True               # twice within five windows: alarm from 5
+    flags[2, [0, 6]] = True               # twice, but six windows apart
+    alarms = persistent(flags, alpha=0.01, m=5)
+    assert not alarms[0].any()
+    assert alarms[1].tolist() == [False] * 5 + [True] * 3
+    assert not alarms[2].any()

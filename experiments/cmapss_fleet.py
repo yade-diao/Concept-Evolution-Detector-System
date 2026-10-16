@@ -40,7 +40,7 @@ import numpy as np
 from scipy import stats
 
 from cedfs.algorithm.screening import testable
-from cedfs.fleet import monitor
+from cedfs.fleet import monitor, persistent
 from experiments.tep_fleet import pca_monitor
 
 DATA = Path.home() / "data" / "cmapss"
@@ -107,6 +107,7 @@ def main() -> None:
         "window": args.window, "cluster_counts": watched.cluster_counts,
         "variables": [[int(v) + 1 for v in w] for w in watched.variables],
         "ced_fs_screened": score(watched.flags, lives, args.window),
+        "ced_fs_persistent": score(persistent(watched.flags, args.alpha), lives, args.window),
         "peer_z": score(peer_z(cube, args.window, args.alpha), lives, args.window),
         "pca_first_30_cycles": score(pca, lives, args.window),
     }
@@ -114,7 +115,7 @@ def main() -> None:
           f"window {args.window} cycles, PCA keeps {n_pc} components")
     print("clusters per window:", watched.cluster_counts)
     print("sensors selected   :", [",".join(map(str, w)) or "-" for w in results["variables"]])
-    for name in ("ced_fs_screened", "peer_z", "pca_first_30_cycles"):
+    for name in ("ced_fs_screened", "ced_fs_persistent", "peer_z", "pca_first_30_cycles"):
         r = results[name]
         print(f"  {name:20s} detection {r['detection']:.2f}  FAR {r['far']:.3f}  "
               f"caught {r['engines_caught']}/{r['engines_degraded']}  "

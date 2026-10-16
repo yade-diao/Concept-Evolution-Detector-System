@@ -127,22 +127,30 @@ Eastman results are unchanged by it.
 
 | | monitor | detection (degraded engine-windows) | FAR (healthy) | engines caught | median RUL at first flag |
 |---|---|---:|---:|---:|---:|
-| FD001 | CED-FS + screening | 0.14 | 0.009 | **16 / 23** | **55** |
+| FD001 | CED-FS + screening | 0.14 | 0.009 | 16 / 23 | 55 |
+| | CED-FS + screening + persistence (2 of 5) | 0.00 | 0.000 | 0 / 23 | — |
 | | peer robust z | 0.00 | 0.000 | 0 / 23 | — |
 | | PCA, first 30 cycles | 0.16 | 0.000 | 6 / 23 | 32 |
 | FD003 | CED-FS + screening | 0.01 | 0.399 | 1 / 27 | — |
+| | CED-FS + screening + persistence (2 of 5) | 0.01 | 0.374 | 1 / 27 | — |
 | | peer robust z | 0.06 | 0.463 | 3 / 27 | — |
 | | PCA, first 30 cycles | 0.27 | 0.003 | 12 / 27 | 32 |
 
 **What it shows.**
 
-1. *On FD001 the peer monitor sees more engines, earlier, but not steadily.*
-   It flags 16 of the 23 degrading engines at least once, typically 55 cycles
-   before failure, against PCA's 6 at 32; but it flags them intermittently
-   (14% of their degraded windows) where a fixed-reference monitor, once past
-   its limit, stays past it. The result is also fragile: with 16-cycle windows
-   it catches none. Gradual degradation in a fifth of the fleet is close to
-   the screening's detection floor.
+1. *On FD001 there is one split, not a monitor tracking degradation.* The
+   first version of this page read the "16 of 23 engines caught, 55 cycles
+   before failure" row as earlier detection than PCA. The persistence rule
+   (`cedfs.fleet.persistent`, below) showed why that reading was wrong: it
+   catches nothing, because no engine is flagged twice. Every flag comes from
+   one window — cycles 91–100, the only window not read as one cluster —
+   in which sensors 3 and 17 split the fleet 48 / 52. The 48 do have shorter
+   remaining lives (median 86 against 114 cycles; Mann–Whitney p = 2·10⁻⁵,
+   AUC 0.75), so the split is real and life-relevant, but it is a single
+   coarse ranking of the fleet, not an alarm that follows each engine into
+   failure. Gradual degradation in a fifth of the fleet is below what the
+   screening resolves window by window; PCA against each engine's own early
+   life is the better detector here.
 2. *On FD003 the fleet is not one group to begin with.* From the very first
    window the screening selects the two fan-speed sensors (8 and 13), whose
    window means are strongly skewed across engines (skewness −2.3), and splits
@@ -153,13 +161,26 @@ Eastman results are unchanged by it.
    found a real, life-relevant subpopulation of the fleet at cycle 10 — which
    is exactly what "compare a unit with its peers" should do, and exactly what
    a degradation-only score cannot credit.
-3. *The fixed reference wins on persistence, the peer comparison on reach.*
+3. *A fixed reference and a peer comparison answer different questions.*
    PCA fitted on each engine's own early life measures *change in that
    engine*; the fleet monitor measures *difference from the others*, which
    includes differences that were there from the start. For prognostics the
    two answer different questions, and FD003 shows the second is not empty.
 
-**Next.** Persistence (flag an engine once it has left in k of the last m
-windows) for the intermittency in point 1; testing whether the FD003 split is
-the fan-vs-HPC fault mode (the subset publishes no per-engine mode, so this
-needs a proxy, e.g. which sensors trend at end of life).
+**Persistence.** `cedfs.fleet.persistent(flags, alpha, m=5)` raises an alarm
+when a unit has been flagged in k of its last m windows, k being the smallest
+count whose Binomial(m, α) tail is below 0.001 — screening bounds a unit's
+per-window flag probability by α under no structure (THEORY.md P6), so the
+threshold follows from the bound instead of being tuned (k = 2 for α = 0.01,
+m = 5). The idea of accumulating a unit's deviation from the fleet over time
+before calling it is COSMO's (Rögnvaldsson, Nowaczyk, Byttner, Prytz &
+Svensson, "Self-monitoring for maintenance of vehicle fleets", *Data Mining and
+Knowledge Discovery* 32, 2018, on four years of a city-bus fleet), and the k-of-m
+form is the control-chart run rule. Its first use was diagnostic: it is what
+exposed point 1.
+
+**Next.** Testing whether the FD003 split is the fan-vs-HPC fault mode (the
+subset publishes no per-engine mode, so this needs a proxy, e.g. which sensors
+trend at end of life); a per-unit deviation score rather than a binary flag,
+so that persistence can accumulate evidence below the flag threshold, as COSMO
+does with its conformal z-values.

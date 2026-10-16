@@ -72,9 +72,12 @@ The stream runs along the feature axis, so the industrial case must be a
       (aligned from start, truncated to the shortest life); clusters split as
       units degrade. Compare events with remaining-useful-life labels.
       *Done so far* (INDUSTRIAL.md I2): FD001 catches 16/23 degrading engines at
-      median RUL 55 vs PCA 6/23 at 32, but intermittently; FD003's window-1
-      split predicts life (310 vs 206 cycles, p = 3e-4). Quantised sensors are
-      now excluded from screening. *Open*: persistence rule; FD003 fault mode.
+      median RUL 55 vs PCA 6/23 at 32 — *corrected*: all from one window's
+      48/52 split (AUC 0.75 vs life), exposed by the persistence rule; PCA is
+      the better detector there. FD003's window-1 split predicts life (310 vs
+      206 cycles, p = 3e-4). Quantised sensors excluded from screening;
+      `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Open*: FD003 fault
+      mode; a graded per-unit deviation score.
 - [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
 - [~] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web

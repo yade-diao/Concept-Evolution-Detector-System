@@ -97,3 +97,30 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
 
     return FleetResult(clusterings, counts, np.array(flags).T, chosen,
                        boundary_events(clusterings, threshold))
+
+
+def persistent(flags: np.ndarray, alpha: float, m: int = 5, level: float = 0.001) -> np.ndarray:
+    """Alarms that need a unit to keep leaving the fleet, not to leave it once.
+
+    Screening bounds the chance that a window selects anything when the fleet
+    has no structure by `alpha` (THEORY.md P6), so under that null a unit is
+    flagged in a window with probability at most `alpha`, and its count of
+    flags in the last `m` windows is at most Binomial(m, alpha). An alarm is
+    raised when that count reaches the smallest k whose binomial tail is below
+    `level`. It is the fleet-monitoring counterpart of the k-of-m run rules of
+    control charts, and of the way COSMO (Rögnvaldsson et al., Data Mining and
+    Knowledge Discovery 2018) accumulates a vehicle's deviation from the fleet
+    over time before calling it — with the threshold derived from the
+    per-window bound rather than tuned.
+
+    `flags` is (units, windows); the result has the same shape and is true
+    from the window in which the count first reaches k (alarms latch).
+    """
+    from scipy import stats
+
+    k = next(k for k in range(1, m + 1) if stats.binom.sf(k - 1, m, alpha) < level) \
+        if stats.binom.sf(m - 1, m, alpha) < level else m + 1
+    counts = np.zeros_like(flags, dtype=int)
+    for w in range(flags.shape[1]):
+        counts[:, w] = flags[:, max(0, w - m + 1):w + 1].sum(1)
+    return np.maximum.accumulate(counts >= k, axis=1)

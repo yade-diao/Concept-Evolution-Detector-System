@@ -71,7 +71,8 @@ streams (E4) and as evidence that the feature-axis setting is an established one
 | Tennessee Eastman process (Downs & Vogel, 1993; Braatz set; Rieth et al. 2017, Harvard Dataverse doi:10.7910/DVN/6C3JR1) | simulation runs, normal and 20 fault types | 3-minute samples of 52 variables | fault introduced at a known step (hour 1 in training runs, hour 8 in testing runs) |
 | NASA C-MAPSS turbofan (Saxena et al., PHM 2008) | engines | operating cycles × 21 sensors | run-to-failure; remaining useful life per cycle |
 | XJTU-SY bearings (Wang et al., *IEEE Trans. Reliability* 2020); IMS bearings | bearings | vibration snapshots over the life | failure time per bearing |
-| Fleet condition monitoring (Hendrickx et al., arXiv:1912.12941; wind-farm peer comparison) | machines in a fleet | time | the framing: compare a unit with its peers online, no long history needed |
+| Fleet condition monitoring: Hendrickx, Meert, Mollet, Gyselinck, Cornelis, Gryllias & Davis, *Mechanical Systems and Signal Processing* 139, 2020 (arXiv:1912.12941); wind-farm peer comparison | machines in a fleet | time | the framing: compare a unit with its peers online, no history needed; validated on electrical drivetrains |
+| COSMO: Rögnvaldsson, Nowaczyk, Byttner, Prytz & Svensson, "Self-monitoring for maintenance of vehicle fleets", *DMKD* 32, 2018 | city buses (≈4 years of regular operation) | on-board models sent off-board | the fleet as the definition of normal; a unit's deviation accumulated over time before it is called — the model for `cedfs.fleet.persistent` |
 
 The fleet framing is where CED-FS has a use beyond benchmarks: a set of units
 observed together, and a question of *when the way they group changes* — a
