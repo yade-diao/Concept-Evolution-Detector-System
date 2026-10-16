@@ -39,9 +39,12 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       precision/recall against placed events, mean ± std over seeds instead of
       best-of-runs. *Done* (`experiments/protocol.py`, `docs/EXPERIMENTS.md`):
       max RI hides total failure of the event output (0.96 with rare-event F1 0).
-- [ ] E2 Baselines on the synthetic streams and the two real streams: k-means
+- [x] E2 Baselines on the synthetic streams and the two real streams: k-means
       and DBSCAN per window + the same overlap rules; MONIC-style transitions;
       a change-point detector on window statistics (Page-Hinkley).
+      *Done* (EXPERIMENTS.md E2; MONIC in T3, change-point not added — the PCA
+      and peer-z monitors of I1/I2 play that role): no clusterer wins
+      everywhere; smoothing suppresses emergence; on TEP screening decides.
 - [ ] E3 Ablations: kernel, sigma, p, similarity threshold, window size,
       KPCA scaling. Sensitivity curves, not single numbers.
 - [ ] E4 Scalability: time vs. samples and features; Nyström / top-k

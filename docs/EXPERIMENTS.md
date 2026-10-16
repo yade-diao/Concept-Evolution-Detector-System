@@ -164,3 +164,79 @@ concept were lost — is an absorption, which is what happened. The original
 events stay the default for fidelity; `boundary_transitions` is offered next
 to them, and the fleet reading benefits most: "units 1–12 split off" and "two
 operating modes merged" are the sentences an operator needs.
+
+## E2 — Other clusterers under the same rules
+
+`cedfs/baselines.py` gives three per-window clusterers with the K-R-DPC
+interface, so the Dice events and MONIC transitions read all of them the same
+way (`experiments/baselines.py`):
+
+- **k-means**, k ∈ 2..6 by silhouette — the applied default; like K-R-DPC it
+  cannot return one cluster;
+- **HDBSCAN** (Campello, Moulavi & Sander, PAKDD 2013) — parameter-light
+  density clustering that can return one cluster; noise points form a group;
+- **evolutionary** — k-means seeded with the previous window's partition, the
+  temporal-smoothness idea of Chakrabarti, Kumar & Tomkins (KDD 2006) and
+  Chi et al.'s PCQ (KDD 2007) adapted to a feature stream, where the previous
+  centroids live in other columns but the previous partition does not.
+
+### Synthetic streams (20 seeds; exact boundaries, Dice / MONIC)
+
+| stream, spread | K-R-DPC | K-R-DPC relative | k-means | HDBSCAN | evolutionary |
+|---|---|---|---|---|---|
+| canonical 0.70 | 1.00 / 1.00 | 1.00 / 1.00 | 0.50 / 0.50 | 0.50 / 0.50 | 1.00 / 0.75 |
+| canonical 1.00 | 0.95 / 0.95 | **1.00 / 1.00** | 0.50 / 0.50 | 0.50 / 0.50 | 1.00 / 0.75 |
+| canonical 1.40 | 0.16 / 0.29 | 0.09 / 0.17 | 0.50 / 0.50 | 0.50 / 0.50 | 0.25 / 0.25 |
+| uneven 0.70 | 0.00 / 0.00 | 1.00 / 1.00 | 0.00 / 0.00 | 1.00 / 1.00 | 0.00 / 0.00 |
+| uneven 1.00 | 0.00 / 0.00 | 0.85 / 0.85 | 0.00 / 0.00 | **1.00 / 1.00** | 0.00 / 0.00 |
+| uneven 1.40 | 0.00 / 0.00 | 0.00 / 0.00 | 0.00 / 0.00 | **1.00 / 1.00** | 0.00 / 0.00 |
+
+Full table, with window ARI and event F1: `experiments/results/baselines_synthetic.json`.
+
+### Tennessee Eastman fleet (17 detectable faults, means)
+
+| clusterer | screened | FAR before fault | detection | FAR on normals after |
+|---|---|---:|---:|---:|
+| K-R-DPC | no | 0.315 | 0.52 | 0.197 |
+| K-R-DPC relative | no | 0.270 | 0.50 | 0.154 |
+| k-means | no | 0.436 | 0.56 | 0.239 |
+| HDBSCAN | no | 0.134 | 0.22 | 0.024 |
+| evolutionary | no | 0.665 | 0.79 | 0.569 |
+| K-R-DPC | yes | 0.000 | 0.63 | 0.024 |
+| K-R-DPC relative | yes | 0.000 | 0.65 | 0.016 |
+| k-means | yes | 0.000 | 0.65 | 0.020 |
+| HDBSCAN | yes | 0.000 | 0.48 | 0.022 |
+| evolutionary | yes | 0.000 | **0.68** | 0.046 |
+
+### Findings
+
+1. **No clusterer wins everywhere, and the losses are structural.** k-means
+   and HDBSCAN score exactly 0.50 on `canonical` at every noise level: in
+   window 4 class 2 sits 1.2 from class 1 while class 3 is 8 away, and both
+   merge the near pair — silhouette and HDBSCAN's cluster stability both
+   prefer the coarse scale. K-R-DPC, whose centres are chosen on ρδ, is the
+   only one to keep the near pair apart. On `uneven`, HDBSCAN is the only
+   method that keeps the 6-object class at every noise level — its density is
+   defined relative to the mutual-reachability hierarchy, which is the same
+   cure relative density applies to K-R-DPC (E5), done more robustly.
+2. **Temporal smoothness suppresses exactly the events the method is for.**
+   Evolutionary k-means never reports the small class emerging: seeding from
+   the previous partition keeps it inside its old group. The smoothing that
+   evolutionary clustering adds to resist noise is a prior *against* concept
+   evolution; it suits tracking stable groups, not detecting new ones.
+3. **On the industrial fleet, screening matters and the clusterer barely
+   does.** Unscreened, every clusterer is unusable as a monitor (13–67% of
+   pre-fault run-windows alarm; HDBSCAN's lower rate comes with 0.22
+   detection). Screened, every one has zero pre-fault alarms and detection
+   between 0.63 and 0.68, HDBSCAN aside at 0.48. Once the window is reduced to
+   the variables that split the fleet, the grouping is easy; deciding *which*
+   variables and *whether* anything splits is the hard part, and that is what
+   screening does.
+
+**Consequence for the method.** K-R-DPC stays: it is the only clusterer that
+resolves near groups next to far ones, which a fleet with several operating
+modes will have, and with screening it is as good as any alternative on TEP.
+The README should present screening, not the clusterer, as what turns the
+method into a monitor. HDBSCAN is the stronger choice when small emerging
+groups matter most and groups are well separated in scale; that is offered
+through `cedfs.baselines` rather than made the default.
