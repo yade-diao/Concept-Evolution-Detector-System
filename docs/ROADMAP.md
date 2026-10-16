@@ -29,10 +29,12 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       original): state it, then ablate it in E3. *Done*: `kpca_scaling="sqrt"`
       is worse everywhere it differs; the original's λ weighting stays.
 
-- [~] T5 One-cluster decision (P3, P6): `screening.py` and `significance.py`
+- [x] T5 One-cluster decision (P3, P6): `screening.py` and `significance.py`
       exist; screening is the useful one. *Done (Python)*: `CED_FS` takes
       `density` and `screenAlpha`; screening hurts on gene benchmarks
-      (EXPERIMENTS.md T5), so it is for fleets. *Open*: the TypeScript port.
+      (EXPERIMENTS.md T5), so it is for fleets. *Done (TypeScript)*:
+      `frontend/src/cedfs/{screening,fleet,transitions}.ts`, held to the Python
+      on the bundled fleets window by window (`tests/fleets.test.ts`).
 
 ## E — Experiments
 
@@ -98,11 +100,13 @@ The stream runs along the feature axis, so the industrial case must be a
       `cedfs.fleet.persistent` (COSMO-style k-of-m) added. *Open*: FD003 fault
       mode; a graded per-unit deviation score.
 - [ ] I3 Bearing run-to-failure (XJTU-SY or IMS) if I1/I2 hold up.
-- [~] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
+- [x] I4 A usable entry point: `python -m cedfs.monitor` reading a CSV of a
       fleet and printing events as windows close, plus the datasets in the web
       app with their readings in plant units. *Done (CLI)*: `cedfs.fleet`
       is the library entry point; `python -m cedfs.monitor fleet.csv` runs
-      both monitors on a long-format CSV. *Open*: the web app.
+      both monitors on a long-format CSV. *Done (web)*: a Fleets page runs
+      both monitors in the browser on three bundled fleets (TEP faults 5 and
+      11, C-MAPSS FD001), with the ground truth read back.
 
 ## O — Operations
 

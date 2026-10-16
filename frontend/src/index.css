@@ -1012,3 +1012,17 @@ h3.sub {
   .topbar { padding: var(--s3) var(--s4); }
   .content { padding: var(--s5) var(--s4) var(--s7); }
 }
+
+/* ── Fleets: units down, windows across ─────────────────────────────── */
+.fleet-grid {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: var(--viz-surface);
+  border: 1px solid var(--viz-grid);
+}
+.fleet-grid .mark { fill: var(--viz-series-1); }
+.fleet-grid .mark.false { fill: var(--viz-series-2); }
+.fleet-grid .onset { stroke: var(--viz-reference); stroke-width: 1; stroke-dasharray: 3 2; }
+.fleet-grid .divider { stroke: var(--viz-axis); stroke-width: 1; }
+.fleet-grid .label { fill: var(--muted); font: 400 10px/1 var(--mono); }

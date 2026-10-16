@@ -33,7 +33,9 @@ summary clustering added here) finds faults with mean detection **0.83 against
 0.77** for the textbook PCA T²/SPE monitor fitted on 100 clean runs, raises
 **no alarm before any fault**, and names the variable each fault moved. On
 NASA's C-MAPSS turbofans a second, graded monitor flags degrading engines at
-0.71 detection against PCA's 0.22. Where it loses, the documents say so.
+0.71 detection against PCA's 0.22. Where it loses, the documents say so. Both
+monitors also run in the browser, on the **Fleets** page, over three bundled
+fleets with their ground truth.
 
 | | |
 |---|---|

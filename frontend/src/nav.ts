@@ -65,6 +65,14 @@ export const MODULES: Module[] = [
     access: 'session',
   },
   {
+    to: '/fleets',
+    label: 'Fleets',
+    lede: 'A fleet of like units is a feature stream too: the units stay, the measurements '
+        + 'arrive. Watch which units leave their peers, when, and through which variables.',
+    group: 'Work',
+    access: 'session',
+  },
+  {
     to: '/datasets',
     label: 'Datasets',
     lede: 'The files you brought. They are read in this browser and stay here until you '

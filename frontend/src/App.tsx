@@ -34,6 +34,7 @@ import { DatasetsView } from './views/DatasetsView'
 import { InboxView } from './views/InboxView'
 import { MailView } from './views/MailView'
 import { MethodView } from './views/MethodView'
+import { FleetView } from './views/FleetView'
 import { RunView } from './views/RunView'
 import { RunsView } from './views/RunsView'
 import { SignInView } from './views/SignInView'
@@ -135,6 +136,7 @@ export function App() {
                 <Module><RunsView /></Module>
               </Require>
             )} />
+            <Route path="/fleets" element={<Module><FleetView /></Module>} />
             <Route path="/method" element={<Module><MethodView /></Module>} />
             <Route path="/admin/accounts" element={(
               <Require need="admin" because={admin}>
