@@ -84,3 +84,44 @@ def k_pca(
         transformed = np.real(transformed)
 
     return transformed
+
+
+def k_pca_nystrom(data: np.ndarray, sigma: float, kernel_choice: int, target_dim: int,
+                  landmarks: int = 500, seed: int = 0) -> np.ndarray:
+    """`k_pca` through a Nystrom approximation of the kernel, for large n.
+
+    Williams & Seeger, "Using the Nystrom method to speed up kernel machines",
+    NIPS 2001: with m landmark points chosen at random, K is approximated by
+    K_nm K_mm^-1 K_mn = F F^T with F = K_nm U_m Lambda_m^(-1/2). Centring F's
+    columns centres the approximate kernel, and the eigenpairs of F F^T come
+    from the SVD of the n x m matrix F, at O(n m^2) instead of O(n^3). The
+    projection keeps the original's eigenvalue weighting: the scores are
+    lambda v = U s^2, as `K_c @ V` is in `k_pca`. At most m components exist,
+    so target_dim is capped at m. With m >= n this is `k_pca` up to rounding.
+    """
+    from cedfs.algorithm.kernel import kernel_matrix
+    from scipy.spatial.distance import cdist
+
+    data = np.asarray(data, dtype=float)
+    n = data.shape[0]
+    m = min(int(landmarks), n)
+    rng = np.random.default_rng(seed)
+    idx = np.sort(rng.choice(n, size=m, replace=False))
+    k_mm = kernel_matrix(data[idx], kernel_choice, sigma)
+    if kernel_choice == 1:
+        k_nm = np.exp(-cdist(data, data[idx], "sqeuclidean") / (2 * sigma ** 2))
+    elif kernel_choice == 4:
+        k_nm = np.exp(-cdist(data, data[idx]) / (2 * sigma ** 2))
+    elif kernel_choice == 5:
+        k_nm = np.exp(-cdist(data, data[idx]) / sigma)
+    elif kernel_choice == 2:
+        k_nm = (data @ data[idx].T + 1) ** sigma
+    else:
+        k_nm = data @ data[idx].T
+    lam, u = np.linalg.eigh(k_mm)
+    keep = lam > lam.max() * 1e-10
+    f = k_nm @ (u[:, keep] / np.sqrt(lam[keep]))
+    f -= f.mean(0)
+    left, sv, _ = np.linalg.svd(f, full_matrices=False)
+    dim = min(int(target_dim), sv.size)
+    return left[:, :dim] * (sv[:dim] ** 2)

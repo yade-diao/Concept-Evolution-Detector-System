@@ -177,6 +177,7 @@ def k_r_dpc(
     p: float = 0.005,
     kpca_scaling: str = "eigenvalue",
     density: str = "rknn",
+    landmarks: int | None = None,
 ):
     """Run K-r-DPC on *data* and return cluster assignments.
 
@@ -195,6 +196,10 @@ def k_r_dpc(
         Fraction of *n* used as the KNN count *k*.  Default: 0.005.
     kpca_scaling : {"eigenvalue", "sqrt"}
         How KPCA weights its axes; see `k_pca`. "eigenvalue" is the original.
+    landmarks : int or None
+        None computes KPCA exactly (the original). An integer m uses a Nystrom
+        approximation with m landmarks (`k_pca_nystrom`), O(n m^2) instead of
+        O(n^3), for fleets of thousands of units (docs/EXPERIMENTS.md E4).
     density : {"rknn", "relative"}
         "rknn" is the original reverse-kNN density. "relative" divides each
         point's density by the highest in its kNN neighbourhood (RECOME, Geng
@@ -216,7 +221,11 @@ def k_r_dpc(
 
     # --- K-PCA dimensionality reduction ---
     target_dim = round(n / 3)
-    reduced = k_pca(data, sigma, kernel_type, target_dim, scaling=kpca_scaling)
+    if landmarks is not None and landmarks < n:
+        from cedfs.algorithm.k_pca import k_pca_nystrom
+        reduced = k_pca_nystrom(data, sigma, kernel_type, target_dim, landmarks)
+    else:
+        reduced = k_pca(data, sigma, kernel_type, target_dim, scaling=kpca_scaling)
 
     # --- Pairwise distances, and the KNN graph read from them ---
     dist_mat = _pairwise_distances(reduced)

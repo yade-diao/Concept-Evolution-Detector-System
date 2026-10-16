@@ -333,3 +333,24 @@ boundaries:
    reason, and the one to keep.
 
 TEP-side sensitivity (window, α, σ, p) is in INDUSTRIAL.md.
+
+### Nyström, for fleets of thousands
+
+`k_r_dpc(..., landmarks=m)` replaces the exact KPCA by a Nyström
+approximation (Williams & Seeger, NIPS 2001; `k_pca_nystrom`): m random
+landmarks, F = K_nm U_m Λ_m^(-1/2), centred, and the eigenpairs from the SVD of
+the n × m matrix — O(n m²) instead of O(n³), with the original's eigenvalue
+weighting of the scores kept. Off by default. Four separated groups in 50
+dimensions, single thread:
+
+| n | exact | m = 200 | m = 500 | ARI, all three |
+|---:|---:|---:|---:|---|
+| 1 000 | 0.39 s | 0.26 s | 0.33 s | identical |
+| 2 000 | 2.4 s | 0.97 s | 1.5 s | identical |
+| 4 000 | 19.4 s | 4.5 s | 8.1 s | identical |
+| 8 000 | — (memory and time) | 34 s | 35 s | — |
+
+The partitions match the exact ones' quality at every size tried. What is left
+at 8 000 is quadratic, not cubic — the n × n distances that density peaks
+needs for δ — so the next step past ten thousand units is a neighbour index,
+not a better eigensolver.

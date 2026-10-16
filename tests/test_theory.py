@@ -88,3 +88,13 @@ def test_relative_density_keeps_a_small_separated_group():
     relative = run_windows(s.features, s.labels, 60, {**base, "density": "relative"})
     assert original.cluster_counts[1] == 2
     assert relative.cluster_counts == s.expected_cluster_counts()
+
+
+def test_nystrom_with_all_points_as_landmarks_matches_exact_kpca_distances():
+    from scipy.spatial.distance import pdist
+    from cedfs.algorithm.k_pca import k_pca, k_pca_nystrom
+    rng = np.random.default_rng(21)
+    x = rng.random((60, 8))
+    exact = k_pca(x, 6.0, 1, 20)
+    approx = k_pca_nystrom(x, 6.0, 1, 20, landmarks=60)
+    assert np.allclose(pdist(exact), pdist(approx), rtol=1e-6, atol=1e-9)

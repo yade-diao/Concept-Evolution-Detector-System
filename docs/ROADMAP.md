@@ -55,10 +55,11 @@ Legend: `[ ]` open, `[~]` in progress, `[x]` done, `[!]` blocked (reason given).
       window trades delay (15 min at 5 samples) against detection (0.68 → 0.86).
       *Synthetic done* (EXPERIMENTS.md E3): τ 0.3–0.7 changes nothing (P2);
       Gaussian kernel best, linear/polynomial lose every event.
-- [~] E4 Scalability: time vs. samples and features; Nyström / top-k
+- [x] E4 Scalability: time vs. samples and features; Nyström / top-k
       eigenpairs for large n. *Done so far*: vectorised kernel, centring and
       kNN with identical partitions — eog window 0.98 s → 0.034 s. Partial
-      eigensolve tried, no gain. *Open*: Nyström option for n ≫ 1000.
+      eigensolve tried, no gain. *Done*: `landmarks=m` Nyström option, n = 4000
+      19 s → 4.5 s at the same ARI; n = 8000 in 34 s.
 
 - [x] E5 Small-cluster recovery: K-R-DPC absorbs a 6-object group at spread
       0.5–0.7 though it is trivially separable (EXPERIMENTS.md E1, point 2), and
