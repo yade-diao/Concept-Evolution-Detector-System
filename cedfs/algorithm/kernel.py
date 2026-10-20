@@ -60,9 +60,9 @@ def k_kernel(x: np.ndarray, y: np.ndarray, kernel_choice: int, sigma: float) -> 
     if kernel_choice == 1:  # Gaussian (RBF)
         return float(np.exp(-np.linalg.norm(x - y) ** 2 / (2 * sigma ** 2)))
     elif kernel_choice == 2:  # Polynomial
-        return float((float(x.T @ y) + 1) ** sigma)
+        return float(((x.T @ y).item() + 1) ** sigma)
     elif kernel_choice == 3:  # Linear
-        return float(x.T @ y)
+        return float((x.T @ y).item())
     elif kernel_choice == 4:  # Exponential
         return float(np.exp(-np.linalg.norm(x - y) / (2 * sigma ** 2)))
     elif kernel_choice == 5:  # Laplacian
