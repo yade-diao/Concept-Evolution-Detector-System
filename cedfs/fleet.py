@@ -32,6 +32,13 @@ from cedfs.evaluation import boundary_events
 
 DEFAULT_PARAMS = {"kernel_type": 1, "sigma": 6.0, "p": 0.05}
 
+#: Past this many units the exact KPCA (cubic) and the n x n distances are
+#: replaced by a Nystrom KPCA and a kNN-only delta (`k_r_dpc`'s `landmarks` and
+#: `neighbour_index`, README (Experiments) E4), unless `params` says otherwise.
+#: The browser applies the same rule, so a large CSV gets the same answer there.
+LARGE_FLEET = 1000
+LARGE_FLEET_PARAMS = {"landmarks": 300, "neighbour_index": True}
+
 
 @dataclass
 class FleetResult:
@@ -85,6 +92,8 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
     units = np.asarray(units)
     n_units, n_samples, n_vars = units.shape
     p = {**DEFAULT_PARAMS, **(params or {})}
+    if n_units > LARGE_FLEET:
+        p = {**LARGE_FLEET_PARAMS, **p}
     stream = as_stream(units)
 
     def cluster(x):

@@ -71,6 +71,10 @@ def CED_FS(
         * ``similarityThreshold`` (float, default 0.5) – concept-drift threshold τ.
         * ``density``             ("rknn" | "relative", default "rknn") – see
           `k_r_dpc`; "relative" keeps small groups (README (Experiments) E5).
+        * ``landmarks``           (int or None, default None) and
+          ``neighbourIndex``      (bool, default False) – `k_r_dpc`'s
+          Nystrom KPCA and its kNN-only delta, for windows of thousands of
+          samples (README (Experiments) E4).
         * ``screenAlpha``         (float or None, default None) – screen the
           window's columns first and cluster only those that are not one
           Gaussian across the samples; a window with none is one cluster
@@ -105,6 +109,8 @@ def CED_FS(
     sigma = float(params["sigma"])
     p = float(params["p"])
     density = params.get("density", "rknn")
+    landmarks = params.get("landmarks")
+    neighbour_index = bool(params.get("neighbourIndex", False))
     screen_alpha = params.get("screenAlpha")
 
     if image_dir is None:
@@ -168,6 +174,8 @@ def CED_FS(
                 sigma=sigma,
                 p=p,
                 density=density,
+                landmarks=landmarks,
+                neighbour_index=neighbour_index,
             )
         cluster_nums.append(current_k)
 

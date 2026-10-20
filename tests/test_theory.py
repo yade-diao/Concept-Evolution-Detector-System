@@ -109,3 +109,34 @@ def test_the_neighbour_index_gives_the_same_partition_as_the_distance_matrix():
         a = k_r_dpc(x, None, 1, 6.0, 0.05)
         b = k_r_dpc(x, None, 1, 6.0, 0.05, neighbour_index=True)
         assert (np.asarray(a[0]) == np.asarray(b[0])).all() and a[2] == b[2]
+
+
+def test_landmarks_are_a_uniform_draw_the_browser_can_repeat():
+    from cedfs.algorithm.k_pca import landmark_indices
+    # The same indices are pinned in frontend/tests/reference/answers.json.
+    assert landmark_indices(1000, 6).tolist() == [1, 148, 224, 266, 469, 547]
+    assert landmark_indices(5, 9).tolist() == [0, 1, 2, 3, 4]
+    counts = np.zeros(10)
+    for seed in range(4000):
+        idx = landmark_indices(10, 4, seed)
+        assert len(set(idx.tolist())) == 4
+        counts[idx] += 1
+    assert np.allclose(counts / 4000, 0.4, atol=0.03)
+
+
+def test_a_large_fleet_is_clustered_with_the_scaled_options(monkeypatch):
+    import cedfs.fleet as fleet
+    seen = []
+
+    def spy(x, image_dir=None, **params):
+        seen.append(params)
+        return np.ones(x.shape[0], dtype=int), np.array([0]), 1
+
+    monkeypatch.setattr(fleet, "k_r_dpc", spy)
+    rng = np.random.default_rng(3)
+    fleet.monitor(rng.random((fleet.LARGE_FLEET, 4, 2)), 4)
+    fleet.monitor(rng.random((fleet.LARGE_FLEET + 1, 4, 2)), 4)
+    fleet.monitor(rng.random((fleet.LARGE_FLEET + 1, 4, 2)), 4, params={"landmarks": None})
+    assert "landmarks" not in seen[0]
+    assert seen[1]["landmarks"] == 300 and seen[1]["neighbour_index"] is True
+    assert seen[2]["landmarks"] is None

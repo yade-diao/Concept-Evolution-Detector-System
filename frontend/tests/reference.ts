@@ -38,10 +38,10 @@ export interface KpcaCase {
 
 export interface BenchmarkCase {
   slug: string
+  /** The scaling options the reference ran with, in `ClusteringParameters` names. */
+  scaling?: { landmarks?: number; neighbourIndex?: boolean }
   featureLimit: number
   windowSize: number
-  /** Too slow to run in the browser, and so opt-in here. */
-  slow: boolean
   expectedWindows: number
   expectedClusterCounts: number[]
   expectedEvents: Record<EventName, number[]>
@@ -58,12 +58,15 @@ export interface ReferenceAnswers {
   }
   kernels: KernelCase[]
   kpca: KpcaCase
+  landmarks: Array<{ n: number; m: number; seed: number; expected: number[] }>
+  nystrom: KpcaCase & { landmarks: number }
   randIndex: Array<{ a: number[]; b: number[]; expected: number }>
   similarity: {
     past: number[]; pastCount: number; current: number[]; currentCount: number
     expected: number[][]
   }
   benchmarks: BenchmarkCase[]
+  scaled: BenchmarkCase[]
 }
 
 const BUNDLED = new URL('../../datasets/bundled/', import.meta.url)

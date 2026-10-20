@@ -19,7 +19,7 @@ import { describe, expect, it } from 'vitest'
 
 import { windowCount } from '../src/cedfs/cedFs'
 import { gramMatrix, type KernelType } from '../src/cedfs/kernel'
-import { kernelPca } from '../src/cedfs/kpca'
+import { kernelPca, kernelPcaNystrom, landmarkIndices } from '../src/cedfs/kpca'
 import { diceSimilarity, randIndex } from '../src/cedfs/metrics'
 import { answers, columns, dataset } from './reference'
 
@@ -115,5 +115,41 @@ describe('window count', () => {
   it('never reports fewer than one window', () => {
     expect(windowCount(1, 50)).toBe(1)
     expect(windowCount(10, 50)).toBe(1)
+  })
+})
+
+describe('the Nystrom kernel PCA', () => {
+  it('draws the same landmarks as the reference, index for index', () => {
+    for (const kase of answers.landmarks) {
+      expect(Array.from(landmarkIndices(kase.n, kase.m, kase.seed))).toEqual(kase.expected)
+    }
+  })
+
+  it('preserves the distances the reference projects to', async () => {
+    const kase = answers.nystrom
+    const data = await dataset(kase.dataset)
+    const block = columns(
+      data.features, kase.sampleLimit, data.featureCount, kase.columnStart, kase.columnEnd)
+
+    const { data: reduced, dim } = kernelPcaNystrom(
+      block, kase.sampleLimit, kase.columnEnd - kase.columnStart,
+      kase.sigma, kase.kernelType as KernelType, kase.targetDim, kase.landmarks)
+
+    const distances: number[] = []
+    for (let i = 0; i < kase.sampleLimit; i++) {
+      for (let j = i + 1; j < kase.sampleLimit; j++) {
+        let sum = 0
+        for (let k = 0; k < dim; k++) {
+          const d = reduced[i * dim + k] - reduced[j * dim + k]
+          sum += d * d
+        }
+        distances.push(Math.sqrt(sum))
+      }
+    }
+
+    expect(distances).toHaveLength(kase.expectedDistances.length)
+    for (const [i, expected] of kase.expectedDistances.entries()) {
+      expect(distances[i]).toBeCloseTo(expected, 6)
+    }
   })
 })

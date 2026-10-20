@@ -28,31 +28,32 @@ import { cedFs } from '../src/cedfs/cedFs'
 import { answers, columns, dataset } from './reference'
 
 /**
- * gisette is 1 000 samples and the port's eigendecomposition is a Jacobi sweep
- * over an n x n matrix: about a minute a window, against nine seconds in NumPy.
- * Its answers are recorded either way, so `npm run test:slow` checks them; the
- * default run skips it rather than spend minutes proving what the other seven
- * already showed.
- *
- * The gate is Vite's mode rather than an environment variable because that is
- * one flag that behaves the same in every shell - including from WSL, where a
- * variable exported in bash never reaches a Windows `node.exe`.
+ * Every benchmark, then three of them again with the options a fleet of thousands of units switches to - the
+ * kNN-only delta, and with it the Nystrom KPCA - on the three largest
+ * benchmarks, so each is held to the reference on real data and not only to
+ * the exact path on a synthetic one.
  */
-const runSlow = import.meta.env.MODE === 'slow'
+const cases = [
+  ...answers.benchmarks,
+  ...answers.scaled,
+]
 
 describe('CED-FS on the bundled benchmarks', () => {
-  for (const kase of answers.benchmarks) {
+  for (const kase of cases) {
+    const scaling = kase.scaling
+      ? `, ${Object.entries(kase.scaling).map(([k, v]) => `${k} ${v}`).join(', ')}`
+      : ''
     const title = `${kase.slug} over ${kase.featureLimit} features ` +
-      `(${kase.expectedWindows} windows of ${kase.windowSize})`
+      `(${kase.expectedWindows} windows of ${kase.windowSize}${scaling})`
 
-    it.skipIf(kase.slow && !runSlow)(title, async () => {
+    it(title, async () => {
       const data = await dataset(kase.slug)
       const features = columns(
         data.features, data.samples, data.featureCount, 0, kase.featureLimit)
 
       const result = cedFs(
         { features, samples: data.samples, featureCount: kase.featureLimit, labels: data.labels },
-        { ...answers.parameters, windowSize: kase.windowSize })
+        { ...answers.parameters, ...kase.scaling, windowSize: kase.windowSize })
 
       expect(result.windowsTotal).toBe(kase.expectedWindows)
       expect(result.clusterCounts).toEqual(kase.expectedClusterCounts)
@@ -67,6 +68,6 @@ describe('CED-FS on the bundled benchmarks', () => {
         expect(window.cluster).toHaveLength(data.samples)
       }
       expect(result.events.drift).toHaveLength(kase.expectedWindows - 1)
-    }, kase.slow ? 600_000 : 120_000)
+    }, 120_000)
   }
 })

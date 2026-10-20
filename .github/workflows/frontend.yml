@@ -53,10 +53,3 @@ jobs:
       - name: Port agrees with the Python reference
         run: npm test
 
-      # gisette is 1 000 samples, and the port's eigendecomposition is a Jacobi
-      # sweep over an n x n matrix: about a minute per window against nine
-      # seconds in NumPy. Skipped by default, run here on main where the wait
-      # costs nobody their turnaround.
-      - name: Including the slow benchmark
-        if: github.event_name == 'push'
-        run: npm run test:slow

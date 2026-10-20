@@ -34,7 +34,7 @@ from pathlib import Path
 import numpy as np
 
 from cedfs import CED_FS
-from cedfs.algorithm.k_pca import k_pca
+from cedfs.algorithm.k_pca import k_pca, k_pca_nystrom, landmark_indices
 from cedfs.algorithm.kernel import k_kernel
 from cedfs.datasets import available, load
 from cedfs.metrics.rand_index import rand_index
@@ -50,11 +50,9 @@ PARAMETERS = {"kernelType": 1, "sigma": 6.0, "p": 0.05,
 #: every event type still has a chance to appear.
 WINDOWS = 4
 
-#: gisette is 1 000 samples, and the port's eigendecomposition is a Jacobi sweep
-#: over an n x n matrix — a minute per window in the browser against nine seconds
-#: in NumPy. It is recorded so it can be checked deliberately, and the test that
-#: reads it is opt-in.
-SLOW = {"gisette"}
+#: gisette is 1 000 samples, a few seconds a window in the port; two windows
+#: of it keep the suite quick and still give one boundary.
+SHORT = {"gisette"}
 
 
 def _round(values, places=10):
@@ -105,6 +103,29 @@ def kpca_case() -> dict:
             "targetDim": 4, "expectedDistances": _round(distances, 8)}
 
 
+def landmark_cases() -> list[dict]:
+    """The landmark draw is shared rather than approximated: indices, exactly."""
+    return [{"n": n, "m": m, "seed": seed, "expected": landmark_indices(n, m, seed).tolist()}
+            for n, m, seed in ((10, 4, 0), (1000, 6, 0), (1000, 6, 7), (5, 9, 0), (750, 200, 0))]
+
+
+def nystrom_case() -> dict:
+    """`kpca_case` through the Nystrom path, landmarks fewer than samples."""
+    features, _ = load("glioma")
+    samples, start, end, landmarks = 40, 0, 8, 15
+    block = np.ascontiguousarray(features[:samples, start:end])
+    reduced = k_pca_nystrom(block, PARAMETERS["sigma"], PARAMETERS["kernelType"], 10, landmarks)
+    distances = [
+        float(np.linalg.norm(reduced[i] - reduced[j]))
+        for i in range(reduced.shape[0])
+        for j in range(i + 1, reduced.shape[0])
+    ]
+    return {"dataset": "glioma", "sampleLimit": samples,
+            "columnStart": start, "columnEnd": end, "landmarks": landmarks,
+            "kernelType": PARAMETERS["kernelType"], "sigma": PARAMETERS["sigma"],
+            "targetDim": 10, "expectedDistances": _round(distances, 8)}
+
+
 def rand_index_cases() -> list[dict]:
     """Labellings are integers, so these can be written down exactly."""
     rng = np.random.default_rng(5)
@@ -134,7 +155,7 @@ def similarity_case() -> dict:
             "expected": [[round(float(v), 12) for v in row] for row in matrix]}
 
 
-def _run(slug: str, feature_limit: int, window_size: int) -> dict:
+def _run(slug: str, feature_limit: int, window_size: int, scaling: dict | None = None) -> dict:
     """CED-FS over the first ``feature_limit`` columns of one benchmark.
 
     Truncating the stream is how a bounded run is expressed: ``CED_FS`` derives
@@ -150,7 +171,7 @@ def _run(slug: str, feature_limit: int, window_size: int) -> dict:
     with tempfile.TemporaryDirectory() as figures:
         best_ri, events, cluster_counts, _ = CED_FS(
             X, d=block.shape[1], winsize=window_size,
-            image_dir=figures, algorithm_params=PARAMETERS)
+            image_dir=figures, algorithm_params={**PARAMETERS, **(scaling or {})})
     elapsed = time.time() - started
 
     print(f"  {slug:9s} {block.shape[0]:5d} x {feature_limit:5d} "
@@ -158,9 +179,9 @@ def _run(slug: str, feature_limit: int, window_size: int) -> dict:
 
     return {
         "slug": slug,
+        **({"scaling": scaling} if scaling else {}),
         "featureLimit": feature_limit,
         "windowSize": window_size,
-        "slow": slug in SLOW,
         "expectedWindows": len(cluster_counts),
         "expectedClusterCounts": [int(c) for c in cluster_counts],
         "expectedEvents": {name: [int(v) for v in values] for name, values in events.items()},
@@ -172,9 +193,7 @@ def benchmark_cases() -> list[dict]:
     window = PARAMETERS["windowSize"]
     cases = []
     for info in available():
-        # gisette is recorded over fewer windows: at a minute a window in the
-        # port, four would make even the opt-in run untenable.
-        windows = 2 if info.slug in SLOW else WINDOWS
+        windows = 2 if info.slug in SHORT else WINDOWS
         cases.append(_run(info.slug, windows * window, window))
 
     # Two lengths that are not whole numbers of windows, because the window
@@ -187,6 +206,21 @@ def benchmark_cases() -> list[dict]:
     return cases
 
 
+def scaled_cases() -> list[dict]:
+    """The options for windows of thousands of samples, on the largest benchmarks.
+
+    eog takes the kNN-only delta alone, so a difference there is in that step;
+    appliances and gisette take it with the Nystrom KPCA, as a large fleet does
+    (`cedfs.fleet.LARGE_FLEET_PARAMS`).
+    """
+    window = PARAMETERS["windowSize"]
+    return [
+        _run("eog", 4 * window, window, {"neighbourIndex": True}),
+        _run("appliances", 4 * window, window, {"landmarks": 200, "neighbourIndex": True}),
+        _run("gisette", 2 * window, window, {"landmarks": 200, "neighbourIndex": True}),
+    ]
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     print("recording reference answers")
@@ -195,9 +229,12 @@ def main() -> int:
         "parameters": PARAMETERS,
         "kernels": kernel_cases(),
         "kpca": kpca_case(),
+        "landmarks": landmark_cases(),
+        "nystrom": nystrom_case(),
         "randIndex": rand_index_cases(),
         "similarity": similarity_case(),
         "benchmarks": benchmark_cases(),
+        "scaled": scaled_cases(),
     }
     path = OUT / "answers.json"
     path.write_text(json.dumps(answers, indent=1), encoding="utf-8")

@@ -282,8 +282,11 @@ kernel components); `k_r_dpc(..., landmarks=m)` uses a Nyström approximation
 | 4 000 | 19.4 s | 4.5 s | 8.1 s |
 | 8 000 | — | 34 s | 35 s |
 
-with identical ARI; with every point a landmark it reproduces the exact
-distances. What is left after Nyström is the n × n distance matrix density
+With every point a landmark it reproduces the exact distances. The landmarks
+are drawn by a few lines of mulberry32 (`landmark_indices`) rather than NumPy's
+generator, so the browser draws the same ones; on three Gaussian groups the
+partition stays within 0.002 ARI of the exact one (0.961 against 0.963,
+n = 2 000, m = 200). What is left after Nyström is the n × n distance matrix density
 peaks uses for δ. `k_r_dpc(..., neighbour_index=True)` removes it, after
 FastDPeak (Chen et al., KBS 2020): the kNN graph comes from a tree index, and
 a point's nearest denser point is among its own k neighbours whenever any of
@@ -292,6 +295,24 @@ so only local peaks are searched against everything. Same partitions (every
 window tried on glioma and eog), O(n k) memory: with m = 200 landmarks, 8 000
 units take 8.2 s instead of 34 s, and 16 000 units, whose distance matrix
 alone would be 2 GB, take 43 s.
+
+`cedfs.fleet.monitor` switches to both — 300 landmarks and the neighbour index
+— past 1 000 units (`LARGE_FLEET`), and the Fleets page applies the same rule,
+so a large CSV gets the same answer in the browser. On a 3 000-unit fleet in
+which 300 units leave halfway, the exact and the switched monitor flag the same
+units in every window, in 59 s and 2.5 s. The TypeScript port (timed in Node 24,
+one thread), per window of three groups in 20 dimensions:
+
+| n | exact | m = 300, neighbour index |
+|---:|---:|---:|
+| 1 000 | 3.2 s | 0.7 s |
+| 1 500 | 15.7 s | 1.1 s |
+| 4 000 | — | 5.0 s |
+| 8 000 | — | 20 s |
+
+The exact browser path also stopped recomputing `K_c v` for each component — for
+an eigenvector it is λv — which took it from 5.4 s to 3.2 s at 1 000 samples,
+and brought gisette into the default test run.
 
 ## The industrial fleets in detail
 
@@ -412,7 +433,8 @@ window  17  [81 .. 85]  one group  | deviating: 39, 57, 63, 90, 91, 97, 98
 The input is a long-format CSV (unit column, time column, one column per
 variable). On FD001 the first engine named, at cycle 40, is engine 39 — the
 shortest-lived of the hundred, 88 cycles before it fails. `--json` gives one
-object per window.
+object per window. Past 1 000 units the clustering is approximated
+([E4](#e4--running-time)); the page says so when it happens.
 
 ## Related work, by the axis each stream runs along
 
@@ -561,6 +583,11 @@ selected variables, events, transitions and p-values with
 (`python -m tests.generate_fleet_answers`). To make that possible, every
 screening decision in Python is taken by a closed form (the Dallal–Wilkinson
 Lilliefors tail) rather than a simulated null the browser could not reproduce.
+
+The options for thousands of units are held too: eog with the neighbour index,
+and appliances and gisette with it and 200 Nyström landmarks, each against the
+reference's clusters, events and Rand Index; the landmark draw itself is
+compared index for index.
 
 ## Running it
 

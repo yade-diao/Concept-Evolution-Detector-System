@@ -12,7 +12,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-import type { Fleet } from '../cedfs/fleet'
+import { LARGE_FLEET, LARGE_FLEET_PARAMETERS, type Fleet } from '../cedfs/fleet'
 import { buildFleet, readTable, type FleetTable } from '../datasets/fleetCsv'
 import { fetchFleet, fetchFleets, type FleetInfo } from '../datasets/fleets'
 import type { FleetDone, FleetFailed, FleetRequest } from '../worker/fleet.worker'
@@ -182,7 +182,11 @@ function OwnFleet({ disabled, onReady }: { disabled: boolean; onReady: (info: Fl
       }
       setNote(`${parsed.fleet.units} units, ${parsed.fleet.samples} common time steps, ${parsed.variables.length} variables`
         + (parsed.skipped.length ? `; left out as not numeric: ${parsed.skipped.join(', ')}` : '')
-        + (parsed.trimmed ? `; ${parsed.trimmed} rows past the shortest unit's last step not used` : ''))
+        + (parsed.trimmed ? `; ${parsed.trimmed} rows past the shortest unit's last step not used` : '')
+        + (monitor === 'clustering' && parsed.fleet.units > LARGE_FLEET
+          ? `; over ${LARGE_FLEET} units, so clustered through a Nyström approximation on `
+            + `${LARGE_FLEET_PARAMETERS.landmarks} landmark units, as the Python reference does`
+          : ''))
       const info: FleetInfo = {
         slug: 'upload', title: name ?? 'your fleet', why: '', file: '', units: parsed.fleet.units,
         samples: parsed.fleet.samples, variables: parsed.variables, offset: [], scale: [],

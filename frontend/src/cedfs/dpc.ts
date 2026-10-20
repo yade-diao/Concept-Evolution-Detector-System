@@ -6,6 +6,8 @@
  * rather than merely implemented — see `_select_centers` there for the evidence.
  */
 
+import { distancesFrom, type Neighbours } from './neighbours'
+
 export interface Decision {
   /** Distance from each point to the nearest point of higher density. */
   delta: Float64Array
@@ -37,6 +39,69 @@ export function decisionDistances(D: Float64Array, rho: Float64Array, n: number)
       if (d < best) {
         best = d
         bestIndex = j
+      }
+    }
+    delta[i] = best
+    nearestDenser[i] = bestIndex
+  }
+  return { delta, nearestDenser }
+}
+
+/**
+ * `decisionDistances` from the kNN graph instead of the n x n matrix: the
+ * Python's `_delta_from_neighbours`, after FastDPeak (Chen et al., KBS 2020).
+ *
+ * If any of a point's k nearest neighbours is denser, the nearest denser point
+ * in the whole set is among them: every point closer than the k-th neighbour
+ * is one of the k. Only the points with no denser neighbour - local peaks, a
+ * handful per group - are measured against everything denser. Ties in
+ * distance go to the denser point, as the rank-ordered scan above sends them,
+ * so the two agree up to a tie at exactly the k-th neighbour's distance.
+ */
+export function decisionDistancesFromNeighbours(
+  R: Float64Array,
+  n: number,
+  dim: number,
+  rho: Float64Array,
+  { index, distance, k }: Neighbours,
+): Decision {
+  const byDensity = Array.from({ length: n }, (_, i) => i).sort((a, b) => rho[b] - rho[a])
+  const rank = new Int32Array(n)
+  byDensity.forEach((i, r) => {
+    rank[i] = r
+  })
+  const delta = new Float64Array(n)
+  const nearestDenser = new Int32Array(n).fill(-1)
+  if (n === 0) return { delta, nearestDenser }
+
+  const row = new Float64Array(n)
+  const densest = byDensity[0]
+  distancesFrom(R, n, dim, densest, row)
+  let furthest = 0
+  for (let j = 0; j < n; j++) furthest = Math.max(furthest, row[j])
+  delta[densest] = furthest
+
+  for (let i = 0; i < n; i++) {
+    if (i === densest) continue
+    let best = Infinity
+    let bestIndex = -1
+    for (let c = 0; c < k; c++) {
+      const j = index[i * k + c]
+      if (rank[j] >= rank[i]) continue
+      const d = distance[i * k + c]
+      if (d < best || (d === best && rank[j] < rank[bestIndex])) {
+        best = d
+        bestIndex = j
+      }
+    }
+    if (bestIndex < 0) {
+      distancesFrom(R, n, dim, i, row)
+      for (let r = 0; r < rank[i]; r++) {
+        const j = byDensity[r]
+        if (row[j] < best) {
+          best = row[j]
+          bestIndex = j
+        }
       }
     }
     delta[i] = best

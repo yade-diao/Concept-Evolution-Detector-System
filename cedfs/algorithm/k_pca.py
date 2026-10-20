@@ -86,6 +86,30 @@ def k_pca(
     return transformed
 
 
+def landmark_indices(n: int, m: int, seed: int = 0) -> np.ndarray:
+    """m of range(n) without replacement, sorted - the same m in Python and TypeScript.
+
+    NumPy's generator cannot be reproduced in the browser, so the landmarks
+    are drawn with mulberry32 (a 32-bit generator that is a few lines in any
+    language) driving a partial Fisher-Yates shuffle. The index drawn at step
+    i is i + floor(x (n - i) / 2^32) for a 32-bit x: an integer below 2^53
+    while n < 2^21, so a double computes it exactly and both ports agree bit
+    for bit (frontend/src/cedfs/kpca.ts, `landmarkIndices`).
+    """
+    m = min(int(m), n)
+    mask = 0xFFFFFFFF
+    state = seed & mask
+    perm = list(range(n))
+    for i in range(m):
+        state = (state + 0x6D2B79F5) & mask
+        t = ((state ^ (state >> 15)) * (state | 1)) & mask
+        t = ((t + (((t ^ (t >> 7)) * (t | 61)) & mask)) & mask) ^ t
+        x = (t ^ (t >> 14)) & mask
+        j = i + ((x * (n - i)) >> 32)
+        perm[i], perm[j] = perm[j], perm[i]
+    return np.sort(np.asarray(perm[:m], dtype=int))
+
+
 def k_pca_nystrom(data: np.ndarray, sigma: float, kernel_choice: int, target_dim: int,
                   landmarks: int = 500, seed: int = 0) -> np.ndarray:
     """`k_pca` through a Nystrom approximation of the kernel, for large n.
@@ -104,9 +128,7 @@ def k_pca_nystrom(data: np.ndarray, sigma: float, kernel_choice: int, target_dim
 
     data = np.asarray(data, dtype=float)
     n = data.shape[0]
-    m = min(int(landmarks), n)
-    rng = np.random.default_rng(seed)
-    idx = np.sort(rng.choice(n, size=m, replace=False))
+    idx = landmark_indices(n, landmarks, seed)
     k_mm = kernel_matrix(data[idx], kernel_choice, sigma)
     if kernel_choice == 1:
         k_nm = np.exp(-cdist(data, data[idx], "sqeuclidean") / (2 * sigma ** 2))

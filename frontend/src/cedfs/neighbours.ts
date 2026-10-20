@@ -57,6 +57,63 @@ export function nearestNeighbours(D: Float64Array, n: number, k: number): Neighb
 }
 
 /**
+ * `nearestNeighbours` without the n x n matrix: O(n k) memory. Each pair's
+ * distance is summed once, in the same order as `pairwiseDistances`, and
+ * offered to both ends. Every point still receives its candidates in ascending
+ * index order, and ties go to the earlier one as the stable sort there sends
+ * them, so the graph is the same one, bit for bit. The Python's
+ * `neighbour_index` uses a tree for this; in the hundreds of dimensions KPCA
+ * leaves, a tree prunes nothing and the scan is what it would do anyway.
+ */
+export function nearestNeighboursOf(R: Float64Array, n: number, dim: number, k: number): Neighbours {
+  const bounded = Math.max(1, Math.min(k, n - 1))
+  const index = new Int32Array(n * bounded)
+  const distance = new Float64Array(n * bounded)
+  const filled = new Int32Array(n)
+
+  // Point p's k best so far, kept sorted; a candidate enters only if it beats
+  // the last, which once the lists fill is rare.
+  const offer = (p: number, q: number, d: number) => {
+    const base = p * bounded
+    if (filled[p] === bounded && d >= distance[base + bounded - 1]) return
+    let at = filled[p] === bounded ? bounded - 1 : filled[p]++
+    while (at > 0 && distance[base + at - 1] > d) {
+      distance[base + at] = distance[base + at - 1]
+      index[base + at] = index[base + at - 1]
+      at--
+    }
+    distance[base + at] = d
+    index[base + at] = q
+  }
+
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      let sum = 0
+      for (let c = 0; c < dim; c++) {
+        const diff = R[i * dim + c] - R[j * dim + c]
+        sum += diff * diff
+      }
+      const d = Math.sqrt(sum)
+      offer(i, j, d)
+      offer(j, i, d)
+    }
+  }
+  return { index, distance, k: bounded }
+}
+
+/** Distances from point i to every point, computed as `pairwiseDistances` does. */
+export function distancesFrom(R: Float64Array, n: number, dim: number, i: number, out: Float64Array) {
+  for (let j = 0; j < n; j++) {
+    let sum = 0
+    for (let c = 0; c < dim; c++) {
+      const diff = R[i * dim + c] - R[j * dim + c]
+      sum += diff * diff
+    }
+    out[j] = Math.sqrt(sum)
+  }
+}
+
+/**
  * Density from the *reverse* neighbourhood: not how far i's neighbours are, but
  * how many points chose i and how far they were when they did.
  *

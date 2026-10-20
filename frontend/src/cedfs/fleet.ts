@@ -43,6 +43,14 @@ function windowOf({ data, units, samples, variables }: Fleet, start: number, len
   return { data: out, objects: units, samples: length, variables }
 }
 
+/**
+ * `LARGE_FLEET` and `LARGE_FLEET_PARAMS` in `cedfs/fleet.py`: past this many
+ * units the clustering switches to a Nystrom KPCA and a kNN-only delta, unless
+ * the parameters already say how to scale.
+ */
+export const LARGE_FLEET = 1000
+export const LARGE_FLEET_PARAMETERS = { landmarks: 300, neighbourIndex: true }
+
 /** `fleet.monitor(units, window, params, screen_alpha, represent="summaries")`. */
 export function monitorFleet(
   fleet: Fleet,
@@ -52,6 +60,13 @@ export function monitorFleet(
   threshold = 0.5,
   onWindow?: (done: number, total: number) => void,
 ): FleetWindow[] {
+  if (fleet.units > LARGE_FLEET) {
+    parameters = {
+      ...parameters,
+      landmarks: parameters.landmarks ?? LARGE_FLEET_PARAMETERS.landmarks,
+      neighbourIndex: parameters.neighbourIndex ?? LARGE_FLEET_PARAMETERS.neighbourIndex,
+    }
+  }
   const total = Math.floor(fleet.samples / windowLength)
   const out: FleetWindow[] = []
   let past: FleetWindow | null = null
