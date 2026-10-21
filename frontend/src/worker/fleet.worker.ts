@@ -12,6 +12,8 @@ export interface FleetRequest {
   fleet: { data: ArrayBuffer; units: number; samples: number; variables: number }
   window: number
   alpha: number
+  /** The clustering monitor's `merge` level; absent keeps every split. */
+  merge?: number
   /** Set for the deviation monitors. */
   baseline?: number
   /** "fleet": two-sided, against the fleet (`deviation`); "own": one-sided, against the unit's own start (`ownChange`). */
@@ -44,11 +46,11 @@ export interface FleetFailed {
 }
 
 self.onmessage = (event: MessageEvent<FleetRequest>) => {
-  const { fleet: raw, window, alpha, baseline, m, level, against } = event.data
+  const { fleet: raw, window, alpha, merge, baseline, m, level, against } = event.data
   const started = performance.now()
   try {
     const fleet: Fleet = { ...raw, data: new Float64Array(raw.data) }
-    const windows = monitorFleet(fleet, window, { kernelType: 1, sigma: 6, p: 0.05 }, alpha)
+    const windows = monitorFleet(fleet, window, { kernelType: 1, sigma: 6, p: 0.05 }, alpha, 0.5, undefined, merge ?? null)
       .map((w) => {
         const sizes = new Array<number>(w.clusterCount + 1).fill(0)
         for (const g of w.cluster) sizes[g]++

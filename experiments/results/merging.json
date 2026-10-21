@@ -1,0 +1,154 @@
+{
+ "synthetic": [
+  {
+   "units": 100,
+   "share": 0.1,
+   "shift": 3.0,
+   "original": {
+    "detection": 1.0,
+    "false_alarms": 0.0
+   },
+   "merged": {
+    "detection": 1.0,
+    "false_alarms": 0.0
+   }
+  },
+  {
+   "units": 100,
+   "share": 0.1,
+   "shift": 1.5,
+   "original": {
+    "detection": 0.838,
+    "false_alarms": 0.0694
+   },
+   "merged": {
+    "detection": 0.825,
+    "false_alarms": 0.0191
+   }
+  },
+  {
+   "units": 100,
+   "share": 0.05,
+   "shift": 2.0,
+   "original": {
+    "detection": 0.838,
+    "false_alarms": 0.0803
+   },
+   "merged": {
+    "detection": 0.838,
+    "false_alarms": 0.0803
+   }
+  },
+  {
+   "units": 100,
+   "share": 0.02,
+   "shift": 3.0,
+   "original": {
+    "detection": 0.562,
+    "false_alarms": 0.2159
+   },
+   "merged": {
+    "detection": 0.562,
+    "false_alarms": 0.2159
+   }
+  },
+  {
+   "units": 300,
+   "share": 0.1,
+   "shift": 1.5,
+   "original": {
+    "detection": 0.973,
+    "false_alarms": 0.0912
+   },
+   "merged": {
+    "detection": 0.97,
+    "false_alarms": 0.0027
+   }
+  },
+  {
+   "units": 300,
+   "share": 0.03,
+   "shift": 2.0,
+   "original": {
+    "detection": 0.75,
+    "false_alarms": 0.1981
+   },
+   "merged": {
+    "detection": 0.75,
+    "false_alarms": 0.1658
+   }
+  },
+  {
+   "units": 1000,
+   "share": 0.1,
+   "shift": 3.0,
+   "original": {
+    "detection": 1.0,
+    "false_alarms": 0.1608
+   },
+   "merged": {
+    "detection": 1.0,
+    "false_alarms": 0.0332
+   }
+  },
+  {
+   "units": 1000,
+   "share": 0.03,
+   "shift": 2.0,
+   "original": {
+    "detection": 0.5,
+    "false_alarms": 0.3325
+   },
+   "merged": {
+    "detection": 0.5,
+    "false_alarms": 0.3325
+   }
+  }
+ ],
+ "bundled": {
+  "tep-fault-5": {
+   "original": {
+    "detection": 1.0,
+    "false_alarms_before": 0.0,
+    "false_alarms_after": 0.0
+   },
+   "merged": {
+    "detection": 1.0,
+    "false_alarms_before": 0.0,
+    "false_alarms_after": 0.0
+   }
+  },
+  "tep-fault-11": {
+   "original": {
+    "detection": 0.925,
+    "false_alarms_before": 0.0,
+    "false_alarms_after": 0.0
+   },
+   "merged": {
+    "detection": 0.925,
+    "false_alarms_before": 0.0,
+    "false_alarms_after": 0.0
+   }
+  },
+  "cmapss-fd001-w5": {
+   "original": {
+    "detection": 0.295,
+    "false_alarms": 0.301
+   },
+   "merged": {
+    "detection": 0.098,
+    "false_alarms": 0.141
+   }
+  },
+  "cmapss-fd001-w10": {
+   "original": {
+    "detection": 0.0,
+    "false_alarms": 0.0
+   },
+   "merged": {
+    "detection": 0.0,
+    "false_alarms": 0.0
+   }
+  }
+ }
+}

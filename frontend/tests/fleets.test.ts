@@ -28,6 +28,8 @@ interface FleetAnswer {
   variables: number[][]
   events: unknown[]
   transitions: unknown[]
+  mergedClusterCounts: number[]
+  mergedFlagged: number[][]
   pCounts: number[][]
   alarms: number[][]
   ownChangeCounts: number[][]
@@ -50,6 +52,12 @@ describe.each(answers)('$slug', (answer: FleetAnswer) => {
     expect(windows.map((w) => w.flagged.flatMap((f, u) => (f ? [u] : [])))).toEqual(answer.flagged)
     expect(windows.slice(1).map((w) => w.events)).toEqual(answer.events)
     expect(windows.slice(1).map((w) => w.transitions)).toEqual(answer.transitions)
+  }, 60_000)
+
+  it('with merging, the same groups are merged', () => {
+    const windows = monitorFleet(fleet, answer.window, params, answer.alpha, 0.5, undefined, 0.001)
+    expect(windows.map((w) => w.clusterCount)).toEqual(answer.mergedClusterCounts)
+    expect(windows.map((w) => w.flagged.flatMap((f, u) => (f ? [u] : [])))).toEqual(answer.mergedFlagged)
   }, 60_000)
 
   it('the deviation monitor gives the same p-values and alarms', () => {

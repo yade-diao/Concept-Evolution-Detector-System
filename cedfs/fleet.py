@@ -26,6 +26,7 @@ from dataclasses import dataclass
 import numpy as np
 
 from cedfs.algorithm.k_r_dpc import k_r_dpc
+from cedfs.algorithm.merging import merge_gaussian
 from cedfs.algorithm.screening import screen_summaries
 from cedfs.algorithm.significance import significance
 from cedfs.evaluation import boundary_events
@@ -65,7 +66,8 @@ def as_stream(units: np.ndarray) -> np.ndarray:
 def monitor(units: np.ndarray, window: int, params: dict | None = None,
             screen_alpha: float | None = None, gate: float | None = None,
             threshold: float = 0.5, represent: str = "columns",
-            roughness: bool | str = "fallback", roughness_weight: float = 0.25) -> FleetResult:
+            roughness: bool | str = "fallback", roughness_weight: float = 0.25,
+            merge: float | None = None) -> FleetResult:
     """Watch a fleet window by window.
 
     `units` is (units, samples, variables). Trailing samples that do not fill a
@@ -115,6 +117,9 @@ def monitor(units: np.ndarray, window: int, params: dict | None = None,
         else:
             labels, _, k = k_r_dpc(x, image_dir=None, **p)
             labels = np.asarray(labels)
+            if merge is not None and k > 1:
+                labels = merge_gaussian(x, labels, merge)
+                k = int(labels.max())
         if gate is not None and k > 1 and significance(x, labels, cluster, seed=start) > gate:
             labels, k = np.ones_like(labels), 1
         clusterings.append(labels)

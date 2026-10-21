@@ -24,6 +24,8 @@ export interface FleetInfo {
   window: number
   monitor: 'clustering' | 'deviation' | 'ownChange'
   alpha?: number
+  /** Clustering only: `merge` of `monitorFleet`, null or absent to keep every split. */
+  merge?: number | null
   baseline?: number
   m?: number
   level?: number

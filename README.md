@@ -74,6 +74,10 @@ What was added, each because a measurement showed the need:
 - **MONIC's transitions** (Spiliopoulou et al. 2006) next to the original four
   events: the original calls every split *drift* and some merges *forgetting*.
 - **The graded monitors** above, for fleets that wear out rather than break.
+- **Merging the splits one Gaussian explains**, an option: on a large fleet
+  density peaks cuts the edge off the healthy majority and flags it; merging
+  takes false alarms at 1 000 units from 16% to 3% at the same detection
+  ([E6](#e6--merging-the-splits-one-gaussian-explains)).
 
 Findings against the method are kept too: max Rand Index, the thesis's figure,
 stays at 0.96 on a stream where every rare event is missed
@@ -313,6 +317,46 @@ one thread), per window of three groups in 20 dimensions:
 The exact browser path also stopped recomputing `K_c v` for each component — for
 an eigenvector it is λv — which took it from 5.4 s to 3.2 s at 1 000 samples,
 and brought gisette into the default test run.
+
+### E6 — Merging the splits one Gaussian explains
+
+Density peaks ranks centres by γ = ρδ, and in a large group with no structure
+inside it some point always has a large δ. On a fleet that means the edge of the
+healthy majority facing the faulty units becomes a cluster of its own, and is
+flagged: in a 3 000-unit fleet with 300 faulty, 279 healthy units in one window.
+Screening already models "no structure" as one Gaussian across the units, so
+the same model decides whether a split stands: `merge=0.001`
+(`cedfs.algorithm.merging`) merges the pair of clusters whose union, projected
+on the line through their means, is most Gaussian, while its Lilliefors
+p-value (the Dallal–Wilkinson closed form, so the browser takes the same
+decisions) is at least 0.001. It is the projection test of Hennig (ADAC 2010)
+and dip-means (Kalogeratos & Likas, NIPS 2012) with the screening's test.
+
+Synthetic fleets, 40 samples, the faulty share shifted on one of 4 variables
+from sample 20; the two windows after the shift (`experiments/merging.py`):
+
+| units | faulty | shift | detection | false alarms | merged: detection | false alarms |
+|---:|---:|---:|---:|---:|---:|---:|
+| 100 | 10% | 3 | 1.00 | 0 | 1.00 | 0 |
+| 100 | 10% | 1.5 | 0.84 | 6.9% | 0.83 | **1.9%** |
+| 300 | 10% | 1.5 | 0.97 | 9.1% | 0.97 | **0.3%** |
+| 1 000 | 10% | 3 | 1.00 | 16% | 1.00 | **3.3%** |
+| 100 | 5% | 2 | 0.84 | 8.0% | 0.84 | 8.0% |
+| 300 | 3% | 2 | 0.75 | 20% | 0.75 | 17% |
+| 1 000 | 3% | 2 | 0.50 | 33% | 0.50 | 33% |
+
+Where it fails is a different defect: a group smaller than the kNN
+neighbourhood (p = 0.05, so 50 units in 1 000) never gets a density peak of its
+own and joins a tail of the healthy units, and no union containing it is
+Gaussian. Relative density does not rescue it either. On the bundled fleets
+nothing changes on Tennessee Eastman faults 5 and 11 (no window over-split); on
+C-MAPSS FD001 at windows of 5 cycles detection and false alarms fall together,
+0.30/0.30 to 0.10/0.14 — the clustering monitor is no better than chance on
+gradual wear with or without it, which is what the deviation monitors are for.
+
+It is off by default: the full Tennessee Eastman and C-MAPSS tables above were
+measured without it and are not re-run here (see [Open](#open)). `--merge` on
+`python -m cedfs.monitor`, and "Splits" on the Fleets page, turn it on.
 
 ## The industrial fleets in detail
 
@@ -730,10 +774,15 @@ Every image is tagged with its commit, so `CED_IMAGE_TAG=<sha> docker compose
       fleets/                 three industrial fleets as int16, and theirs
     experiments/              synthetic_drift, protocol, baselines, transitions,
                               tep_* (Tennessee Eastman), cmapss_* (turbofans),
-                              matr_* (battery cells), build_fleets; results/
+                              matr_* (battery cells), build_fleets, merging; results/
     docs/                     the screenshots this README shows
 
 ## Open
+
+- Merging (E6) as the default, once the seventeen Tennessee Eastman faults and
+  C-MAPSS FD001/FD003 are re-run with it from the raw releases.
+- Groups smaller than the kNN neighbourhood (E6): a 3% faulty share still
+  leaves a third of a 1 000-unit fleet flagged.
 
 - The battery fleet is not bundled: data.matr.io states no licence for
   redistribution. Build it from the raw files (`experiments/matr_prepare.py`)

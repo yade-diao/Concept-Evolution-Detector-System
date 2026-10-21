@@ -66,9 +66,9 @@ def read_fleet(path: Path, unit: str, time: str, variables: list[str] | None = N
 
 
 def report(cube, ids, times, names, window, alpha=0.001, baseline=None, m=5, level=0.01,
-           against="fleet"):
+           against="fleet", merge=None):
     """One dict per window: what each monitor says about it."""
-    watched = monitor(cube, window, screen_alpha=alpha, represent="summaries")
+    watched = monitor(cube, window, screen_alpha=alpha, represent="summaries", merge=merge)
     monic = boundary_transitions(watched.clusterings)
     alarms = None
     if baseline is not None:
@@ -133,6 +133,9 @@ def main(argv=None) -> int:
                              "changed most from its own start (cedfs.fleet.own_change) - for fleets used "
                              "differently or ageing at different rates")
     parser.add_argument("--level", type=float, default=0.01)
+    parser.add_argument("--merge", type=float, nargs="?", const=0.001,
+                        help="merge splits whose union is one Gaussian at this level "
+                             "(default 0.001 when given; see cedfs.algorithm.merging)")
     parser.add_argument("--delimiter")
     parser.add_argument("--json", action="store_true", help="JSON lines, one per window")
     args = parser.parse_args(argv)
@@ -140,7 +143,7 @@ def main(argv=None) -> int:
     cube, ids, times, names = read_fleet(args.csv, args.unit, args.time, args.variables,
                                          args.delimiter)
     entries = report(cube, ids, times, names, args.window, args.alpha, args.baseline,
-                     args.m, args.level, args.against)
+                     args.m, args.level, args.against, args.merge)
     if args.json:
         for e in entries:
             print(json.dumps(e, default=str))

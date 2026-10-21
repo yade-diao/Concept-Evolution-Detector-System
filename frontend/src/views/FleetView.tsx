@@ -69,6 +69,7 @@ export function FleetView() {
       fleet: { data: fleet.data.buffer as ArrayBuffer, units: fleet.units, samples: fleet.samples, variables: fleet.variables },
       window: next.window,
       alpha: next.alpha ?? 0.001,
+      ...(next.merge != null ? { merge: next.merge } : {}),
       ...(graded ? { baseline: next.baseline, m: next.m, level: next.level,
         against: next.monitor === 'ownChange' ? 'own' as const : 'fleet' as const } : {}),
     }
@@ -150,6 +151,7 @@ function OwnFleet({ disabled, onReady }: { disabled: boolean; onReady: (info: Fl
   const [monitor, setMonitor] = useState<FleetInfo['monitor']>('clustering')
   const [baseline, setBaseline] = useState(20)
   const [persist, setPersist] = useState(8)
+  const [merge, setMerge] = useState(false)
   const [problem, setProblem] = useState<string | null>(null)
   const [note, setNote] = useState<string | null>(null)
 
@@ -191,7 +193,7 @@ function OwnFleet({ disabled, onReady }: { disabled: boolean; onReady: (info: Fl
         slug: 'upload', title: name ?? 'your fleet', why: '', file: '', units: parsed.fleet.units,
         samples: parsed.fleet.samples, variables: parsed.variables, offset: [], scale: [],
         unitNames: parsed.unitIds, sampleMinutes: null, sampleUnit: time, window: windowSize,
-        monitor, alpha: 0.001, baseline, m: persist, level: 0.01, truth: {}, source: '',
+        monitor, alpha: 0.001, merge: merge ? 0.001 : null, baseline, m: persist, level: 0.01, truth: {}, source: '',
       }
       onReady(info, parsed.fleet)
     } catch (cause) {
@@ -242,6 +244,15 @@ function OwnFleet({ disabled, onReady }: { disabled: boolean; onReady: (info: Fl
                 <option value="ownChange">own change - units drifting, fleet used differently</option>
               </select>
             </label>
+            {monitor === 'clustering' && (
+              <label className="field">
+                <span className="field-label">Splits</span>
+                <select value={merge ? 'merge' : 'keep'} onChange={(e) => setMerge(e.target.value === 'merge')}>
+                  <option value="keep">keep every split the clustering finds</option>
+                  <option value="merge">merge splits one Gaussian explains - fewer false alarms on large fleets</option>
+                </select>
+              </label>
+            )}
             {monitor !== 'clustering' && (
               <label className="field">
                 <span className="field-label">Baseline (each unit's first time steps)</span>

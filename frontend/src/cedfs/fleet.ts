@@ -8,6 +8,7 @@
 
 import { classifyBoundary, type EventName } from './cedFs'
 import { krDpc, type ClusteringParameters } from './krDpc'
+import { mergeGaussian } from './merging'
 import { diceSimilarity } from './metrics'
 import { normalQuantile, screenSummaries, testable, type Window } from './screening'
 import { transitions, type TransitionName } from './transitions'
@@ -51,7 +52,10 @@ function windowOf({ data, units, samples, variables }: Fleet, start: number, len
 export const LARGE_FLEET = 1000
 export const LARGE_FLEET_PARAMETERS = { landmarks: 300, neighbourIndex: true }
 
-/** `fleet.monitor(units, window, params, screen_alpha, represent="summaries")`. */
+/**
+ * `fleet.monitor(units, window, params, screen_alpha, represent="summaries",
+ * merge=merge)`; `merge` null, the default, leaves the clustering as found.
+ */
 export function monitorFleet(
   fleet: Fleet,
   windowLength: number,
@@ -59,6 +63,7 @@ export function monitorFleet(
   alpha: number,
   threshold = 0.5,
   onWindow?: (done: number, total: number) => void,
+  merge: number | null = null,
 ): FleetWindow[] {
   if (fleet.units > LARGE_FLEET) {
     parameters = {
@@ -82,6 +87,10 @@ export function monitorFleet(
       const c = krDpc(screened.summary, fleet.units, screened.width, parameters)
       cluster = c.cluster
       clusterCount = c.clusterCount
+      if (merge !== null && clusterCount > 1) {
+        cluster = mergeGaussian(screened.summary, screened.width, cluster, merge)
+        clusterCount = Math.max(...cluster)
+      }
     }
     const sizes = new Array<number>(clusterCount + 1).fill(0)
     for (const g of cluster) sizes[g]++
