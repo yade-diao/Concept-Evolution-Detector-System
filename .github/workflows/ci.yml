@@ -11,6 +11,11 @@ on:
   push:
     branches: [main, master]
   pull_request:
+  # Weekly, so a dependency that moves under an unchanged tree still fails here
+  # first. A failed scheduled run is emailed to the owner.
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
 
 jobs:
   test:

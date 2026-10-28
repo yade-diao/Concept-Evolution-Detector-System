@@ -23,6 +23,10 @@ on:
       - 'frontend/**'
       - 'datasets/bundled/**'
       - '.github/workflows/frontend.yml'
+  # Weekly, for the same reason as CI: npm packages move without a commit here.
+  schedule:
+    - cron: '37 5 * * 1'
+  workflow_dispatch:
 
 jobs:
   test:
