@@ -104,14 +104,10 @@ jobs:
           # step hands a key to whatever is on the other end.
           ssh-keyscan -H "$HOST" >> ~/.ssh/known_hosts 2>/dev/null
 
-      # Only the two files that describe the stack. The server's .env is never
-      # touched: it holds the only secrets the deployment has.
-      - name: Send the compose file and the proxy configuration
-        if: steps.configured.outputs.ready == 'true'
-        run: |
-          rsync -az -e "ssh -i ~/.ssh/id_deploy" \
-            deploy/compose.yml deploy/Caddyfile \
-            "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/ced/"
+      # compose.yml and the Caddyfile are not sent. The live server's copies
+      # differ from deploy/ on purpose (another service holds port 443 and hands
+      # web traffic to Caddy), and are edited on the host; sending these would
+      # undo that. deploy/ stays the reference for a fresh server.
 
       # --delete so a file that left the build leaves the server. site/ holds
       # nothing but build output, which is what makes deleting safe here.
